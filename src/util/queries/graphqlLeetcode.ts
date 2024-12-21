@@ -13,3 +13,14 @@ export const problemsSolvedQuery = gql`
     }
   }
 `;
+
+export const recentAcceptedQuery = gql`
+  query recentAcSubmissions($username: String!, $limit: Int!) {
+    recentAcSubmissionList(username: $username, limit: $limit) {
+      id
+      title
+      titleSlug
+      timestamp
+    }
+  }
+`;

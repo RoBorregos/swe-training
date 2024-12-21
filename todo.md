@@ -2,7 +2,7 @@
 
 ## Problemsets and normal topics
 
-- [] Given a User handle, check if the user has performed problem Y.
+- [1/2] Given a User handle, check if the user has performed problem Y.
 - [] Given a User handle, check if the user has performed problem Y in the last Z days.
 
 ## Leaderboard
