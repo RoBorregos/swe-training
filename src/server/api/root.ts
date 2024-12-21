@@ -1,4 +1,6 @@
 import { postRouter } from "~/server/api/routers/post";
+import { leetcodeRouter } from "~/server/api/routers/leetcode";
+
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -8,6 +10,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   post: postRouter,
+  leetcode: leetcodeRouter,
 });
 
 // export type definition of API
