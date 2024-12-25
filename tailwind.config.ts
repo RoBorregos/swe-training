@@ -14,7 +14,7 @@ export default {
         primary: {
           DEFAULT: "#1A1A1A",
           light: "#282828",
-          foreground: "#D2D2D2"
+          foreground: "#929292"
         },
         accent: "#0B84FF"
       }
