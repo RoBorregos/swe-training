@@ -8,9 +8,6 @@ import NavElement from "./navElement";
 const Navbar = async () => {
     const session = await auth();
 
-    if (session?.user) {
-        void api.post.getLatest.prefetch();
-    }
 
     return (
         <div className="w-full flex flex-row justify-between bg-primary-light py-5 px-10 border-b border-neutral-700">

@@ -1,18 +1,21 @@
-import ProblemCard from "~/app/_components/problems/problemCard";
+import ProblemCard from "~/app/_components/week/weekCard";
 import Subtitle from "~/app/_components/subtitle";
 import Title from "~/app/_components/title";
-import colors from "utils/colors"
+import { backgroundColors, textColors } from "utils/colors";
+import { api } from "~/trpc/server";
 
-const WeeklyProblems = () => {
+const WeeklyProblems = async() => {
+    const weeks = await api.week.getWeeks();
+
     return (
         <div>
             <Title label="Weekly Problems" />
             <Subtitle label="Weeks" className="pb-4" />
 
             <div className="grid grid-cols-3 text-main px-10 gap-10">
-                {colors.map((color, key) => (
+                {weeks.map((week, key) => (
                     <div key={key}>
-                        <ProblemCard key={key} title="Algoritm" description="idk solve tings" id={"1"} isBlocked={true} bg={color.bg} font={color.font} />
+                        <ProblemCard key={key} title={week.title} description={week.description} number={week.number} isBlocked={week.isBlocked} bgColor={backgroundColors.get(week.color) ?? "bg-white"} textColor={textColors.get(week.color) ?? "text-black"} />
                     </div>
                 ))}
             </div>
