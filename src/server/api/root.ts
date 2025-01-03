@@ -1,3 +1,4 @@
+import { leetcodeRouter } from "~/server/api/routers/leetcode";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { weekRouter } from "./routers/week";
 /**
@@ -6,6 +7,7 @@ import { weekRouter } from "./routers/week";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  leetcode: leetcodeRouter,
   week: weekRouter,
 });
 
