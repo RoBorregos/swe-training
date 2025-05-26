@@ -46,12 +46,29 @@ const WeekInfo = async ({ id }: { id: number }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="text-white ">
+                                    {/* <tr className="text-white ">
                                         <td> <a href="https://leetcode.com/" target="_blank" className="hover:underline"> Hello </a> </td>
                                         <td> Hi </td>
                                         <td> Hi </td>
                                         <td> Hi </td>
+                                    </tr> */}
+                                {week.problems.map((problem) => (
+                                    <tr key={problem.id} className="text-white">
+                                    <td>
+                                        <a
+                                        href={problem.leetcodeUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:underline"
+                                        >
+                                        {problem.name}
+                                        </a>
+                                    </td>
+                                    <td>{problem.level}</td>
+                                    <td>{problem.solvedBy?.length ?? 0}</td>
+                                    <td>{problem.status}</td>
                                     </tr>
+                                ))}
                                 </tbody>
                             </table>
                         </div>
