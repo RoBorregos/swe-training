@@ -17,8 +17,8 @@ export const weekRouter = createTRPCRouter({
         return ctx.db.week.findFirst({
             where: {
                 number: input
-            }
-                
+            },
+            include: { problems: {include: { solvedBy: true }}},   
         })
     })
 })

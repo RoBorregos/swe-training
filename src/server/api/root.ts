@@ -1,6 +1,8 @@
 import { leetcodeRouter } from "~/server/api/routers/leetcode";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { weekRouter } from "./routers/week";
+import { problemRouter } from "./routers/problem";
+
 /**
  * This is the primary router for your server.
  *
@@ -9,6 +11,7 @@ import { weekRouter } from "./routers/week";
 export const appRouter = createTRPCRouter({
   leetcode: leetcodeRouter,
   week: weekRouter,
+  problem : problemRouter,
 });
 
 // export type definition of API

@@ -127,6 +127,7 @@ export const protectedProcedure = t.procedure
     return next({
       ctx: {
         // infers the `session` as non-nullable
+        ...ctx, // pass the full context to next
         session: { ...ctx.session, user: ctx.session.user },
       },
     });
