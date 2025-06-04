@@ -30,7 +30,7 @@ export function TestButton() {
 
   return (
     <button
-      onClick={() => utils.post.invalidate()}
+      // onClick={() => utils.post.invalidate()}
       className="text-primary-background rounded-lg bg-primary-foreground p-2 font-main"
     >
       API Tests
