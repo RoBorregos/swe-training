@@ -1,31 +1,42 @@
 type NavResources = {
-  href: string;
   label: string;
 }
 
-export const Resources = () => {
+const navItems: NavResources[] = [
+  { label: "Complexities" },
+  { label: "Arrays" },
+  { label: "Searching Algorithms" },
+  { label: "Sorting Algorithms" },
+  { label: "Hashing" },
+  { label: "Two Pointer Technique" },
+  { label: "Window Sliding Technique" },
+  { label: "Prefix Sum Technique" },
+  { label: "String" },
+  { label: "Recursion" },
+  { label: "Matrix/Grid" },
+  { label: "Linked List" },
+  { label: "Stack" },
+  { label: "Queue" },
+  { label: "Deque" },
+  { label: "Tree" },
+  { label: "Heap" },
+  { label: "Graph" },
+  { label: "Greedy Algorithm" },
+  { label: "Dynamic Programming" },
+];
+
+export const Resources = ({ onSelect }: { onSelect: (label: string) => void }) => {
   return (
-    <nav className="flex gap-10 items-center overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 text-white px-4 py-2">
-      <a>Complexities</a>
-      <a>Arrays</a>
-      <a>Searching Algorithms</a>
-      <a>Sorting Algorithms</a>
-      <a>Hashing</a>
-      <a>Two Pointer Technique</a>
-      <a>Window Sliding Technique</a>
-      <a>Prefix Sum Technique</a>
-      <a>String</a>
-      <a>Recursion</a>
-      <a>Matrix/Grid</a>
-      <a>Linked List</a>
-      <a>Stack</a>
-      <a>Queue</a>
-      <a>Deque</a>
-      <a>Tree</a>
-      <a>Heap</a>
-      <a>Graph</a>
-      <a>Greedy Algorithm</a>
-      <a>Dynamic Programming</a>
+    <nav className="flex flex-col gap-2 overflow-y-auto p-4 text-white min-w-[250px] h-screen ">
+      {navItems.map((item) => (
+        <button
+          key={item.label}
+          onClick={() => onSelect(item.label)}
+          className="hover:scale-110 duration-300 ease-in-out text-left hover:bg-gray-700 px-2 py-1 rounded"
+        >
+          {item.label}
+        </button>
+      ))}
     </nav>
   );
 };
