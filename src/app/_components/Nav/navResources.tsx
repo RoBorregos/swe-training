@@ -1,40 +1,41 @@
-type NavResources = {
-  label: string;
+type NavResourcesProps = {
+  onSelect: (topic: string) => void;
 }
 
-const navItems: NavResources[] = [
-  { label: "Complexities" },
-  { label: "Arrays" },
-  { label: "Searching Algorithms" },
-  { label: "Sorting Algorithms" },
-  { label: "Hashing" },
-  { label: "Two Pointer Technique" },
-  { label: "Window Sliding Technique" },
-  { label: "Prefix Sum Technique" },
-  { label: "String" },
-  { label: "Recursion" },
-  { label: "Matrix/Grid" },
-  { label: "Linked List" },
-  { label: "Stack" },
-  { label: "Queue" },
-  { label: "Deque" },
-  { label: "Tree" },
-  { label: "Heap" },
-  { label: "Graph" },
-  { label: "Greedy Algorithm" },
-  { label: "Dynamic Programming" },
+const topics = [
+  "Complexities",
+  "Arrays",
+  "Searching Algorithms",
+  "Sorting Algorithms",
+  "Hashing",
+  "Two Pointer Technique",
+  "Window Sliding Technique",
+  "Prefix Sum Technique",
+  "String",
+  "Recursion",
+  "Matrix/Grid",
+  "Linked List",
+  "Stack",
+  "Queue",
+  "Deque",
+  "Tree",
+  "Heap",
+  "Graph",
+  "Greedy Algorithm",
+  "Dynamic Programming",
+  "Mocks Interviews",
 ];
 
-export const Resources = ({ onSelect }: { onSelect: (label: string) => void }) => {
+const Resources = ({ onSelect }: NavResourcesProps) => {
   return (
-    <nav className="flex flex-col gap-2 overflow-y-auto p-4 text-white min-w-[250px] h-screen ">
-      {navItems.map((item) => (
+    <nav className="flex flex-col gap-2 p-4 text-white min-w-[200px] h-screen">
+      {topics.map((topic) => (
         <button
-          key={item.label}
-          onClick={() => onSelect(item.label)}
-          className="hover:scale-110 duration-300 ease-in-out text-left hover:bg-gray-700 px-2 py-1 rounded"
+          key={topic}
+          onClick={() => onSelect(topic)}
+          className="text-left hover:bg-gray-700 p-2 rounded hover:scale-105 duration-300"
         >
-          {item.label}
+          {topic}
         </button>
       ))}
     </nav>
