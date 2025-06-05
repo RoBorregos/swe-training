@@ -6,9 +6,12 @@ const ResourceContent = ({ topic }: { topic: string }) => {
       return (
         <>
             <h2 className="text-2xl font-semibold mb-2"> Welcome </h2>
-            <p>
-              This section provides an overview of algorithms, their importance, and the foundational concepts in algorithm design and analysis.
-            </p>
+                <p>
+                    This section provides an overview of algorithms, their importance, and the foundational concepts in algorithm design and analysis.
+                </p>
+                <p>
+                    Any request for a specific topic please refer to Hector
+                </p>
         </>
       );
     case "Complexities and Analysis of Algorithm":

@@ -17,7 +17,7 @@ const HomeResources = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.35 }}
           className="p-6 flex-1 text-white relative"
         >
           <h1 className="text-4xl font-bold mb-4">{selectedResource}</h1>
