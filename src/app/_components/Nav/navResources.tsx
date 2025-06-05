@@ -3,7 +3,7 @@ type NavResourcesProps = {
 }
 
 const topics = [
-  "Complexities",
+  "Complexities and Analysis of Algorithm",
   "Arrays",
   "Searching Algorithms",
   "Sorting Algorithms",
