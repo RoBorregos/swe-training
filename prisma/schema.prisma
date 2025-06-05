@@ -68,6 +68,7 @@ model Week {
   description String
   isBlocked   Boolean
   color       String
+  resources   String[]
   problems    Problem[]
 }
 
