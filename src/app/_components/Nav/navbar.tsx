@@ -1,13 +1,11 @@
 import Link from "next/link";
 import Image from "next/image"
 import { auth } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
 import logo from "../../../../public/images/Logo.png"
 import NavElement from "./navElement";
 
 const Navbar = async () => {
     const session = await auth();
-
 
     return (
         <div className="w-full flex flex-row justify-between bg-primary-light py-5 px-10 border-b border-neutral-700">
