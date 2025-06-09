@@ -36,6 +36,7 @@ export const leaderboardRouter = createTRPCRouter({
                 // key for level - if not found, default to warmup
                 const key =
                     levelMap[p.level.toLowerCase() as keyof typeof levelMap] || "warmup";
+                // Increment the count for the corresponding level
                 if (counts[key] !== undefined) counts[key]++;
             });
             return {

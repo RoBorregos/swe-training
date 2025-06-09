@@ -1,20 +1,59 @@
 "use client";
+import { useState } from "react";
 import { api } from "~/trpc/react";
 
 const Leaderboard = () => {
-  const { data, isLoading, error } = api.leaderboard.getAll.useQuery();
+  const [selected, setSelected] = useState("all");
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading leaderboard</div>;
+  // Fetch weeks for the slider
+  const { data: weeksData, isLoading: weeksLoading } = api.week.getWeeks.useQuery();
 
-  // Sort by total descending
-  const sorted = [...(data ?? [])].sort((a, b) => b.total - a.total);
+  // Fetch leaderboard data
+  const {
+    data: leaderboardData,
+    isLoading: leaderboardLoading,
+    error: leaderboardError,
+  } = selected === "all"
+    ? api.leaderboard.getAll.useQuery()
+    : api.leaderboard.getByWeek.useQuery(selected);
+
+  if (weeksLoading || leaderboardLoading) return <div>Loading...</div>;
+  if (leaderboardError) return <div>Error loading leaderboard</div>;
+
+  // Prepare week options
+  const weekOptions = [
+    { id: "all", label: "Global" },
+    ...(weeksData
+      ? weeksData.map((w: any) => ({ id: w.id?.toString() ?? w.number?.toString(), label: w.title || `Week ${w.number}` }))
+      : []),
+  ];
+
+  // Sort leaderboard
+  const sorted = [...(leaderboardData ?? [])].sort((a, b) => b.total - a.total);
 
   return (
     <div className="max-w-3xl mx-auto mt-12">
       <h1 className="text-3xl font-extrabold mb-8 text-center tracking-tight text-white drop-shadow">
         Leaderboard
       </h1>
+      {/* Slider/toggle */}
+      <div className="flex justify-center mb-6">
+        <div className="inline-flex bg-neutral-800 rounded-full p-1">
+          {weekOptions.map((w) => (
+            <button
+              key={w.id}
+              onClick={() => setSelected(w.id)}
+              className={`px-5 py-2 rounded-full font-semibold transition-all ${
+                selected === w.id
+                  ? "bg-white text-neutral-900 shadow"
+                  : "text-white hover:bg-neutral-700"
+              }`}
+            >
+              {w.label}
+            </button>
+          ))}
+        </div>
+      </div>
       {/* Table header */}
       <div className="w-full flex flex-row justify-between bg-neutral-800 text-white rounded-t-2xl px-8 py-3 text-lg font-semibold mb-2">
         <span className="w-1/4 text-left">User</span>
