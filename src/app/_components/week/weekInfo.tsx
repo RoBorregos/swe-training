@@ -23,7 +23,7 @@ const WeekInfo = async ({ id }: { id: number }) => {
               <div className="w-1/3 rounded-xl bg-primary-light p-4">
                 <Subtitle label="Resources" />
                 <div className="font-main text-sm text-primary-foreground">
-                  {week.resources.map((resource, index) => (
+                  {/* {week.resources.map((resource, index) => (
                     <div key={index} className="mb-2">
                       <a
                         href={resource}
@@ -34,7 +34,7 @@ const WeekInfo = async ({ id }: { id: number }) => {
                         {resource}
                       </a>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>
