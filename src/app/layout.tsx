@@ -4,7 +4,8 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { auth } from "~/server/auth";
 import { TRPCReactProvider } from "~/trpc/react";
-import Navbar from "./_components/Nav/navbar";
+import Navbar from "./_components/nav/navbar";
+import Footer from "./_components/nav/footer";
 
 export const metadata: Metadata = {
   title: "SWE Training | RoBorregos",
@@ -24,6 +25,7 @@ export default async function RootLayout({
         <div className="px-20 py-10">
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </div>
+        <Footer />
       </body>
     </html>
   );
