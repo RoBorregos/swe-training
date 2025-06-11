@@ -24,7 +24,6 @@ export const problemRouter = createTRPCRouter({
         id: z.string(),
         name: z.string().optional(),
         level: z.string().optional(),
-        status: z.string().optional(),
         leetcodeUrl: z.string().url().optional(),
         weekId: z.string().optional(),
     }))
