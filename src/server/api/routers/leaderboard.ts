@@ -4,10 +4,10 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 // Map problem levels to leaderboard columns
 const levelMap = {
   warmup: "warmup",
-  littleHarder: "littleHarder",
+  medium: "medium",
   harder: "harder",
   insane: "insane",
-};
+} as const;
 export const leaderboardRouter = createTRPCRouter({
     // Full leaderboard
     getAll: publicProcedure.query(async ({ ctx }) => {
@@ -28,7 +28,7 @@ export const leaderboardRouter = createTRPCRouter({
         return users.map((user) => {
             const counts = {
                 warmup: 0,
-                littleHarder: 0,
+                medium: 0,
                 harder: 0,
                 insane: 0,
             };
@@ -42,12 +42,12 @@ export const leaderboardRouter = createTRPCRouter({
             return {
                 username: user.name,
                 completedWarmup: counts.warmup,
-                completedLittleHarder: counts.littleHarder,
+                completedMedium: counts.medium,
                 completedHarder: counts.harder,
                 completedInsane: counts.insane,
                 total:
                     counts.warmup +
-                    counts.littleHarder +
+                    counts.medium +
                     counts.harder +
                     counts.insane,
             };
@@ -69,7 +69,7 @@ export const leaderboardRouter = createTRPCRouter({
         return users.map((user) => {
             const counts = {
                 warmup: 0,
-                littleHarder: 0,
+                medium: 0,
                 harder: 0,
                 insane: 0,
             };
@@ -81,12 +81,12 @@ export const leaderboardRouter = createTRPCRouter({
             return {
                 username: user.name,
                 completedWarmup: counts.warmup,
-                completedLittleHarder: counts.littleHarder,
+                completedMedium: counts.medium,
                 completedHarder: counts.harder,
                 completedInsane: counts.insane,
                 total:
                     counts.warmup +
-                    counts.littleHarder +
+                    counts.medium +
                     counts.harder +
                     counts.insane,
             };

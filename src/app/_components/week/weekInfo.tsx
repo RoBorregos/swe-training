@@ -1,9 +1,12 @@
 import { api } from "~/trpc/server";
 import Title from "../title";
 import Subtitle from "../subtitle";
+import { auth } from "~/server/auth";
 
 const WeekInfo = async ({ id }: { id: number }) => {
   const week = await api.week.getWeek(id);
+  const session = await auth();
+  const userId = session?.user?.id;
 
   return (
     <div>
@@ -23,7 +26,7 @@ const WeekInfo = async ({ id }: { id: number }) => {
               <div className="w-1/3 rounded-xl bg-primary-light p-4">
                 <Subtitle label="Resources" />
                 <div className="font-main text-sm text-primary-foreground">
-                  {(week.resources ?? []).map((resource, index) => (
+                  {week.resources.map((resource, index) => (
                     <div key={index} className="mb-2">
                       <a
                         href={resource}
@@ -71,7 +74,11 @@ const WeekInfo = async ({ id }: { id: number }) => {
                       </td>
                       <td>{problem.level}</td>
                       <td>{problem.solvedBy?.length ?? 0}</td>
-                      <td>{problem.status}</td>
+                      <td>
+                        {userId && problem.solvedBy?.some((u) => u.id === userId)
+                          ? "Solved"
+                          : "Unsolved"}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

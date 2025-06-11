@@ -58,7 +58,7 @@ const Leaderboard = () => {
       <div className="w-full flex flex-row justify-between bg-neutral-800 text-white rounded-t-2xl px-8 py-3 text-lg font-semibold mb-2">
         <span className="w-1/4 text-left">User</span>
         <span className="w-1/8 text-center">Warmup</span>
-        <span className="w-1/8 text-center">Little Harder</span>
+        <span className="w-1/8 text-center">Medium</span>
         <span className="w-1/8 text-center">Harder</span>
         <span className="w-1/8 text-center">Insane</span>
         <span className="w-1/8 text-center">Total</span>
@@ -77,7 +77,7 @@ const Leaderboard = () => {
               <span className="text-base font-medium break-words leading-tight">{row.username}</span>
             </div>
             <span className="w-1/8 text-center text-lg font-bold">{row.completedWarmup}</span>
-            <span className="w-1/8 text-center text-lg font-bold">{row.completedLittleHarder}</span>
+            <span className="w-1/8 text-center text-lg font-bold">{row.completedMedium}</span>
             <span className="w-1/8 text-center text-lg font-bold">{row.completedHarder}</span>
             <span className="w-1/8 text-center text-lg font-bold">{row.completedInsane}</span>
             <span className="w-1/8 text-center text-lg font-bold">{row.total}</span>
