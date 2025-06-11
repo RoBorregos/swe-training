@@ -1,9 +1,12 @@
 import { api } from "~/trpc/server";
 import Title from "../title";
 import Subtitle from "../subtitle";
+import { auth } from "~/server/auth";
 
 const WeekInfo = async ({ id }: { id: number }) => {
   const week = await api.week.getWeek(id);
+  const session = await auth();
+  const userId = session?.user?.id;
 
   return (
     <div>
@@ -71,7 +74,11 @@ const WeekInfo = async ({ id }: { id: number }) => {
                       </td>
                       <td>{problem.level}</td>
                       <td>{problem.solvedBy?.length ?? 0}</td>
-                      <td>{problem.status}</td>
+                      <td>
+                        {userId && problem.solvedBy?.some((u) => u.id === userId)
+                          ? "Solved"
+                          : "Unsolved"}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
