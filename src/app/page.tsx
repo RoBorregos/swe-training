@@ -1,14 +1,14 @@
-import logo from "public/images/Logo.png"
+import logo from "public/images/Logo.png";
 import Image from "next/image";
 import Subtitle from "./_components/subtitle";
 import { TestButton } from "./_components/fetchData";
-        
+import { BurningButton } from "~/app/_components/buttons/Burning";
+
 export default async function Home() {
-
-
   return (
     <div className="">
-      <div className="flex flex-row gap-8 items-center">
+      <BurningButton />
+      <div className="flex flex-row items-center gap-8">
         <div>
           <h1 className="text-5xl font-extrabold text-accent sm:text-[4rem]">
             SWE Training
@@ -21,7 +21,7 @@ export default async function Home() {
         <Image src={logo} alt="Logo" className="h-40 w-fit" />
       </div>
 
-      <div className="pt-16 text-primary-foreground font-main">
+      <div className="pt-16 font-main text-primary-foreground">
         <Subtitle label="What is SWE Training?" />
 
         <p className="pt-2">
@@ -34,7 +34,7 @@ export default async function Home() {
         </ul>
       </div>
 
-      <div className="pt-16 text-primary-foreground font-main">
+      <div className="pt-16 font-main text-primary-foreground">
         <Subtitle label="Recommended Topics" />
       </div>
       <TestButton />

@@ -2,7 +2,7 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-
+import { auth } from "~/server/auth";
 import { TRPCReactProvider } from "~/trpc/react";
 import Navbar from "./_components/Nav/navbar";
 
@@ -12,13 +12,15 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth();
+
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body className="bg-primary">
-        <Navbar />
+        <Navbar session={session} />
         <div className="px-20 py-10">
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </div>
