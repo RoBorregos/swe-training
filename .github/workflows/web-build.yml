@@ -24,10 +24,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Expose github environment as shell variables
-        env:
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+      env:
+        SECRETS_CONTEXT: ${{ toJson(secrets) }}
           # VARS_CONTEXT: ${{ toJson(vars) }}
-        run: |
+      run: |
           # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
           # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
