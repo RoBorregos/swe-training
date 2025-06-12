@@ -35,9 +35,20 @@ export default {
             opacity: "0",
           },
         },
+        "fade-in": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
       animation: {
         flame: "flame 1.5s ease-out forwards",
+        "fade-in": "fade-in 0.8s ease-out 0.3s forwards",
       },
     },
   },

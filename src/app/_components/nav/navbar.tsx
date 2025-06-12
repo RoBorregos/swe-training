@@ -6,14 +6,14 @@ import logo from "../../../../public/images/Logo.png";
 import NavElement from "./navElement";
 import type { Session } from "next-auth";
 import useShiftKey from "~/app/_hooks/useShiftKey";
-import { BurningButton } from "~/app/_components/buttons/Burning";
+import { GlowButton } from "~/app/_components/buttons/Glowing";
 
 const Navbar = ({ session }: { session: Session | null }) => {
   const shiftPressed = useShiftKey();
 
   return (
     <div className="flex w-full flex-row justify-between border-b border-neutral-700 bg-primary-light px-10 py-5">
-      <div className="flex flex-row items-center gap-12">
+      <div className="flex flex-row items-center gap-10">
         <Link href="/">
           <Image
             src={logo}
@@ -25,9 +25,8 @@ const Navbar = ({ session }: { session: Session | null }) => {
         <NavElement href="/leaderboard" label="Leaderboard" />
         <NavElement href="/resources" label="Resources" />
         {session?.user && shiftPressed && (
-          <NavElement href="/roboleetcode" label="Roboleetcode 👀" />
+          <GlowButton href="/roboleetcode" label="Roboleetcode 👀" />
         )}
-        {session?.user && shiftPressed && <BurningButton />}
       </div>
       <div className="flex flex-row items-center justify-center gap-4">
         <p className="font-code text-sm font-normal text-primary-foreground hover:cursor-pointer hover:underline">

@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react";
 
-export default function useShiftKey() {
+export default function useToggleShiftKey() {
   const [shiftPressed, setShiftPressed] = useState(false);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      setShiftPressed(e.shiftKey);
-    };
-
-    const onBlur = () => {
-      setShiftPressed(false);
+      if (e.shiftKey) {
+        setShiftPressed((shiftPressed) => !shiftPressed);
+      }
     };
 
     window.addEventListener("keydown", onKey);
     window.addEventListener("keyup", onKey);
-    window.addEventListener("blur", onBlur);
 
     return () => {
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("keyup", onKey);
-      window.removeEventListener("blur", onBlur);
     };
   }, []);
 

@@ -2,12 +2,10 @@ import logo from "public/images/Logo.png";
 import Image from "next/image";
 import Subtitle from "./_components/subtitle";
 import { TestButton } from "./_components/fetchData";
-import { BurningButton } from "~/app/_components/buttons/Burning";
 
 export default async function Home() {
   return (
     <div className="">
-      <BurningButton />
       <div className="flex flex-row items-center gap-8">
         <div>
           <h1 className="text-5xl font-extrabold text-accent sm:text-[4rem]">
