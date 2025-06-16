@@ -185,12 +185,18 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A linked list is a data structure consisting of nodes, where each node contains a value and a reference to the next node.
                 </p>
-                <Link href="https://leetcode.com/problem-list/linked-list/" target="_blank" className="text-blue-500 hover:underline">
-                    Linked List LeetCode Problems
-                </Link>
-                <Link href="https://leetcode.com/problem-list/doubly-linked-list/" target="_blank" className="text-blue-500 hover:underline">
-                    Double Linked List LeetCode Problems
-                </Link>
+                <ul className="list-disc pl-6 mt-2">
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/linked-list/" target="_blank" className="text-blue-500 hover:underline">
+                            Linked List LeetCode Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/doubly-linked-list/" target="_blank" className="text-blue-500 hover:underline">
+                            Double Linked List LeetCode Problems
+                        </Link>
+                    </li>
+                </ul>
             </>
         );
 
@@ -200,12 +206,18 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A stack is a data structure that follows the LIFO (Last In, First Out) principle.
                 </p>
-                <Link href="https://leetcode.com/problem-list/stack/" target="_blank" className="text-blue-500 hover:underline">
-                    Stack LeetCode Problems
-                </Link>
-                <Link href="https://leetcode.com/problem-list/monotonic-stack/" target="_blank" className="text-blue-500 hover:underline">
-                    Monotic Stack LeetCode Problems
-                </Link>
+                <ul className="list-disc pl-6 mt-2">
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/stack/" target="_blank" className="text-blue-500 hover:underline">
+                            Stack LeetCode Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/monotonic-stack/" target="_blank" className="text-blue-500 hover:underline">
+                            Monotic Stack LeetCode Problems
+                        </Link>
+                    </li>
+                </ul>
             </>
         );
     
@@ -215,12 +227,18 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A queue is a data structure that follows the FIFO (First In, First Out) principle.
                 </p>
-                <Link href="https://leetcode.com/problem-list/queue/" target="_blank" className="text-blue-500 hover:underline">
-                    Queue LeetCode Problems
-                </Link>
-                <Link href="https://leetcode.com/problem-list/monotonic-queue/" target="_blank" className="text-blue-500 hover:underline">
-                    Monotic Queue LeetCode Problems
-                </Link>
+                <ul className="list-disc pl-6 mt-2">
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/queue/" target="_blank" className="text-blue-500 hover:underline">
+                            Queue LeetCode Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/monotonic-queue/" target="_blank" className="text-blue-500 hover:underline">
+                            Monotic Queue LeetCode Problems
+                        </Link>
+                    </li>
+                </ul>
             </>
         );
     
@@ -317,7 +335,7 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                     Dynamic programming is a technique for solving complex problems by breaking them down into simpler subproblems and storing their solutions.
                 </p>
                 <Link href="https://leetcode.com/problem-list/dynamic-programming/" target="_blank" className="text-blue-500 hover:underline">
-                    Dybamic Programming LeetCode Problems
+                    Dynamic Programming LeetCode Problems
                 </Link>
             </>
         );

@@ -11,7 +11,7 @@ const HomeResources = () => {
   return (
     <div className="flex"> 
       <div className="w-1/4 overflow-y-auto">
-        <Resources onSelect={setSelectedResource} />
+        <Resources onSelect={setSelectedResource} selected={selectedResource}/>
       </div>
       <div className="w-3/4 overflow-y-auto"> 
         <AnimatePresence mode="wait">
