@@ -10,7 +10,7 @@ const HomeResources = () => {
 
   return (
     <div className="flex"> 
-      <div className="w-1/4 overflow-y-auto ">
+      <div className="w-1/4 overflow-y-auto">
         <Resources onSelect={setSelectedResource} />
       </div>
       <div className="w-3/4 overflow-y-auto"> 

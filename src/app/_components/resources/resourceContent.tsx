@@ -1,4 +1,5 @@
-import { CssSyntaxError } from "postcss";
+import Link from "next/link";
+
 
 const ResourceContent = ({ topic }: { topic: string }) => {
   switch (topic) {
@@ -47,6 +48,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     An array is a data structure that stores elements in contiguous memory locations, allowing efficient access by index. Arrays have a fixed size and can store elements of the same type.
                 </p>
+                <Link href="https://leetcode.com/problem-list/array/" target="_blank" className="text-blue-500 hover:underline">
+                    Arrays LeetCode Problems
+                </Link>
             </>
         );
 
@@ -56,6 +60,24 @@ const ResourceContent = ({ topic }: { topic: string }) => {
             <p>
                 Includes linear search, binary search, etc.
             </p>
+            <h2 className="font-bold">Searching Algorithms LeetCode Probelms</h2>
+            <ul className="list-disc pl-6 mt-2">
+                <li>
+                    <Link href="https://leetcode.com/problem-list/binary-search/" target="_blank" className="text-blue-500 hover:underline">
+                        Binary Search Problems
+                    </Link>
+                </li>
+                <li>
+                    <Link href="https://leetcode.com/problem-list/breadth-first-search/" target="_blank" className="text-blue-500 hover:underline">
+                        Breadth-First Search
+                    </Link>
+                </li>
+                <li>
+                    <Link href="https://leetcode.com/problem-list/depth-first-search/" target="_blank" className="text-blue-500 hover:underline">
+                        Depth-First Search
+                    </Link>
+                </li>
+            </ul>
         </>
       );
 
@@ -65,6 +87,10 @@ const ResourceContent = ({ topic }: { topic: string }) => {
             <p>
                 QuickSort, MergeSort, BubbleSort, etc.
             </p>
+
+            <Link href="https://leetcode.com/problem-list/sorting/" target="_blank" className="text-blue-500 hover:underline">
+                Sorting LeetCode Problems
+            </Link>
         </>
       );
 
@@ -74,6 +100,10 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     Hashing is a technique used to map data of arbitrary size to fixed-size values, often used in hash tables for efficient data retrieval.
                 </p>
+
+                <Link href="https://leetcode.com/problem-list/hash-table/" target="_blank" className="text-blue-500 hover:underline">
+                    Hashing LeetCode Problems
+                </Link>
             </>
         );
     
@@ -83,6 +113,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     The two-pointer technique is a common approach for solving problems involving arrays or linked lists.
                 </p>
+                <Link href="https://leetcode.com/problem-list/two-pointers/" target="_blank" className="text-blue-500 hover:underline">
+                    Two Pointer Technique LeetCode Problems
+                </Link>
             </>
         );
     
@@ -92,6 +125,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     The sliding window technique is an approach for solving problems involving subarrays or subsequences.
                 </p>
+                <Link href="https://leetcode.com/problem-list/sliding-window/" target="_blank" className="text-blue-500 hover:underline">
+                    Window Sliding Technique LeetCode Problems
+                </Link>
             </>
         );
     
@@ -101,6 +137,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     The prefix sum technique is an approach to efficiently calculate the sums of subarrays.
                 </p>
+                <Link href="https://leetcode.com/problem-list/prefix-sum/" target="_blank" className="text-blue-500 hover:underline">
+                    Prefix Sum Technique LeetCode Problems
+                </Link>
             </>
         );
 
@@ -110,6 +149,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     Strings are sequences of characters used to represent text.
                 </p>
+                <Link href="https://leetcode.com/problem-list/string/" target="_blank" className="text-blue-500 hover:underline">
+                    String Problems
+                </Link>
             </>
         );
     
@@ -119,6 +161,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     Recursion is a technique where a function calls itself to solve a problem.
                 </p>
+                <Link href="https://leetcode.com/problem-list/recursion/" target="_blank" className="text-blue-500 hover:underline">
+                    Recursion LeetCode Problems
+                </Link>
             </>
         );
     
@@ -128,6 +173,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     Matrices (or grids) are two-dimensional data structures that store data in rows and columns.
                 </p>
+                <Link href="https://leetcode.com/problem-list/matrix/" target="_blank" className="text-blue-500 hover:underline">
+                    Matrix LeetCode Problems
+                </Link>
             </>
         );
     
@@ -137,6 +185,12 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A linked list is a data structure consisting of nodes, where each node contains a value and a reference to the next node.
                 </p>
+                <Link href="https://leetcode.com/problem-list/linked-list/" target="_blank" className="text-blue-500 hover:underline">
+                    Linked List LeetCode Problems
+                </Link>
+                <Link href="https://leetcode.com/problem-list/doubly-linked-list/" target="_blank" className="text-blue-500 hover:underline">
+                    Double Linked List LeetCode Problems
+                </Link>
             </>
         );
 
@@ -146,6 +200,12 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A stack is a data structure that follows the LIFO (Last In, First Out) principle.
                 </p>
+                <Link href="https://leetcode.com/problem-list/stack/" target="_blank" className="text-blue-500 hover:underline">
+                    Stack LeetCode Problems
+                </Link>
+                <Link href="https://leetcode.com/problem-list/monotonic-stack/" target="_blank" className="text-blue-500 hover:underline">
+                    Monotic Stack LeetCode Problems
+                </Link>
             </>
         );
     
@@ -155,6 +215,12 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A queue is a data structure that follows the FIFO (First In, First Out) principle.
                 </p>
+                <Link href="https://leetcode.com/problem-list/queue/" target="_blank" className="text-blue-500 hover:underline">
+                    Queue LeetCode Problems
+                </Link>
+                <Link href="https://leetcode.com/problem-list/monotonic-queue/" target="_blank" className="text-blue-500 hover:underline">
+                    Monotic Queue LeetCode Problems
+                </Link>
             </>
         );
     
@@ -173,6 +239,38 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A tree is a hierarchical data structure consisting of nodes connected by edges.
                 </p>
+                <ul className="list-disc pl-6 mt-2">
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/tree/" target="_blank" className="text-blue-500 hover:underline">
+                            Tree LeetCode Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/binary-tree/" target="_blank" className="text-blue-500 hover:underline">
+                            Binary Tree LeetCode Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/segment-tree/" target="_blank" className="text-blue-500 hover:underline">
+                            Segment Tree LeetCode Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/binary-indexed-tree/" target="_blank" className="text-blue-500 hover:underline">
+                            Binary Indexed Tree LeetCode Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/minimum-spanning-tree/" target="_blank" className="text-blue-500 hover:underline">
+                            Minimum Spanning Tree LeetCode Problems
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://leetcode.com/problem-list/binary-search-tree/" target="_blank" className="text-blue-500 hover:underline">
+                            Binary Search Tree
+                        </Link>
+                    </li>
+                </ul>
             </>
         );
     
@@ -182,6 +280,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A heap is a data structure that satisfies the heap property, where the value of each node is greater than or equal to (or less than or equal to) the values of its children.
                 </p>
+                <Link href="https://leetcode.com/problem-list/heap-priority-queue/" target="_blank" className="text-blue-500 hover:underline">
+                    Heap LeetCode Problems
+                </Link>
             </>
         );
 
@@ -191,6 +292,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     A graph is a data structure consisting of a set of nodes (vertices) and a set of edges that connect pairs of nodes.
                 </p>
+                <Link href="https://leetcode.com/problem-list/graph/" target="_blank" className="text-blue-500 hover:underline">
+                    Graph LeetCode Problems
+                </Link>
             </>
         );
     
@@ -200,6 +304,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     Greedy algorithms make the locally optimal choice at each step with the hope of finding a global optimum solution.
                 </p>
+                <Link href="https://leetcode.com/tag/greedy" target="_blank" className="text-blue-500 hover:underline">
+                    Greedy Algorithm LeetCode Problems
+                </Link>
             </>
         );
     
@@ -209,6 +316,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     Dynamic programming is a technique for solving complex problems by breaking them down into simpler subproblems and storing their solutions.
                 </p>
+                <Link href="https://leetcode.com/problem-list/dynamic-programming/" target="_blank" className="text-blue-500 hover:underline">
+                    Dybamic Programming LeetCode Problems
+                </Link>
             </>
         );
     
@@ -218,6 +328,9 @@ const ResourceContent = ({ topic }: { topic: string }) => {
                 <p>
                     Preparation for technical interviews with mock questions and answers.
                 </p>
+                <Link href="" target="_blank" className="text-blue-500 hover:underline">
+                    Mocks Interviews
+                </Link>
             </>
         );
     
