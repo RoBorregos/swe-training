@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { api } from "~/trpc/react";
-
+import { useSession } from "next-auth/react";
 type Week = {
   id?: number | string;
   number?: number;
@@ -18,6 +18,10 @@ type LeaderboardEntry = {
 };
 
 const Leaderboard = () => {
+  // Get current username
+  const { data: session } = useSession();
+  const currentUsername = session?.user?.name || "";
+
   const [selected, setSelected] = useState("all");
 
   // Fetch weeks for the slider
@@ -120,7 +124,7 @@ const Leaderboard = () => {
             key={i}
             className={`w-full bg-neutral-700 text-white rounded-2xl shadow-lg px-8 py-4 flex flex-row items-center justify-between transition-all
               ${row.place === 1 ? "bg-gray-700 font-bold scale-[1.03]" : ""}
-              ${row.username === "You" ? "bg-green-600 font-bold" : ""}
+              ${row.username === currentUsername ? "bg-green-700 font-bold" : ""}
             `}
           >
             <div className="w-1/4 flex items-center gap-3">

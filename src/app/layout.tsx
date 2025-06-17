@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { SessionProvider  } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import Navbar from "./_components/nav/navbar";
@@ -21,7 +22,7 @@ export default function RootLayout({
       <body className="bg-primary min-h-screen">
         <Navbar />
         <div className="h-auto px-20 py-10 ">
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <SessionProvider><TRPCReactProvider>{children}</TRPCReactProvider></SessionProvider> 
         </div>
         <Footer />
       </body>
