@@ -122,9 +122,10 @@ const Leaderboard = () => {
         {sortedWithPlace.map((row, i) => (
           <li
             key={i}
-            className={`w-full bg-neutral-700 text-white rounded-2xl shadow-lg px-8 py-4 flex flex-row items-center justify-between transition-all
-              ${row.place === 1 ? "bg-gray-700 font-bold scale-[1.03]" : ""}
-              ${row.username === currentUsername ? "bg-green-700 font-bold" : ""}
+            className={`w-full text-white rounded-2xl shadow-lg px-8 py-4 flex flex-row items-center justify-between transition-all
+              ${row.place !== 1 && row.username !== currentUsername ? "bg-neutral-700" : ""} 
+              ${row.place === 1 ? "bg-gray-600 font-bold scale-[1.03]" : ""}
+              ${row.username === currentUsername ? "bg-green-600 font-bold " : ""}
             `}
           >
             <div className="w-1/4 flex items-center gap-3">
