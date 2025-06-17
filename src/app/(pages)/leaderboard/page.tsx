@@ -20,7 +20,7 @@ type LeaderboardEntry = {
 const Leaderboard = () => {
   // Get current username
   const { data: session } = useSession();
-  const currentUsername = session?.user?.name || "";
+  const currentUsername = session?.user?.name ?? "";
 
   const [selected, setSelected] = useState("all");
 
