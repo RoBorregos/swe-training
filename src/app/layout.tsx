@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body className="bg-primary min-h-screen">
         <Navbar />
-        <div className="px-20 py-10 h-screen">
+        <div className="h-auto px-20 py-10 ">
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </div>
         <Footer />
