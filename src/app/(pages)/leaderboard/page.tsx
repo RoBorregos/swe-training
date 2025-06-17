@@ -17,7 +17,31 @@ const Leaderboard = () => {
     ? api.leaderboard.getAll.useQuery()
     : api.leaderboard.getByWeek.useQuery(selected);
 
-  if (weeksLoading || leaderboardLoading) return <div>Loading...</div>;
+  if (weeksLoading || leaderboardLoading) {
+    // Show placeholder for the leaderboard 
+    return (
+      <div className="max-w-3xl mx-auto mt-12">
+        <h1 className="text-3xl font-extrabold mb-8 text-center tracking-tight text-white drop-shadow">
+          Leaderboard
+        </h1>
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex bg-neutral-800 rounded-full p-1">
+            <span className="px-5 py-2 rounded-full font-semibold bg-neutral-700 text-gray-100 animate-pulse">
+              Loading...
+            </span>
+          </div>
+        </div>
+        <div className="w-full flex flex-row justify-between bg-neutral-800 text-white rounded-t-2xl px-8 py-3 text-lg font-semibold mb-2">
+          <span className="w-1/4 text-left">User</span>
+          <span className="w-1/8 text-center">Warmup</span>
+          <span className="w-1/8 text-center">Medium</span>
+          <span className="w-1/8 text-center">Harder</span>
+          <span className="w-1/8 text-center">Insane</span>
+          <span className="w-1/8 text-center">Total</span>
+        </div>
+      </div>
+    );
+  }
   if (leaderboardError) return <div>Error loading leaderboard</div>;
 
   // Prepare week options
@@ -30,6 +54,21 @@ const Leaderboard = () => {
 
   // Sort leaderboard
   const sorted = [...(leaderboardData ?? [])].sort((a, b) => b.total - a.total);
+
+  // Assign places with ties allowed
+  let lastTotal: number | null = null;
+  let lastPlace = 0;
+  let skip = 1;
+  const sortedWithPlace = sorted.map((row, i) => {
+    if (row.total !== lastTotal) {
+      lastPlace = i + 1;
+      lastTotal = row.total;
+      skip = 1;
+    } else {
+      skip++;
+    }
+    return { ...row, place: lastPlace };
+  });
 
   return (
     <div className="max-w-3xl mx-auto mt-12">
@@ -64,16 +103,16 @@ const Leaderboard = () => {
         <span className="w-1/8 text-center">Total</span>
       </div>
       <ol className="flex flex-col gap-4">
-        {sorted.map((row, i) => (
+        {sortedWithPlace.map((row, i) => (
           <li
             key={i}
             className={`w-full bg-neutral-700 text-white rounded-2xl shadow-lg px-8 py-4 flex flex-row items-center justify-between transition-all
-              ${i === 0 ? "bg-gray-700 font-bold scale-[1.03]" : ""}
+              ${row.place === 1 ? "bg-gray-700 font-bold scale-[1.03]" : ""}
               ${row.username === "You" ? "bg-green-600 font-bold" : ""}
             `}
           >
             <div className="w-1/4 flex items-center gap-3">
-              <span className="text-xl font-semibold w-8 text-gray-400 text-center">{i + 1}</span>
+              <span className="text-xl font-semibold w-8 text-gray-400 text-center">{row.place}</span>
               <span className="text-base font-medium break-words leading-tight">{row.username}</span>
             </div>
             <span className="w-1/8 text-center text-lg font-bold">{row.completedWarmup}</span>
