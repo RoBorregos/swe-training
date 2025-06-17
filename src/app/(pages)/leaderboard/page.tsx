@@ -2,6 +2,21 @@
 import { useState } from "react";
 import { api } from "~/trpc/react";
 
+type Week = {
+  id?: number | string;
+  number?: number;
+  title?: string;
+};
+
+type LeaderboardEntry = {
+  username: string;
+  completedWarmup: number;
+  completedMedium: number;
+  completedHarder: number;
+  completedInsane: number;
+  total: number;
+};
+
 const Leaderboard = () => {
   const [selected, setSelected] = useState("all");
 
@@ -18,7 +33,6 @@ const Leaderboard = () => {
     : api.leaderboard.getByWeek.useQuery(selected);
 
   if (weeksLoading || leaderboardLoading) {
-    // Show placeholder for the leaderboard 
     return (
       <div className="max-w-3xl mx-auto mt-12">
         <h1 className="text-3xl font-extrabold mb-8 text-center tracking-tight text-white drop-shadow">
@@ -42,30 +56,30 @@ const Leaderboard = () => {
       </div>
     );
   }
+
   if (leaderboardError) return <div>Error loading leaderboard</div>;
 
-  // Prepare week options
   const weekOptions = [
     { id: "all", label: "Global" },
     ...(weeksData
-      ? weeksData.map((w: any) => ({ id: w.id?.toString() ?? w.number?.toString(), label: w.title || `Week ${w.number}` }))
+      ? weeksData.map((w: Week) => ({
+          id: (w.id ?? w.number ?? "").toString(),
+          label: w.title ?? `Week ${w.number}`,
+        }))
       : []),
   ];
 
-  // Sort leaderboard
-  const sorted = [...(leaderboardData ?? [])].sort((a, b) => b.total - a.total);
+  const sorted = [...(leaderboardData as LeaderboardEntry[] ?? [])].sort(
+    (a, b) => b.total - a.total
+  );
 
-  // Assign places with ties allowed
   let lastTotal: number | null = null;
   let lastPlace = 0;
-  let skip = 1;
-  const sortedWithPlace = sorted.map((row, i) => {
+
+  const sortedWithPlace = sorted.map((row: LeaderboardEntry, i) => {
     if (row.total !== lastTotal) {
       lastPlace = i + 1;
       lastTotal = row.total;
-      skip = 1;
-    } else {
-      skip++;
     }
     return { ...row, place: lastPlace };
   });
@@ -75,7 +89,6 @@ const Leaderboard = () => {
       <h1 className="text-3xl font-extrabold mb-8 text-center tracking-tight text-white drop-shadow">
         Leaderboard
       </h1>
-      {/* Slider/toggle */}
       <div className="flex justify-center mb-6">
         <div className="inline-flex bg-neutral-800 rounded-full p-1">
           {weekOptions.map((w) => (
@@ -93,7 +106,6 @@ const Leaderboard = () => {
           ))}
         </div>
       </div>
-      {/* Table header */}
       <div className="w-full flex flex-row justify-between bg-neutral-800 text-white rounded-t-2xl px-8 py-3 text-lg font-semibold mb-2">
         <span className="w-1/4 text-left">User</span>
         <span className="w-1/8 text-center">Warmup</span>
