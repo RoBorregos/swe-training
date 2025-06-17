@@ -4,7 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const profileRouter = createTRPCRouter({
     getById: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return ctx.db.user.findUnique({ where: { id: input }, include: { accounts: true, sessions: false, solvedProblems: true } });
+    return await ctx.db.user.findUnique({ where: { id: input }, include: { accounts: true, sessions: false, solvedProblems: true } });
     }),
     update: protectedProcedure
     .input(z.object({
@@ -15,6 +15,6 @@ export const profileRouter = createTRPCRouter({
     }))
     .mutation(async ({ ctx, input }) => {
         const { id, ...data } = input;
-        return ctx.db.user.update({ where: { id }, data });
+        return await ctx.db.user.update({ where: { id }, data });
     }),
 });
