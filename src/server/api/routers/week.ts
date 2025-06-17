@@ -7,17 +7,19 @@ import {
 
 export const weekRouter = createTRPCRouter({
   getWeeks: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.db.week.findMany();
+    const weeks = await ctx.db.week.findMany();
+    return weeks;
   }),
 
   getWeek: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      return ctx.db.week.findFirst({
+      const week = await ctx.db.week.findFirst({
         where: {
           number: input,
         },
         include: { problems: { include: { solvedBy: true } } },
       });
+      return week;
     }),
 });
