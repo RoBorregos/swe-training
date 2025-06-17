@@ -22,7 +22,7 @@ export default async function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body className="bg-primary">
         <Navbar session={session} />
-        <div className="px-20 py-10">
+        <div className="">
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </div>
         <Footer />
