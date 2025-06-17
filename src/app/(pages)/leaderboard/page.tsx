@@ -44,11 +44,19 @@ const Leaderboard = () => {
   }
   if (leaderboardError) return <div>Error loading leaderboard</div>;
 
+  type Week = {
+    id?: number | string;
+    number?: number;
+    title?: string;
+  };
   // Prepare week options
   const weekOptions = [
     { id: "all", label: "Global" },
     ...(weeksData
-      ? weeksData.map((w: any) => ({ id: w.id?.toString() ?? w.number?.toString(), label: w.title || `Week ${w.number}` }))
+      ? weeksData.map((w: Week) => ({
+        id: (w.id ?? w.number ?? "").toString(),
+        label: w.title || `Week ${w.number}`
+      }))
       : []),
   ];
 
