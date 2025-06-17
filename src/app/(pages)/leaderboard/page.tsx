@@ -25,7 +25,8 @@ const Leaderboard = () => {
   const [selected, setSelected] = useState("all");
 
   // Fetch weeks for the slider
-  const { data: weeksData, isLoading: weeksLoading } = api.week.getWeeks.useQuery();
+  const { data: weeksData, isLoading: weeksLoading } =
+    api.week.getWeeks.useQuery();
 
   // Fetch leaderboard data
   const {
@@ -38,18 +39,18 @@ const Leaderboard = () => {
 
   if (weeksLoading || leaderboardLoading) {
     return (
-      <div className="max-w-3xl mx-auto mt-12">
-        <h1 className="text-3xl font-extrabold mb-8 text-center tracking-tight text-white drop-shadow">
+      <div className="mx-auto mt-12 max-w-3xl">
+        <h1 className="mb-8 text-center text-3xl font-extrabold tracking-tight text-white drop-shadow">
           Leaderboard
         </h1>
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex bg-neutral-800 rounded-full p-1">
-            <span className="px-5 py-2 rounded-full font-semibold bg-neutral-700 text-gray-100 animate-pulse">
+        <div className="mb-6 flex justify-center">
+          <div className="inline-flex rounded-full bg-neutral-800 p-1">
+            <span className="animate-pulse rounded-full bg-neutral-700 px-5 py-2 font-semibold text-gray-100">
               Loading...
             </span>
           </div>
         </div>
-        <div className="w-full flex flex-row justify-between bg-neutral-800 text-white rounded-t-2xl px-8 py-3 text-lg font-semibold mb-2">
+        <div className="mb-2 flex w-full flex-row justify-between rounded-t-2xl bg-neutral-800 px-8 py-3 text-lg font-semibold text-white">
           <span className="w-1/4 text-left">User</span>
           <span className="w-1/8 text-center">Warmup</span>
           <span className="w-1/8 text-center">Medium</span>
@@ -73,8 +74,8 @@ const Leaderboard = () => {
       : []),
   ];
 
-  const sorted = [...(leaderboardData as LeaderboardEntry[] ?? [])].sort(
-    (a, b) => b.total - a.total
+  const sorted = [...((leaderboardData as LeaderboardEntry[]) ?? [])].sort(
+    (a, b) => b.total - a.total,
   );
 
   let lastTotal: number | null = null;
@@ -89,17 +90,17 @@ const Leaderboard = () => {
   });
 
   return (
-    <div className="max-w-3xl mx-auto mt-12">
-      <h1 className="text-3xl font-extrabold mb-8 text-center tracking-tight text-white drop-shadow">
+    <div className="mx-auto mt-12 max-w-3xl">
+      <h1 className="mb-8 text-center text-3xl font-extrabold tracking-tight text-white drop-shadow">
         Leaderboard
       </h1>
-      <div className="flex justify-center mb-6">
-        <div className="inline-flex bg-neutral-800 rounded-full p-1">
+      <div className="mb-6 flex justify-center">
+        <div className="inline-flex rounded-full bg-neutral-800 p-1">
           {weekOptions.map((w) => (
             <button
               key={w.id}
               onClick={() => setSelected(w.id)}
-              className={`px-5 py-2 rounded-full font-semibold transition-all ${
+              className={`rounded-full px-5 py-2 font-semibold transition-all ${
                 selected === w.id
                   ? "bg-white text-neutral-900 shadow"
                   : "text-white hover:bg-neutral-700"
@@ -110,7 +111,7 @@ const Leaderboard = () => {
           ))}
         </div>
       </div>
-      <div className="w-full flex flex-row justify-between bg-neutral-800 text-white rounded-t-2xl px-8 py-3 text-lg font-semibold mb-2">
+      <div className="mb-2 flex w-full flex-row justify-between rounded-t-2xl bg-neutral-800 px-8 py-3 text-lg font-semibold text-white">
         <span className="w-1/4 text-left">User</span>
         <span className="w-1/8 text-center">Warmup</span>
         <span className="w-1/8 text-center">Medium</span>
@@ -122,21 +123,31 @@ const Leaderboard = () => {
         {sortedWithPlace.map((row, i) => (
           <li
             key={i}
-            className={`w-full text-white rounded-2xl shadow-lg px-8 py-4 flex flex-row items-center justify-between transition-all
-              ${row.place !== 1 && row.username !== currentUsername ? "bg-neutral-700" : ""} 
-              ${row.place === 1 ? "bg-gray-600 font-bold scale-[1.03]" : ""}
-              ${row.username === currentUsername ? "bg-green-600 font-bold " : ""}
-            `}
+            className={`flex w-full flex-row items-center justify-between rounded-2xl px-8 py-4 text-white shadow-lg transition-all ${row.place !== 1 && row.username !== currentUsername ? "bg-neutral-700" : ""} ${row.place === 1 ? "scale-[1.03] bg-gray-600 font-bold" : ""} ${row.username === currentUsername ? "bg-green-600 font-bold" : ""} `}
           >
-            <div className="w-1/4 flex items-center gap-3">
-              <span className="text-xl font-semibold w-8 text-gray-400 text-center">{row.place}</span>
-              <span className="text-base font-medium break-words leading-tight">{row.username}</span>
+            <div className="flex w-1/4 items-center gap-3">
+              <span className="w-8 text-center text-xl font-semibold text-gray-400">
+                {row.place}
+              </span>
+              <span className="break-words text-base font-medium leading-tight">
+                {row.username}
+              </span>
             </div>
-            <span className="w-1/8 text-center text-lg font-bold">{row.completedWarmup}</span>
-            <span className="w-1/8 text-center text-lg font-bold">{row.completedMedium}</span>
-            <span className="w-1/8 text-center text-lg font-bold">{row.completedHarder}</span>
-            <span className="w-1/8 text-center text-lg font-bold">{row.completedInsane}</span>
-            <span className="w-1/8 text-center text-lg font-bold">{row.total}</span>
+            <span className="w-1/8 text-center text-lg font-bold">
+              {row.completedWarmup}
+            </span>
+            <span className="w-1/8 text-center text-lg font-bold">
+              {row.completedMedium}
+            </span>
+            <span className="w-1/8 text-center text-lg font-bold">
+              {row.completedHarder}
+            </span>
+            <span className="w-1/8 text-center text-lg font-bold">
+              {row.completedInsane}
+            </span>
+            <span className="w-1/8 text-center text-lg font-bold">
+              {row.total}
+            </span>
           </li>
         ))}
       </ol>
