@@ -17,7 +17,4 @@ export const profileRouter = createTRPCRouter({
         const { id, ...data } = input;
         return ctx.db.user.update({ where: { id }, data });
     }),
-    delete: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
-    return ctx.db.problem.delete({ where: { id: input } });
-    }),
 });
