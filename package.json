@@ -32,6 +32,7 @@
     "geist": "^1.3.0",
     "graphql": "^16.10.0",
     "graphql-request": "^7.1.2",
+    "leetcode-query": "^2.0.0",
     "next": "^15.0.1",
     "next-auth": "5.0.0-beta.25",
     "react": "^18.3.1",
