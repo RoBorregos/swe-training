@@ -5,8 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import Resources from "~/app/_components/Nav/navResources";
 import ResourceContent from "~/app/_components/resources/resourceContent";
 import '~/styles/globals.css'
+import { api } from "~/trpc/server";
+
 const HomeResources = () => {
   const [selectedResource, setSelectedResource] = useState("Resources Page");
+
+  // Uncomment the following lines if you want to fetch user data based on the user's role from the database 
+  //const { data: userData, isLoading, error } = api.user.getUserStatus.useQuery();
+  //const userRole: "admin" | "user" = userData.role;
 
   return (
     <div className="flex"> 
@@ -24,7 +30,7 @@ const HomeResources = () => {
             className="p-6 flex-1 text-white relative"
           >
             <h1 className="text-4xl font-bold mb-4">{selectedResource}</h1>
-            <ResourceContent topic={selectedResource} />
+            <ResourceContent topic={selectedResource} userRole={userRole} />
           </motion.div>
         </AnimatePresence>
       </div>
