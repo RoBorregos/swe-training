@@ -139,11 +139,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                         Binary Search Algorithm
                     </Link>
                 </li>
-                <li>
-                    <Link href="https://www.programiz.com/dsa/searching-algorithms" target="_blank" className="text-green-500 hover:underline">
-                        Programiz Searching Algorithms
-                    </Link>
-                </li>
             </ul>
             <h2 className="font-bold text-xl">Searching Algorithms LeetCode Probelms</h2>
             <ul className="list-disc pl-6 mt-2">
@@ -198,6 +193,7 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 QuickSort, MergeSort, BubbleSort, etc.
             </p>
 
+            <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
             <Link href="https://leetcode.com/problem-list/sorting/" target="_blank" className="text-green-500 hover:underline">
                 Sorting LeetCode Problems
             </Link>
@@ -235,7 +231,7 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     Hashing is a technique used to map data of arbitrary size to fixed-size values, often used in hash tables for efficient data retrieval.
                 </p>
-
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <Link href="https://leetcode.com/problem-list/hash-table/" target="_blank" className="text-green-500 hover:underline">
                     Hashing LeetCode Problems
                 </Link>
@@ -273,6 +269,8 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     The two-pointer technique is a common approach for solving problems involving arrays or linked lists.
                 </p>
+
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <Link href="https://leetcode.com/problem-list/two-pointers/" target="_blank" className="text-green-500 hover:underline">
                     Two Pointer Technique LeetCode Problems
                 </Link>
@@ -310,6 +308,8 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     The sliding window technique is an approach for solving problems involving subarrays or subsequences.
                 </p>
+
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <Link href="https://leetcode.com/problem-list/sliding-window/" target="_blank" className="text-green-500 hover:underline">
                     Window Sliding Technique LeetCode Problems
                 </Link>
@@ -347,6 +347,8 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     The prefix sum technique is an approach to efficiently calculate the sums of subarrays.
                 </p>
+
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <Link href="https://leetcode.com/problem-list/prefix-sum/" target="_blank" className="text-green-500 hover:underline">
                     Prefix Sum Technique LeetCode Problems
                 </Link>
@@ -384,9 +386,13 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     Strings are sequences of characters used to represent text.
                 </p>
+
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <Link href="https://leetcode.com/problem-list/string/" target="_blank" className="text-green-500 hover:underline">
                     String Problems
                 </Link>
+
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 {isAdmin && (
                     <div className="mt-8 bg-gray-900 p-4 rounded border border-yellow-400">
                     <h3 className="text-lg font-bold text-yellow-400 mb-2">Add Information (Admin)</h3>
@@ -420,9 +426,12 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     Recursion is a technique where a function calls itself to solve a problem.
                 </p>
+
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <Link href="https://leetcode.com/problem-list/recursion/" target="_blank" className="text-green-500 hover:underline">
                     Recursion LeetCode Problems
                 </Link>
+
                 {isAdmin && (
                     <div className="mt-8 bg-gray-900 p-4 rounded border border-yellow-400">
                     <h3 className="text-lg font-bold text-yellow-400 mb-2">Add Information (Admin)</h3>
@@ -456,6 +465,8 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     Matrices (or grids) are two-dimensional data structures that store data in rows and columns.
                 </p>
+                
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <Link href="https://leetcode.com/problem-list/matrix/" target="_blank" className="text-green-500 hover:underline">
                     Matrix LeetCode Problems
                 </Link>
@@ -493,6 +504,8 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     A linked list is a data structure consisting of nodes, where each node contains a value and a reference to the next node.
                 </p>
+
+                <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <ul className="list-disc pl-6 mt-2">
                     <li>
                         <Link href="https://leetcode.com/problem-list/linked-list/" target="_blank" className="text-green-500 hover:underline">
@@ -839,6 +852,7 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                     Dynamic programming is a technique for solving complex problems by breaking them down into simpler subproblems and storing their solutions.
                 </p>
+                <h1> R</h1>
                 <Link href="https://leetcode.com/problem-list/dynamic-programming/" target="_blank" className="text-green-500 hover:underline">
                     Dynamic Programming LeetCode Problems
                 </Link>
