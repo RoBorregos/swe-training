@@ -15,14 +15,15 @@ if timestap >= first day of the week so it must appear as done
 
 */
 
-import { leetcodeTestRouter } from "~/server/api/routers/leetcodeTest";
+import { leetcodeRouter } from "~/server/api/routers/leetcode";
+import { api } from "~/trpc/react";
 
 const WeekRoute = () => {
+    const {data} = api.leetcode.hasCompletedProblemRecently.useQuery({username: "pyoro", problemSlug: "3sum"});
     return ( 
         <main>
-            <h1>Week router</h1>
-            <p>leetcodeTestRouter.allSubmissions({ "pyoro" })</p>
-            
+            <h1 className="text-white"> Week router </h1>
+            <p className="text-white"> {JSON.stringify(data,null)}</p>
         </main>
     );
 }
