@@ -19,11 +19,23 @@ import { leetcodeRouter } from "~/server/api/routers/leetcode";
 import { api } from "~/trpc/react";
 
 const WeekRoute = () => {
-    const {data} = api.leetcode.hasCompletedProblemRecently.useQuery({username: "pyoro", problemSlug: "3sum"});
+    const {data} = api.leetcode.fullDataRecentlyCompleted.useQuery({username: "pyoro"});
     return ( 
         <main>
-            <h1 className="text-white"> Week router </h1>
-            <p className="text-white"> {JSON.stringify(data,null)}</p>
+            <h1 className="text-white text-3xl font-bold">Week router</h1>
+            {data?.map((submission) => (
+                <div className="text-white mt-2">
+                <h2>Title:{submission.titleSlug}</h2>
+                <p>Status: {submission.statusDisplay}</p>
+                <p>
+                    Date: {new Date(submission.timestamp * 1000).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    })}
+                </p>
+                </div>
+            ))}
         </main>
     );
 }

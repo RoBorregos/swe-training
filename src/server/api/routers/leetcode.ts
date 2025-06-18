@@ -28,6 +28,16 @@ export const leetcodeRouter = createTRPCRouter({
         (submission) => submission.titleSlug === input.problemSlug,
       );
     }),
+  fullDataRecentlyCompleted: publicProcedure
+    .input(z.object({ username: z.string() }))
+    .query(async ({ input }) => {
+      const recentAccepted = await getAcceptedProblems({
+        username: input.username,
+      });
+
+      return recentAccepted
+    }),
+
 
   getProblemById: publicProcedure
     .input(z.object({ problemId: z.number() }))

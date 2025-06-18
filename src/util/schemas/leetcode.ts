@@ -21,10 +21,10 @@ export const ProblemsSolvedResponse = z.object({
 export type ProblemsSolvedType = z.infer<typeof ProblemsSolvedResponse>;
 
 const AcceptedQuestionSchema = z.object({
-  id: z.string(),
   title: z.string(),
   titleSlug: z.string(),
   timestamp: z.number(),
+  statusDisplay: z.string(),
 });
 
 export const RecentAcceptedResponse = z.object({
