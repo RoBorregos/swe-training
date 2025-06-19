@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
@@ -68,7 +74,7 @@ model Week {
 model Problem {
   id          String @id @default(cuid())
   name        String
-  level       String
+  level       Difficulty
   leetcodeUrl String
   weekId      String
   week        Week   @relation(fields: [weekId], references: [id], onDelete: Cascade)
