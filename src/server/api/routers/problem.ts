@@ -6,10 +6,10 @@ const difficultyEnum = z.enum(["EASY", "MEDIUM", "HARD"]);
 
 export const problemRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return ctx.db.problem.findMany({ include: { week: true, solvedBy: true } });
+    return await ctx.db.problem.findMany({ include: { week: true, solvedBy: true } });
   }),
   getById: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return ctx.db.problem.findUnique({
+    return await ctx.db.problem.findUnique({
       where: { id: input },
       include: { week: true, solvedBy: true },
     });
@@ -24,7 +24,7 @@ export const problemRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.problem.create({ data: input });
+      return await ctx.db.problem.create({ data: input });
     }),
   update: protectedProcedure
     .input(
@@ -38,12 +38,12 @@ export const problemRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
-      return ctx.db.problem.update({ where: { id }, data });
+      return await ctx.db.problem.update({ where: { id }, data });
     }),
 
   delete: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.problem.delete({ where: { id: input } });
+      return await ctx.db.problem.delete({ where: { id: input } });
     }),
 });
