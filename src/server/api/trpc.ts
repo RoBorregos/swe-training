@@ -132,3 +132,24 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+export const memberProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  if (ctx.session.user.role === "USER") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  return next({ ctx });
+});
+
+/**
+ * Admin procedure
+ *
+ * Only for admins registered in the database
+ */
+export const adminProcedure = memberProcedure.use(async ({ ctx, next }) => {
+  if (ctx.session.user.role !== "ADMIN") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  return next({ ctx });
+});
