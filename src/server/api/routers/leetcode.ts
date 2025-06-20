@@ -18,15 +18,26 @@ export const leetcodeRouter = createTRPCRouter({
     }),
 
   hasCompletedProblemRecently: publicProcedure
-    .input(z.object({ username: z.string(), problemSlug: z.string() }))
+    .input(z.object({ username: z.string(), title: z.string() }))
     .query(async ({ input }) => {
-      const recentAccepted = await getAcceptedProblems({
-        username: input.username,
+      const recentAccepted = await fetch(
+        `https://alfa-leetcode-api.onrender.com/${input.username}/acSubmission`
+      )
+
+      if (!recentAccepted.ok) {
+        throw new Error("Failed to fetch recent accepted problems");
+      }
+
+      const data = await recentAccepted.json();
+      const matchedSubmission = data.submissions.find((submission: any) => {
+        const trainingStartDate = new Date("2025-06-28").getTime();
+        return (
+          submission.title === input.title &&
+          submission.timestamp >= trainingStartDate
+        );
       });
 
-      return recentAccepted.some(
-        (submission) => submission.titleSlug === input.problemSlug,
-      );
+      return matchedSubmission ? true : false;
     }),
 
   getProblemById: publicProcedure
