@@ -1,26 +1,46 @@
-import ProblemCard from "~/app/_components/week/weekCard";
-import Subtitle from "~/app/_components/subtitle";
-import Title from "~/app/_components/title";
-import { backgroundColors, textColors } from "utils/colors";
+// app/(admin)/admin/weekly/page.tsx
 import { api } from "~/trpc/server";
+import Title from "~/app/_components/title";
+import Subtitle from "~/app/_components/subtitle";
+import ProblemCard from "~/app/_components/week/weekCard";
+import AdminProblemEditor from "~/app/_components/week/adminProblemEditor";
+import { redirect } from "next/navigation";
+import { backgroundColors, textColors } from "utils/colors";
+import { useSession } from "next-auth/react";
 
-const WeeklyProblems = async() => {
-    const weeks = await api.week.getWeeks();
+const AdminWeeklyPage = async () => {
+  const session = useSession();
+  session.user.role !== "ADMIN" && redirect("/");
 
-    return (
-        <div>
-            <Title label="Weekly Problems" />
-            <Subtitle label="Weeks" className="pb-4" />
+  const weeks = await api.week.getWeeks();
 
-            <div className="grid grid-cols-3 text-main px-10 gap-10">
-                {weeks.map((week, key) => (
-                    <div key={key}>
-                        <ProblemCard key={key} title={week.title} description={week.description} number={week.number} isBlocked={week.isBlocked} bgColor={backgroundColors.get(week.color) ?? "bg-white"} textColor={textColors.get(week.color) ?? "text-black"} />
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className="px-10">
+      <Title label="Admin: Weekly Problems" />
+      <Subtitle label="Edición de problemas por semana" className="pb-4" />
 
-export default WeeklyProblems;
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {weeks.map((week) => (
+          <div
+            key={week.id}
+            className="border rounded-xl shadow-md p-5 bg-white dark:bg-zinc-900"
+          >
+            <ProblemCard
+              key={week.id}
+              title={week.title}
+              description={week.description}
+              number={week.number}
+              isBlocked={week.isBlocked}
+              bgColor={backgroundColors.get(week.color) ?? "bg-white"}
+              textColor={textColors.get(week.color) ?? "text-black"}
+            />
+
+            <AdminProblemEditor weekId={week.id} problems={week.problems} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default AdminWeeklyPage;

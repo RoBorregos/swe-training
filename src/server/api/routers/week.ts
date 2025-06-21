@@ -21,4 +21,5 @@ export const weekRouter = createTRPCRouter({
             include: { problems: {include: { solvedBy: true }}},   
         })
     })
+
 })
