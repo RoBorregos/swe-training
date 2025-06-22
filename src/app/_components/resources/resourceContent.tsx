@@ -1,15 +1,20 @@
 import Link from "next/link";
-import { AdminOnly } from "~/app/_components/isAdmin";
+import { AdminOnly } from "~/app/_components/resources/isAdmin";
+import { api } from "~/trpc/server";
 import { useState } from "react";
 
 const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin" | "user" }) => {
     const [extraContent, setExtraContent] = useState("");
-    const [submittedContent, setSubmittedContent] = useState<string | null>(null);
+    const utils = api.useUtils();
+    
+    const { data: additionalContent } = api.resource.getAdditionalContent.useQuery({ topic });
+    
+    const addContent = api.resource.addContent.useMutation();
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (extraContent.trim()) {
-        setSubmittedContent(extraContent);
-        setExtraContent("");
+            await addContent.mutateAsync({ topic, content: extraContent });
+            setExtraContent("");
         }
     };
   switch (topic) {

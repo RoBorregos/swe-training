@@ -76,6 +76,12 @@ model Problem {
   solvedBy    User[]     @relation("SolvedProblems")
 }
 
+model AdditionalContent {
+  id      String @id @default(cuid())
+  topic   String @unique
+  content String
+}
+
 enum Difficulty {
   EASY
   MEDIUM
