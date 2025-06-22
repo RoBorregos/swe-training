@@ -57,7 +57,15 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 Big O notation describes the upper bound of time or space complexity as input size grows. It's written as O(f(n)).
             </p>
 
-            <AdminContributions content={additionalContent ?? []} />
+            <AdminContributions content={
+                (additionalContent ?? []).map((item: any) => ({
+                    ...item,
+                    author: {
+                        ...item.author,
+                        image: item.author?.image ?? null,
+                    },
+                }))
+            } />
             <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
           <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
