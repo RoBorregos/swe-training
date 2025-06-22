@@ -38,7 +38,7 @@ export const leetcodeRouter = createTRPCRouter({
       for (const problem of data) {
         const matchedProblem = db.find((p => p.name === problem.name));
         if (matchedProblem) {
-          if (!matchedProblem.solvedBy.some(user => user.username === input.username)) {
+          if (!matchedProblem.solvedBy.some(user => user.name === input.username)) {
             await ctx.db.problem.update({
               where: { id: matchedProblem.id },
               data: {
