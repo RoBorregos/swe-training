@@ -3,9 +3,7 @@ import AdminContributions from "~/app/_components/resources/adminContributions";
 
 import { AdminOnly } from "~/app/_components/resources/isAdmin";
 import { api } from "~/trpc/client";
-import { api as serverApi } from "~/trpc/server";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 
 const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin" | "user" }) => {
     const [extraContent, setExtraContent] = useState("");
