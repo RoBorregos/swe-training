@@ -1,77 +1,109 @@
-"use client"
+"use client";
 import { cn } from "utils/merge";
 import { FaUser } from "react-icons/fa6";
 import { IoMdSend } from "react-icons/io";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import { AiOutlineLoading } from "react-icons/ai";
+import Link from "next/link";
 
-
-
-const  ProfileCard =  ({ idUser }:  { idUser: string }) => {
-    const udpateUser = api.profile.update.useMutation();
-    const handleSend = async() =>{
-        refetch();
-        await udpateUser.mutateAsync({id:idUser , leetcodeUser: NewLeetcodeUser});
-        
-
-    }
-    const [NewLeetcodeUser, setInputValue] = useState("");
-    const { data, isLoading, error, refetch, isRefetching} =  api.profile.getById.useQuery(idUser);
-    if(isLoading || error || !data){
-        return <div>
-            Wait a little more
-        </div>
-    }
-    const {name, image, leetcodeUser} = data;
-    
-
-    return (
-        <div className={cn("bg-primary-light", 'text-white rounded-xl p-4 flex flex-col')}>
-            <div className="flex flex-row items-center  justify-between mb-4">
-                <div className="flex flex-row items-center">
-                    <img src={image ?? "N"} alt={`${name}'s profile`} className="w-20 h-20 rounded-full object-cover mr-3" />
-                    <div className="flex flex-col items-start">
-                        <div className="text-lg font-semibold items-center">
-                            {name ?? "No Name"} 
-                        </div>
-                        <div className="text-lg font-light items-center">
-                            {leetcodeUser ?? "No user"} 
-                        </div>
-                        
-                    </div>
-                </div>
-                <FaUser className="text-4xl ml-3" />
-            </div>
-            <hr className="border-t border-gray-400 my-2 w-full" />
-            <div className="flex items-center pl-2 mb-2 font-extrabold text-sm">
-                Change Leetcode User:
-            </div>
-            <div className="flex flex-row items-center">
-                <input
-                    type="text"
-                    placeholder="New Leetcode User"
-                    value = {NewLeetcodeUser}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-md bg-gray-500 text-white focus:outline-none focus:ring-2  focus-visible:-translate-y-0.5 duration-200" 
-                />
-                <div >
-                    {!isRefetching ? (
-                        <button className=" ml-4 rounded-full p-2 transition-all duration-200 transform hover:scale-110 hover:bg-gray-600 " 
-                            onClick={handleSend}
-                        >
-                            <IoMdSend className="text-xl" />
-                        </button>)
-                        :(
-                        <div className="ml-4 rounded-full p-2 bg-gray-600 ">
-                            <AiOutlineLoading className="text-xl animate-spin"/>
-                        </div> )
-                    }
-                </div>
-                
-            </div>
-        </div>
-    )
+interface ProfileCardProps {
+  idUser: string;
+  name?: string | null;
+  image?: string | null;
 }
 
-export default ProfileCard;
+export default function ProfileCard({
+  idUser,
+  name = "No Name",
+  image,
+}: ProfileCardProps) {
+  const updateUser = api.profile.update.useMutation();
+  const handleSend = async() =>{
+        refetch();
+        await updateUser.mutateAsync({id:idUser , leetcodeUser: NewLeetcodeUser});
+    }
+  const [NewLeetcodeUser, setInputValue] = useState("");
+  const { data, isLoading, error, refetch, isRefetching } = api.profile.getById.useQuery(idUser);
+  if (isLoading || error || !data) {
+    return (
+      <div className="p-6 w-80 bg-gray-700 rounded-xl text-center text-white">
+        Loading…
+      </div>
+    );
+  }
+
+  const { leetcodeUser } = data;
+
+  return (
+    <div
+      className={cn(
+        "w-96 bg-gradient-to-br from-gray-800 to-gray-900",
+        "p-6 rounded-2xl shadow-2xl text-white flex flex-col gap-4"
+      )}
+    >
+      {/* Encabezado: foto y nombre */}
+      <div className="flex items-center gap-4">
+        {image ? (
+          <img
+            src={image}
+            alt={`${name}'s profile`}
+            className="w-20 h-20 rounded-full border-2 border-accent object-cover"
+          />
+        ) : (
+          <FaUser className="w-20 h-20 text-accent" />
+        )}
+        <div>
+          <h2 className="text-2xl font-bold leading-snug">{name}</h2>
+          <p className="text-sm text-gray-400">{leetcodeUser ?? "No user"}</p>
+        </div>
+      </div>
+
+      <hr className="border-gray-600" />
+
+      {/* Formulario para cambiar LeetCode user */}
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          placeholder="New LeetCode Handle"
+          value={NewLeetcodeUser}
+          onChange={(e) => setInputValue(e.target.value)}
+          className="flex-1 bg-gray-700 placeholder-gray-500 text-white px-4 py-2 rounded-lg focus:ring-2 focus:ring-accent outline-none transition"
+        />
+        <button
+          onClick={async () => {
+            await updateUser.mutateAsync({
+              id: idUser,
+              leetcodeUser: NewLeetcodeUser,
+            });
+            refetch();
+          }}
+          disabled={isRefetching}
+          className={cn(
+            "p-3 rounded-full",
+            isRefetching
+              ? "bg-gray-600 cursor-not-allowed"
+              : "bg-accent hover:bg-accent-dark transition"
+          )}
+        >
+          {isRefetching ? (
+            <AiOutlineLoading className="animate-spin text-xl" />
+          ) : (
+            <IoMdSend className="text-xl text-white" />
+          )}
+        </button>
+      </div>
+
+      {/* Botón de cierre de sesión */}
+      <div className="gap-2">
+        <Link
+          href="/api/auth/signout"
+          className="block w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition text-center"
+        >
+          Sign out
+        </Link>
+      </div>
+
+    </div>
+  );
+}
