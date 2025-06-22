@@ -3,7 +3,6 @@ import { AdminOnly } from "~/app/_components/isAdmin";
 import { useState } from "react";
 
 const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin" | "user" }) => {
-    const isAdmin = userRole === "admin";
     const [extraContent, setExtraContent] = useState("");
     const [submittedContent, setSubmittedContent] = useState<string | null>(null);
 
