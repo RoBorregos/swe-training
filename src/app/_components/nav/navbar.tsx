@@ -3,6 +3,7 @@ import Image from "next/image"
 import { auth } from "~/server/auth";
 import logo from "../../../../public/images/Logo.png"
 import NavElement from "./navElement";
+import UserMenu from "./UserMenu";
 
 const Navbar = async () => {
     const session = await auth();
@@ -18,15 +19,7 @@ const Navbar = async () => {
                 <NavElement href="/resources" label="Resources" />
             </div>
             <div className="flex flex-row items-center justify-center gap-4">
-                <p className="text-primary-foreground font-code font-normal text-sm hover:cursor-pointer hover:underline">
-                    {session && <span> {session.user?.name}</span>}
-                </p>
-                <Link
-                    href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                    className="text-primary-foreground font-code font-normal text-sm hover:cursor-pointer hover:underline"
-                >
-                    {session ? "Sign out" : "Sign in"}
-                </Link>
+                <UserMenu />
             </div>
         </div>
     )
