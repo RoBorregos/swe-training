@@ -46,6 +46,7 @@ model User {
   email          String?   @unique
   emailVerified  DateTime?
   image          String?
+  leetcodeUser   String?
   role           String    @default("MEMBER")
   accounts       Account[]
   sessions       Session[]
