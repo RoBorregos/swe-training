@@ -6,11 +6,11 @@ import React from "react";
 type AdminOnlyProps = {
   topic?: string;
   value: string;
-  onChange: (value: string) => void;
-  onSubmit: () => void;
+  onChangeAction: (value: string) => void;
+  onSubmitAction: () => void;
 };
 
-export const AdminOnly = ({ topic, value, onChange, onSubmit }: AdminOnlyProps) => {
+export const AdminOnly = ({ topic, value, onChangeAction, onSubmitAction }: AdminOnlyProps) => {
   const { data: session } = useSession();
   const isAdmin = session?.user?.role?.toLowerCase() === "admin";
 
@@ -26,10 +26,10 @@ export const AdminOnly = ({ topic, value, onChange, onSubmit }: AdminOnlyProps) 
         rows={3}
         placeholder="Add content..."
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChangeAction(e.target.value)}
         />
         <button
-        onClick={onSubmit}
+        onClick={onSubmitAction}
         className="mt-2 px-3 py-1.5 bg-green-500 text-black text-sm font-medium rounded hover:bg-green-400"
         >
         Save

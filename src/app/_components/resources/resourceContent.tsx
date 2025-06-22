@@ -1,7 +1,11 @@
 import Link from "next/link";
+import AdminContributions from "~/app/_components/resources/adminContributions";
+
 import { AdminOnly } from "~/app/_components/resources/isAdmin";
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/client";
+import { api as serverApi } from "~/trpc/server";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin" | "user" }) => {
     const [extraContent, setExtraContent] = useState("");
@@ -15,6 +19,7 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
         if (extraContent.trim()) {
             await addContent.mutateAsync({ topic, content: extraContent });
             setExtraContent("");
+            await utils.resource.getAdditionalContent.invalidate({ topic });
         }
     };
   switch (topic) {
@@ -52,6 +57,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 Big O notation describes the upper bound of time or space complexity as input size grows. It's written as O(f(n)).
             </p>
 
+            <AdminContributions content={additionalContent ?? []} />
+            <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+
           <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
             <ul className="list-disc pl-6 mt-2">
                 <li>
@@ -85,12 +93,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                     </Link>
                 </li>
             </ul>
-            <AdminOnly
-            topic={topic}
-            value={extraContent}
-            onChange={setExtraContent}
-            onSubmit={handleSubmit}
-            />
         </>
       );
 
@@ -98,9 +100,15 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
         return (
             <>
                 <p>
-                    An array is a data structure that stores elements in contiguous memory locations, allowing efficient access by index. Arrays have a fixed size and can store elements of the same type.
+                    An array is a fundamental data structure that stores a fixed-size sequence of elements of the same type in contiguous memory. This allows constant-time access to elements using their index.
+                </p>
+                <p>
+                    Arrays are efficient for accessing and iterating over data but have limitations: their size is immutable once declared, and inserting or removing elements requires shifting other elements, which can be costly.
                 </p>
 
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+                
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
                         <li>
@@ -127,12 +135,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
 
@@ -146,6 +148,10 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
             More advanced strategies like <strong>Breadth-First Search (BFS)</strong> and <strong>Depth-First Search (DFS)</strong> are often used in graph traversal and tree structures.
             Understanding the time and space complexity of each algorithm is essential to choosing the right one for a given problem.
             </p>
+
+            <AdminContributions content={additionalContent ?? []} />
+            <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+
             <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <ul className="list-disc pl-6 mt-2">
                     <li>
@@ -182,12 +188,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                         </Link>
                     </li>
                 </ul>
-            <AdminOnly
-            topic={topic}
-            value={extraContent}
-            onChange={setExtraContent}
-            onSubmit={handleSubmit}
-            />
         </>
       );
 
@@ -205,6 +205,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
             Choosing the right sorting method depends on the context, such as data size, whether the data is already partially sorted, 
             or if stability is required (preserving the order of equal elements).
             </p>
+
+            <AdminContributions content={additionalContent ?? []} />
+            <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
             <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                 <ul className="list-disc pl-6 mt-2">
@@ -232,12 +235,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                         </Link>
                     </li>
                 </ul>
-            <AdminOnly
-            topic={topic}
-            value={extraContent}
-            onChange={setExtraContent}
-            onSubmit={handleSubmit}
-            />
         </>
       );
 
@@ -256,6 +253,10 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                     Common hashing algorithms include MD5, SHA-1, and SHA-256. While MD5 and SHA-1 are now considered insecure for cryptographic purposes, SHA-256 remains widely used due to its balance between performance and security.
                 </p>
                 <br></br>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+
                 <h2 className="text-white font-bold text-2xl"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
                         <li>
@@ -283,12 +284,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -303,6 +298,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 the **left-right pointer** for narrowing down ranges in sorted arrays. It reduces time and space complexity by avoiding unnecessary loops or extra memory.
                 Mastering this technique is essential for competitive programming and technical interviews.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -325,12 +323,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -345,6 +337,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 or the minimum window containing all characters of a pattern. This technique significantly improves performance by reducing time complexity
                 from O(n²) to O(n) in many scenarios.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -367,12 +362,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -386,6 +375,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <code>prefix[j] - prefix[i - 1]</code>. This technique is especially useful in problems with multiple range sum queries,
                 or when needing to optimize brute-force approaches with nested loops. Variants like 2D prefix sums are also commonly used in matrix problems.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -408,12 +400,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
 
@@ -427,6 +413,10 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 Additionally, knowledge of concepts like palindromes, anagrams, and regular expressions can be very useful. Since strings are immutable in many languages,
                 understanding how to build and manipulate them efficiently is key to writing performant solutions.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
                         <li>
@@ -448,12 +438,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -468,6 +452,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 and avoid excessive calls to prevent stack overflow. Optimizations like memoization (used in dynamic programming) or converting
                 recursion to iteration using stacks can improve performance and avoid inefficiencies.
                 </p>
+                
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -515,12 +502,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -534,6 +515,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 and backtracking is crucial, especially for problems involving islands, connected components, or shortest paths.
                 Optimizations like visited arrays or in-place marking are often used to reduce space complexity.
                 </p>
+                
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -566,12 +550,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -585,6 +563,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 Linked lists are commonly used to implement stacks, queues, and adjacency lists for graphs. Common interview problems involve detecting cycles (using slow and fast pointers),
                 reversing a list, merging sorted lists, and removing the nth node from the end. Understanding pointer manipulation and edge cases (like handling null references) is key to mastering this topic.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -627,12 +608,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
 
@@ -646,6 +621,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 Stacks can be implemented using arrays or linked lists and are often used in combination with other techniques like DFS or balanced parentheses validation.
                 Mastering stacks is crucial for solving problems related to backtracking, recursion simulation, and maintaining history of operations.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -693,13 +671,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -712,6 +683,10 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 Variants include circular queues, priority queues (where elements are dequeued based on priority), and double-ended queues (deques) which allow insertion and removal from both ends.
                 Understanding queues is essential for designing efficient algorithms that require order preservation and fair processing.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
                         <li>
@@ -763,13 +738,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -783,6 +751,10 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 and buffering data where flexible access from both ends is needed.
                 They can be implemented using arrays or linked lists, and are often optimized for O(1) time complexity on both ends.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+
                  <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
                         <li>
@@ -796,13 +768,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -816,6 +781,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 Key concepts include traversal methods (preorder, inorder, postorder, level-order), tree height and depth, and special types like binary trees, binary search trees, AVL trees, and tries.
                 Efficient tree algorithms rely on recursion and understanding node relationships.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -873,13 +841,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -892,6 +853,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 They are widely used in priority queues, heap sort algorithms, and for efficiently finding the k-largest or k-smallest elements in a dataset.
                 Operations such as insertion, deletion, and heapify typically run in O(log n) time, making heaps very efficient for dynamic ordering.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -919,13 +883,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
 
@@ -940,6 +897,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 cycle detection, topological sorting, and minimum spanning trees (Kruskal, Prim).
                 Understanding graph theory and algorithms is essential for solving complex problems in computer science and real-world applications.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -967,13 +927,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -987,6 +940,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 While greedy methods are often efficient and simple to implement, they do not always guarantee the optimal solution for every problem,
                 so it's important to understand the problem's structure before applying a greedy approach.
                 </p>
+
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
@@ -1019,13 +975,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -1037,9 +986,11 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 It is widely used for optimization problems, such as shortest paths, sequence alignment, and combinatorial counting.
                 The key to dynamic programming is identifying the problem’s optimal substructure and overlapping subproblems.
                 Mastering this technique involves understanding how to formulate recursive relations and convert them into efficient iterative solutions.
-                </p>
+                </p>    
 
-                <h1> R</h1>
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
                         <li>
@@ -1076,13 +1027,6 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                             </Link>
                         </li>
                     </ul>
-
-                <AdminOnly
-                topic={topic}
-                value={extraContent}
-                onChange={setExtraContent}
-                onSubmit={handleSubmit}
-                />
             </>
         );
     
@@ -1093,6 +1037,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                     Preparation for technical interviews with mock questions and answers.
                 </p>
                 
+                <AdminContributions content={additionalContent ?? []} />
+                <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
+
                 <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
                     <ul className="list-disc pl-6 mt-2">
                         <li>
@@ -1106,7 +1053,14 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
         );
     
     default:
-      return <p>Not Available.</p>;
+    return (
+        <>
+        <h2 className="text-xl font-semibold mb-2">{topic}</h2>
+        <p className="mb-4">Content for this topic is not yet customized.</p>
+
+        <AdminContributions content={additionalContent ?? []} />
+        </>
+    );
   }
 };
 
