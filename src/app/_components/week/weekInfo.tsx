@@ -8,9 +8,9 @@ const WeekInfo = async ({ id }: { id: number }) => {
   const userId = session?.user?.id;
 
   await api.leetcode.checkNewCompletions({
-    username: session?.user?.name ?? "",
     week: id,
     userId: userId ?? "",
+    leetcodeUser: session?.user?.leetcodeUser ?? "",
   });
 
   const week = await api.week.getWeek(id);
