@@ -17,27 +17,39 @@ export const leetcodeRouter = createTRPCRouter({
       return await getProblemsSolved({ username: input.username });
     }),
 
-  hasCompletedProblemRecently: publicProcedure
-    .input(z.object({ username: z.string(), title: z.string() }))
-    .query(async ({ input }) => {
-      const recentAccepted = await fetch(
-        `https://alfa-leetcode-api.onrender.com/${input.username}/acSubmission`
-      )
-
-      if (!recentAccepted.ok) {
+  checkNewCompletions: publicProcedure
+    .input(z.object({ username: z.string(), week: z.number(), userId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const recentAccepted = await getAcceptedProblems({ username: input.username });
+      if (!recentAccepted) {
         throw new Error("Failed to fetch recent accepted problems");
       }
 
-      const data = await recentAccepted.json();
-      const matchedSubmission = data.submissions.find((submission: any) => {
-        const trainingStartDate = new Date("2025-06-28").getTime();
-        return (
-          submission.title === input.title &&
-          submission.timestamp >= trainingStartDate
-        );
-      });
+      const data = recentAccepted.map((problem) => ({
+        name: problem.title,
+        timestamp: problem.timestamp,
+      }));
+      const db = await ctx.db.problem.findMany({ include: { week: true, solvedBy: true } });
 
-      return matchedSubmission ? true : false;
+
+      // For every problem, check if it exists in the database
+      // If it exists, check if the user has solved it
+      // If the user has not solved it, update the problem in the database
+      for (const problem of data) {
+        const matchedProblem = db.find((p => p.name === problem.name));
+        if (matchedProblem) {
+          if (!matchedProblem.solvedBy.some(user => user.username === input.username)) {
+            await ctx.db.problem.update({
+              where: { id: matchedProblem.id },
+              data: {
+                solvedBy: {
+                  connect: { id: input.userId },
+                },
+              },
+            });
+          }
+        }
+      }
     }),
 
   getProblemById: publicProcedure

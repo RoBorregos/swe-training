@@ -4,9 +4,16 @@ import Subtitle from "../subtitle";
 import { auth } from "~/server/auth";
 
 const WeekInfo = async ({ id }: { id: number }) => {
-  const week = await api.week.getWeek(id);
   const session = await auth();
   const userId = session?.user?.id;
+
+  await api.leetcode.checkNewCompletions({
+    username: session?.user?.name ?? "",
+    week: id,
+    userId: userId ?? "",
+  });
+
+  const week = await api.week.getWeek(id);
 
   return (
     <div>
