@@ -4,9 +4,10 @@ import { api } from "~/trpc/react";
 
 export function TestButton() {
   const utils = api.useUtils();
-  const { data } = api.leetcode.hasCompletedProblemRecently.useQuery({
-    username: "Oscar_gg",
-    problemSlug: "final-array-state-after-k-multiplication-operations-i",
+  const { data } = api.leetcode.checkNewCompletions.useQuery({
+    username: "pyoro",
+    week: 1,
+    userId: "cmc6w9tlp000025100bzz0zwb",
   });
 
   const { data: data2 } = api.leetcode.getProblemById.useQuery({
