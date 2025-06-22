@@ -6,7 +6,6 @@ import Resources from "~/app/_components/nav/navResources";
 import ResourceContent from "~/app/_components/resources/resourceContent";
 import '~/styles/globals.css'
 import { useSession } from "next-auth/react";
-import { api } from "~/trpc/server";
 
 const HomeResources = () => {
   const [selectedResource, setSelectedResource] = useState("Resources Page");

@@ -24,14 +24,14 @@ const AdminContributions = ({
   const [editValue, setEditValue] = useState<string>("");
 
   const editMutation = api.resource.editContent.useMutation({
-    onSuccess: () => {
-      utils.resource.getAdditionalContent.invalidate();
+    onSuccess: async () => {
+      await utils.resource.getAdditionalContent.invalidate();
       setEditingId(null);
     },
   });
 
   const deleteMutation = api.resource.deleteContent.useMutation({
-    onSuccess: () => utils.resource.getAdditionalContent.invalidate(),
+    onSuccess: async () => await utils.resource.getAdditionalContent.invalidate(),
   });
 
   if (!content || content.length === 0) return null;
@@ -40,14 +40,12 @@ const AdminContributions = ({
     <div className="mb-4 space-y-4">
       {content.map((item) => {
         const isAuthor = user?.id === item.author?.id;
-        const userName = session?.user.name || "User";
-        const userPhoto = session?.user.image || "/default-avatar.png";
 
         return (
           <div key={item.id}>
             <div className="flex items-center mb-2 mt-4">
               <h3 className="text-green-300 text-sm font-semibold">
-                {item.author?.name || "User"}
+                {item.author?.name ?? "User"}
               </h3>
             </div>
 
@@ -92,7 +90,7 @@ const AdminContributions = ({
                       Edit
                     </button>
                     <button
-                      onClick={() => deleteMutation.mutate({ id: item.id })}
+                      onClick={ () => void deleteMutation.mutate({ id: item.id })}
                       className="text-red-400 hover:underline"
                     >
                       Delete

@@ -5,7 +5,7 @@ import { AdminOnly } from "~/app/_components/resources/isAdmin";
 import { api } from "~/trpc/client";
 import { useState } from "react";
 
-const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin" | "user" }) => {
+const ResourceContent = ({ topic}: { topic: string; }) => {
     const [extraContent, setExtraContent] = useState("");
     const utils = api.useUtils();
     
@@ -26,8 +26,8 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
         <>
           <h2 className="text-2xl font-bold mb-3">Welcome to the Resources Page</h2>
             <p className="mb-2">
-                Here you'll find curated materials and explanations to help you master core concepts in algorithms and data structures.
-                Whether you're preparing for interviews, studying for exams, or just curious, this page is your starting point.
+                Here you will find curated materials and explanations to help you master core concepts in algorithms and data structures.
+                Whether you are preparing for interviews, studying for exams, or just curious, this page is your starting point.
             </p>
                 <ul className="list-disc pl-6 mb-2">
                     <li>Explore detailed guides on algorithmic techniques and data structures.</li>
@@ -52,18 +52,10 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
 
           <h2 className="text-xl font-semibold mt-6 mb-2">Big O Notation</h2>
             <p>
-                Big O notation describes the upper bound of time or space complexity as input size grows. It's written as O(f(n)).
+                Big O notation describes the upper bound of time or space complexity as input size grows. It is written as O(f(n)).
             </p>
 
-            <AdminContributions content={
-                (additionalContent ?? []).map((item: any) => ({
-                    ...item,
-                    author: {
-                        ...item.author,
-                        image: item.author?.image ?? null,
-                    },
-                }))
-            } />
+            <AdminContributions content={additionalContent ?? []} />
             <AdminOnly topic={topic} value={extraContent} onChangeAction={setExtraContent} onSubmitAction={handleSubmit}/>
 
           <h2 className="text-white font-bold text-2xl mt-4"> Here are some resources</h2>
@@ -80,7 +72,7 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 </li>
                 <li>
                     <Link href="https://www.geeksforgeeks.org/dsa/g-fact-86/" target="_blank" className="text-green-500 hover:underline hover:scale-105 duration-300">
-                        What does 'Space Complexity' mean?
+                        What does Space Complexity mean?
                     </Link>
                 </li>
                 <li>
@@ -339,7 +331,7 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 The sliding window technique is an efficient method used to solve problems involving subarrays, substrings, or sequences
                 that require tracking a range or window within the data. Instead of checking every possible subarray (which can be inefficient),
                 this technique maintains a window that expands or contracts as needed, typically using two pointers.
-                It's commonly used to solve problems like finding the maximum sum of a subarray of size <code>k</code>, the longest substring without repeating characters,
+                It is commonly used to solve problems like finding the maximum sum of a subarray of size <code>k</code>, the longest substring without repeating characters,
                 or the minimum window containing all characters of a pattern. This technique significantly improves performance by reducing time complexity
                 from O(n²) to O(n) in many scenarios.
                 </p>
@@ -452,9 +444,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
             <>
                 <p>
                 Recursion is a fundamental programming technique where a function calls itself to solve smaller instances of a problem.
-                It's particularly useful for problems that have a natural recursive structure, such as traversing trees, solving combinatorial problems,
+                It is particularly useful for problems that have a natural recursive structure, such as traversing trees, solving combinatorial problems,
                 and implementing algorithms like divide and conquer. Each recursive call typically reduces the problem size, and the base case defines
-                when the recursion should stop. While recursion can lead to elegant and concise solutions, it's important to manage stack depth
+                when the recursion should stop. While recursion can lead to elegant and concise solutions, it is important to manage stack depth
                 and avoid excessive calls to prevent stack overflow. Optimizations like memoization (used in dynamic programming) or converting
                 recursion to iteration using stacks can improve performance and avoid inefficiencies.
                 </p>
@@ -622,7 +614,7 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
             <>
                 <p>
                 A stack is a linear data structure that follows the LIFO (Last In, First Out) principle, meaning the last element added is the first one to be removed.
-                It's commonly used in scenarios like undo operations, expression evaluation, parsing, and managing function calls via the call stack.
+                It is commonly used in scenarios like undo operations, expression evaluation, parsing, and managing function calls via the call stack.
                 Operations on a stack include <code>push</code> (add an element), <code>pop</code> (remove the top element), and <code>peek</code> or <code>top</code> (view the top element).
                 Stacks can be implemented using arrays or linked lists and are often used in combination with other techniques like DFS or balanced parentheses validation.
                 Mastering stacks is crucial for solving problems related to backtracking, recursion simulation, and maintaining history of operations.
@@ -854,7 +846,7 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
         return (
             <>
                 <p>
-                A heap is a specialized tree-based data structure that satisfies the heap property: in a max-heap, each parent node's value is greater than or equal to its children's values; in a min-heap, it is less than or equal to them.
+                A heap is a specialized tree-based data structure that satisfies the heap property: in a max-heap, each parent node´s value is greater than or equal to its children´s values; in a min-heap, it is less than or equal to them.
                 Heaps are commonly implemented as binary heaps using arrays for efficient indexing.
                 They are widely used in priority queues, heap sort algorithms, and for efficiently finding the k-largest or k-smallest elements in a dataset.
                 Operations such as insertion, deletion, and heapify typically run in O(log n) time, making heaps very efficient for dynamic ordering.
@@ -942,9 +934,9 @@ const ResourceContent = ({ topic, userRole }: { topic: string; userRole: "admin"
                 <p>
                 Greedy algorithms make the locally optimal choice at each step with the hope of finding a global optimum solution.
                 They are widely used in optimization problems such as scheduling, resource allocation, and pathfinding.
-                Examples include algorithms like Activity Selection, Huffman Coding, and Prim's and Kruskal's algorithms for Minimum Spanning Trees.
+                Examples include algorithms like Activity Selection, Huffman Coding, and Prim´s and Kruskal´s algorithms for Minimum Spanning Trees.
                 While greedy methods are often efficient and simple to implement, they do not always guarantee the optimal solution for every problem,
-                so it's important to understand the problem's structure before applying a greedy approach.
+                so it´s important to understand the problem´s structure before applying a greedy approach.
                 </p>
 
                 <AdminContributions content={additionalContent ?? []} />
