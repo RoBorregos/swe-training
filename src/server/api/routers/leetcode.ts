@@ -26,7 +26,7 @@ export const leetcodeRouter = createTRPCRouter({
         throw new Error("Failed to fetch recent accepted problems");
       }
 
-      const trainingStartDate = new Date(`2025-06-20T00:00:00Z`).getTime();
+      const trainingStartDate = new Date(`2025-06-28T00:00:00Z`).getTime();
 
       // Get all recently accepted problems solved after the beginning of the training period.
       const data = recentAccepted
