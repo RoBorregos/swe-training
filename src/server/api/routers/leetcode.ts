@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -25,38 +26,46 @@ export const leetcodeRouter = createTRPCRouter({
         throw new Error("Failed to fetch recent accepted problems");
       }
 
-      const data = recentAccepted.map((problem) => ({
-        name: problem.title,
-        timestamp: problem.timestamp,
-      }));
-      
+      const trainingStartDate = new Date(`2025-06-20T00:00:00Z`).getTime();
+
+      // Get all recently accepted problems solved after the beginning of the training period.
+      const data = recentAccepted
+        .filter(problem => new Date(problem.timestamp * 1000).getTime() >= trainingStartDate)
+        .map(problem => ({
+          name: problem.title,
+          timestamp: problem.timestamp,
+        }));
+
       const db = await ctx.db.problem.findMany({ include: { week: true, solvedBy: true } });
 
-      // For every problem, check if it exists in the database
-      // If it exists, check if the user has solved it
-      // If the user has not solved it, update the problem in the database
-      for (const problem of data) {
-        // Make sure time is at least the beginning of the training period
-        const trainingStartDate = new Date(`2025-06-28T00:00:00Z`).getTime();
-        if (new Date(problem.timestamp * 1000).getTime() < trainingStartDate) {
-          continue;
-        }
+      // Perform db update.
+      const updates = data.map(problem => {
+        // If not a match, ignore.
+        const matched = db.find(p => p.name === problem.name);
 
-        // Perform match
-        const matchedProblem = db.find((p => p.name === problem.name));
-        if (matchedProblem) {
-          if (!matchedProblem.solvedBy.some(user => user.name === input.leetcodeUser)) {
-            await ctx.db.problem.update({
-              where: { id: matchedProblem.id },
-              data: {
-                solvedBy: {
-                  connect: { id: input.userId },
-                },
-              },
-            });
+        if (!matched) return null;
+
+        // If already solved, ignore.
+        const alreadySolved = matched.solvedBy.some(
+          user => user.leetcodeUser === input.leetcodeUser
+        );
+
+        if (alreadySolved) return null;
+
+        // Update matched, not previously solved problem.
+        return ctx.db.problem.update({
+          where: {id : matched.id},
+          data: {
+            solvedBy: {
+              connect: {id: input.userId}
+            }
           }
-        }
-      }
+        })
+      })
+
+      // Filter and run all updates
+      const filteredPromises = updates.filter(Boolean);
+      await Promise.all(filteredPromises);
     }),
 
   getProblemById: publicProcedure
