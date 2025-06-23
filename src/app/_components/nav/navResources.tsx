@@ -29,7 +29,7 @@ const topics = [
 
 const Resources = ({ onSelect, selected }: NavResourcesProps) => {
   return (
-    <nav className="flex flex-col gap-2 p-4 text-white min-w-[200px] h-screen">
+    <nav className="flex flex-col gap-2 p-4 text-white min-w-[200px] h-screen overflow-y-auto">
       {topics.map((topic) => (
         <button
           key={topic}

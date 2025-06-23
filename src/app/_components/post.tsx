@@ -1,5 +1,3 @@
-"use client";
-
 export function LatestPost() {
   // const [latestPost] = api.post.getLatest.useSuspenseQuery();
 

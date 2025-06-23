@@ -1,16 +1,11 @@
 'use client';
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Resources from "~/app/_components/nav/navResources";
 import ResourceContent from "~/app/_components/resources/resourceContent";
-import '~/styles/globals.css'
-import { useSession } from "next-auth/react";
 
 const HomeResources = () => {
   const [selectedResource, setSelectedResource] = useState("Resources Page");
-  const { data: session } = useSession();
-  const userRole = (session?.user.role?.toLowerCase?.() ?? "user") as "user" | "admin";
 
   return (
     <div className="flex"> 
