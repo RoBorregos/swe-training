@@ -29,12 +29,6 @@ export default function RootLayout({
            <Footer />
          </TRPCReactProvider>
         </SessionProvider>
-
-        {/* <Navbar />
-        <div className="h-auto px-20 py-10 ">
-          <SessionProvider><TRPCReactProvider>{children}</TRPCReactProvider></SessionProvider> 
-        </div>
-        <Footer /> */}
       </body>
     </html>
   );
