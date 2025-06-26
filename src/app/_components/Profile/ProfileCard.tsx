@@ -19,10 +19,6 @@ export default function ProfileCard({
   image,
 }: ProfileCardProps) {
   const updateUser = api.profile.update.useMutation();
-  const handleSend = async() =>{
-        refetch();
-        await updateUser.mutateAsync({id:idUser , leetcodeUser: NewLeetcodeUser});
-    }
   const [NewLeetcodeUser, setInputValue] = useState("");
   const { data, isLoading, error, refetch, isRefetching } = api.profile.getById.useQuery(idUser);
   if (isLoading || error || !data) {
@@ -76,7 +72,7 @@ export default function ProfileCard({
               id: idUser,
               leetcodeUser: NewLeetcodeUser,
             });
-            refetch();
+            await refetch();
           }}
           disabled={isRefetching}
           className={cn(
