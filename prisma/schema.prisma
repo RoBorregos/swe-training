@@ -7,12 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Difficulty {
-  EASY
-  MEDIUM
-  HARD
-}
-
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
@@ -41,16 +35,17 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  image          String?
-  leetcodeUser   String?
-  role           String    @default("MEMBER")
-  accounts       Account[]
-  sessions       Session[]
-  solvedProblems Problem[] @relation("SolvedProblems")
+  id                 String              @id @default(cuid())
+  name               String?
+  email              String?             @unique
+  emailVerified      DateTime?
+  image              String?
+  role               String              @default("MEMBER")
+  leetcodeUser       String?
+  accounts           Account[]
+  additionalContents AdditionalContent[] @relation("UserAdditionalContents")
+  sessions           Session[]
+  solvedProblems     Problem[]           @relation("SolvedProblems")
 }
 
 model VerificationToken {
@@ -80,4 +75,20 @@ model Problem {
   weekId      String
   week        Week       @relation(fields: [weekId], references: [id], onDelete: Cascade)
   solvedBy    User[]     @relation("SolvedProblems")
+  
+}
+
+model AdditionalContent {
+  id        String   @id @default(cuid())
+  topic     String
+  content   String
+  createdAt DateTime @default(now())
+  authorId  String
+  author    User     @relation("UserAdditionalContents", fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
 }

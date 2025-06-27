@@ -3,7 +3,6 @@
 import { api } from "~/trpc/react";
 
 export function TestButton() {
-  const utils = api.useUtils();
   const { data } = api.leetcode.hasCompletedProblemRecently.useQuery({
     username: "Oscar_gg",
     problemSlug: "final-array-state-after-k-multiplication-operations-i",
