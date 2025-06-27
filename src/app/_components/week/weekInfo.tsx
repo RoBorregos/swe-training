@@ -8,6 +8,15 @@ const WeekInfo = async ({id}: { id: string }) => {
   console.log(week);
   const session = await auth();
   const userId = session?.user?.id;
+  const leetcodeUser = session?.user?.leetcodeUser;
+
+  // Only call backend if needed information exists.
+  if (userId && leetcodeUser) {
+    await api.leetcode.checkNewCompletions({
+      userId: userId,
+      leetcodeUser: leetcodeUser,
+    });
+  }
 
   return (
     <div>
