@@ -16,7 +16,7 @@ export const AdminOnly = ({ topic, value, onChangeAction, onSubmitAction }: Admi
     return (
     <div className="mt-6 bg-gray-800 p-3 rounded-lg border border-gray-600">
         <h3 className="text-base font-semibold text-green-300 mb-2">
-        Add Info {topic && `(${topic})`}
+        Add a comment for everyone
         </h3>
         <textarea
         className="w-full p-2 rounded bg-gray-100 text-sm text-black focus:outline-none"
@@ -29,7 +29,7 @@ export const AdminOnly = ({ topic, value, onChangeAction, onSubmitAction }: Admi
         onClick={onSubmitAction}
         className="mt-2 px-3 py-1.5 bg-green-500 text-black text-sm font-medium rounded hover:bg-green-400"
         >
-        Save
+        Post
         </button>
     </div>
     );

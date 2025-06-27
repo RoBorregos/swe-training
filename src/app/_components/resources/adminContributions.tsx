@@ -3,18 +3,20 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
+import { Prisma } from "@prisma/client";
+
+type AdditionalContentWithAuthor = Prisma.AdditionalContentGetPayload<{
+  include: { author: {
+             select: {
+               id: true,
+               name: true }
+           }}
+}>
 
 const AdminContributions = ({
   content,
 }: {
-  content: {
-    id: string;
-    content: string;
-    author: {
-      id: string;
-      name: string | null;
-    };
-  }[];
+  content: AdditionalContentWithAuthor[];
 }) => {
   const { data: session } = useSession();
   const user = session?.user;
@@ -40,13 +42,14 @@ const AdminContributions = ({
     <div className="mb-4 space-y-4">
       {content.map((item) => {
         const isAuthor = user?.id === item.author?.id;
-
+        const date = item.createdAt;
         return (
           <div key={item.id}>
             <div className="flex items-center mb-2 mt-4">
-              <h3 className="text-green-300 text-sm font-semibold">
-                {item.author?.name ?? "User"}
-              </h3>
+              <p className="text-green-300 text-sm font-semibold">
+                {item.author.name}&nbsp;
+              </p>
+              <p className="text-neutral-400 text-sm"> on {date.toLocaleString()} </p>
             </div>
 
             {editingId === item.id ? (
