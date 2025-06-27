@@ -6,7 +6,7 @@ const WeekPage = ({ params }: { params: Promise<{ weekId: string }> }) => {
 
   return (
     <div>
-      <WeekInfo id={parseInt(weekId)} />
+      <WeekInfo id={weekId} />
     </div>
   );
 };

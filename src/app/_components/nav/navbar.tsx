@@ -16,6 +16,7 @@ const Navbar = async () => {
                 <NavElement href="/weekly-problems" label="Weekly Problems" />
                 <NavElement href="/leaderboard" label="Leaderboard" />
                 <NavElement href="/resources" label="Resources" />
+                { session?.user?.role == "ADMIN"  ? <NavElement href="/admin" label="Manage" /> : ""}
             </div>
             <div className="flex flex-row items-center justify-center gap-4">
                 <p className="text-primary-foreground font-code font-normal text-sm hover:cursor-pointer hover:underline">

@@ -26,7 +26,7 @@ const Leaderboard = () => {
 
   // Fetch weeks for the slider
   const { data: weeksData, isLoading: weeksLoading } =
-    api.week.getWeeks.useQuery();
+    api.week.getWeeksPublic.useQuery();
 
   // Fetch leaderboard data
   const {
