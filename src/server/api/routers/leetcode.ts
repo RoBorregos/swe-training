@@ -19,7 +19,7 @@ export const leetcodeRouter = createTRPCRouter({
     }),
 
   checkNewCompletions: publicProcedure
-    .input(z.object({ week: z.number(), userId: z.string(), leetcodeUser: z.string() }))
+    .input(z.object({ userId: z.string(), leetcodeUser: z.string() }))
     .query(async ({ input, ctx }) => {
       const recentAccepted = await getAcceptedProblems({ username: input.leetcodeUser });
       if (!recentAccepted) {

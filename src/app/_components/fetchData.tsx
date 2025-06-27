@@ -5,7 +5,6 @@ import { api } from "~/trpc/react";
 export function TestButton() {
   const utils = api.useUtils();
   const { data } = api.leetcode.checkNewCompletions.useQuery({
-    week: 1,
     userId: "cmc6w9tlp000025100bzz0zwb",
     leetcodeUser: "pyoro",
   });

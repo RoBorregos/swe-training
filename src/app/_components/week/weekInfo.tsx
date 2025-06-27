@@ -13,13 +13,10 @@ const WeekInfo = async ({id}: { id: string }) => {
   // Only call backend if needed information exists.
   if (userId && leetcodeUser) {
     await api.leetcode.checkNewCompletions({
-      week: id,
       userId: userId,
       leetcodeUser: leetcodeUser,
     });
   }
-
-  const week = await api.week.getWeek(id);
 
   return (
     <div>
