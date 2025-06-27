@@ -2,7 +2,7 @@ import Link from "next/link";
 import AdminContributions from "~/app/_components/resources/adminContributions";
 
 import { AdminOnly } from "~/app/_components/resources/isAdmin";
-import { api } from "~/trpc/client";
+import { api } from "~/trpc/react";
 import { useState } from "react";
 
 const ResourceContent = ({ topic}: { topic: string; }) => {
