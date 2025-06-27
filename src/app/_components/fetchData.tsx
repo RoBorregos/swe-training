@@ -19,21 +19,21 @@ export function TestButton() {
 
   // data 2 === data3
 
-  const { data: data4 } = api.leetcode.getQuestionDescription.useQuery({
+  /*const { data: data4 } = api.leetcode.getQuestionDescription.useQuery({
     titleSlug: data2?.titleSlug ?? "",
-  });
+  });*/
 
   console.log("data:", data);
   console.log("data2:", data2);
   console.log("data3:", data3);
-  console.log("data4:", data4);
+  //console.log("data4:", data4);
 
   return (
     <button
       // onClick={() => utils.post.invalidate()}
       className="text-primary-background rounded-lg bg-primary-foreground p-2 font-main"
     >
-      API Tests
+      API Health Check
     </button>
   );
 }

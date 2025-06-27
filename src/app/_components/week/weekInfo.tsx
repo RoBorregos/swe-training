@@ -3,8 +3,9 @@ import Title from "../title";
 import Subtitle from "../subtitle";
 import { auth } from "~/server/auth";
 
-const WeekInfo = async ({ id }: { id: number }) => {
-  const week = await api.week.getWeek(id);
+const WeekInfo = async ({id}: { id: string }) => {
+  const week = await api.week.getWeekPublic({id: id});
+  console.log(week);
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -12,7 +13,7 @@ const WeekInfo = async ({ id }: { id: number }) => {
     <div>
       {week ? (
         <div>
-          <Title label={"Week " + id + " - " + week.title} />
+          <Title label={"Week " + week.number + " - " + week.title} />
 
           <div className="flex flex-col gap-10">
             <div className="flex flex-row justify-between">
