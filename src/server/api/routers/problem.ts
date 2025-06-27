@@ -1,12 +1,25 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { Difficulty } from "@prisma/client"
+import { createTRPCRouter, protectedProcedure, publicProcedure, adminProcedure } from "../trpc";
+import { getProblemIdBySlug } from "~/util/queries/graphqlLeetcode";
+
 // import { Prisma } from "@prisma/client";
 
 const difficultyEnum = z.enum(["EASY", "MEDIUM", "HARD"]);
 
+function stringToEnum(inp: string) {
+  if(inp == 'easy') return Difficulty.EASY;
+  if(inp == 'medium') return Difficulty.MEDIUM;
+  if(inp == 'hard') return Difficulty.HARD;
+  return Difficulty.MEDIUM;
+}
+
+
 export const problemRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.problem.findMany({ include: { week: true, solvedBy: true } });
+    return await ctx.db.problem.findMany({
+      include: { week: true, solvedBy: true }
+    });
   }),
   getById: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return await ctx.db.problem.findUnique({
@@ -14,19 +27,21 @@ export const problemRouter = createTRPCRouter({
       include: { week: true, solvedBy: true },
     });
   }),
-  create: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        level: difficultyEnum, 
-        leetcodeUrl: z.string().url(),
-        weekId: z.string(),
-      }),
-    )
+  createFromSlug: adminProcedure
+    .input(z.object({slug: z.string(), weekId: z.string()}))
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.problem.create({ data: input });
+      const problem = await getProblemIdBySlug({slug: input.slug});
+    if(problem) {
+      const data = {
+        name: problem.title,
+        level: stringToEnum(problem.difficulty),
+        leetcodeUrl: `https://leetcode.com/problems/${problem.titleSlug}`,
+        weekId: input.weekId
+      };
+      return await ctx.db.problem.create({ data });
+    }
     }),
-  update: protectedProcedure
+  update: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -41,7 +56,7 @@ export const problemRouter = createTRPCRouter({
       return await ctx.db.problem.update({ where: { id }, data });
     }),
 
-  delete: protectedProcedure
+  delete: adminProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.problem.delete({ where: { id: input } });

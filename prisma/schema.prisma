@@ -73,11 +73,11 @@ model Week {
 }
 
 model Problem {
-  id          String @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   level       Difficulty
   leetcodeUrl String
   weekId      String
-  week        Week   @relation(fields: [weekId], references: [id], onDelete: Cascade)
-  solvedBy    User[] @relation("SolvedProblems")
+  week        Week       @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  solvedBy    User[]     @relation("SolvedProblems")
 }

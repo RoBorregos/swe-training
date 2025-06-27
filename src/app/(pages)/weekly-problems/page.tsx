@@ -5,7 +5,7 @@ import { backgroundColors, textColors } from "utils/colors";
 import { api } from "~/trpc/server";
 
 const WeeklyProblems = async() => {
-    const weeks = await api.week.getWeeks();
+    const weeks = await api.week.getWeeksPublic();
 
     return (
         <div>
@@ -15,7 +15,7 @@ const WeeklyProblems = async() => {
             <div className="grid grid-cols-3 text-main px-10 gap-10">
                 {weeks.map((week, key) => (
                     <div key={key}>
-                        <ProblemCard key={key} title={week.title} description={week.description} number={week.number} isBlocked={week.isBlocked} bgColor={backgroundColors.get(week.color) ?? "bg-white"} textColor={textColors.get(week.color) ?? "text-black"} />
+                        <ProblemCard key={key} title={week.title} description={week.description} id={week.id} isBlocked={week.isBlocked} bgColor={backgroundColors.get(week.color) ?? "bg-white"} textColor={textColors.get(week.color) ?? "text-black"} />
                     </div>
                 ))}
             </div>
