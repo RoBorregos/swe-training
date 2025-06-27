@@ -4,6 +4,7 @@ import { weekRouter } from "./routers/week";
 import { problemRouter } from "./routers/problem";
 import { profileRouter } from "./routers/profile";
 import { leaderboardRouter } from "./routers/leaderboard";
+import { resourcesRouter } from "./routers/resource";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   problem : problemRouter,
   profile : profileRouter,
   leaderboard: leaderboardRouter,
+  resource: resourcesRouter,
 });
 
 // export type definition of API

@@ -17,6 +17,7 @@ declare module "next-auth" {
     user: {
       id: string;
       role: UserRole;
+      leetcodeUser?: string;
       // ...other properties
     } & DefaultSession["user"];
   }
