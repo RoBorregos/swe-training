@@ -74,3 +74,19 @@ export const questionContentResponse = z.object({
 });
 
 export type QuestionContentType = z.infer<typeof questionContentResponse>;
+
+export const UserNameRespoonse = z.object({
+  matchedUser: z.object({
+    username: z.string(),
+    githubUrl: z.string().nullable(),
+    linkedinUrl: z.string().nullable(),
+    profile: z.object({
+      realName: z.string().nullable(),
+      userAvatar: z.string().nullable(),
+      aboutMe: z.string().nullable(),
+    }),
+    countryName: z.string().nullable(),
+  }),
+});
+
+export type UserNameType = z.infer<typeof UserNameRespoonse>;
