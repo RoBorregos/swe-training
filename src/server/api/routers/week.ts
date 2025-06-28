@@ -26,7 +26,7 @@ export const weekRouter = createTRPCRouter({
           problems: { 
             include: { 
               solvedBy: 
-                { select: { id: true, name: true } }
+                { select: { id: true, name: true } },
             }
           }
         }
@@ -35,6 +35,13 @@ export const weekRouter = createTRPCRouter({
     }),
 
   getWeeksPublic: publicProcedure
+    .query(async ({ ctx, input }) => {
+      const week = await ctx.db.week.findMany({
+      });
+      return week;
+    }),
+
+    getWeeksNotLocked: publicProcedure
     .query(async ({ ctx, input }) => {
       const week = await ctx.db.week.findMany({
         where: {

@@ -61,4 +61,42 @@ export const problemRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.problem.delete({ where: { id: input } });
     }),
+  
+  toggleSolved: protectedProcedure
+    .input(z.object({ problemId: z.string(), userId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { problemId, userId } = input;
+
+      // Check if the problem is already solved by the user
+      const problem = await ctx.db.problem.findUnique({
+        where: { id: problemId },
+        include: { solvedBy: true },
+      });
+
+      if (!problem) {
+        throw new Error("Problem not found");
+      }
+
+      const alreadySolved = problem.solvedBy.some((user) => user.id === userId);
+
+      if (alreadySolved) {
+        return await ctx.db.problem.update({
+          where: { id: problemId },
+          data: {
+            solvedBy: {
+              disconnect: { id: userId },
+            },
+          },
+        });
+      } else {
+        return await ctx.db.problem.update({
+          where: { id: problemId },
+          data: {
+            solvedBy: {
+              connect: { id: userId },
+            },
+          },
+        });
+      }
+    }),
 });

@@ -73,6 +73,7 @@ model Problem {
   level       Difficulty
   leetcodeUrl String
   weekId      String
+  recommended Boolean @default(false)
   week        Week       @relation(fields: [weekId], references: [id], onDelete: Cascade)
   solvedBy    User[]     @relation("SolvedProblems")
 }

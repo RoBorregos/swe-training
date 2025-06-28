@@ -26,9 +26,11 @@ const WeekCard = ({ title, description, id, isBlocked, bgColor, textColor }: Car
             <div className="text-white font-extralight pb-5">
                 {description}
             </div>
-            <Link href={`week/${id}`} className={`${textColor} bg-white text-sm rounded-full px-3 py-1 w-fit`}>
-                Check it out
-            </Link>
+            {!isBlocked && (
+                <Link href={`week/${id}`} className={`${textColor} bg-white text-sm rounded-full px-3 py-1 w-fit`}>
+                    Check it out
+                </Link>
+            )}
         </div>
     )
 }

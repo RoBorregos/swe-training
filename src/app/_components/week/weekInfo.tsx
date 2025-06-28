@@ -3,6 +3,8 @@ import Title from "../title";
 import Subtitle from "../subtitle";
 import { auth } from "~/server/auth";
 import Unauthorized from "../unauthorized";
+import SolvedToggle from "./solvedToggle";
+import { IoIosStar } from "react-icons/io";
 
 const WeekInfo = async ({ id }: { id: string }) => {
   const session = await auth();
@@ -20,7 +22,6 @@ const WeekInfo = async ({ id }: { id: string }) => {
     });
   }
   const week = await api.week.getWeekPublic({ id: id });
-  console.log("Week Info", week);
   return (
     <div>
       {week ? (
@@ -39,18 +40,18 @@ const WeekInfo = async ({ id }: { id: string }) => {
               <div className="w-1/3 rounded-xl bg-primary-light p-4">
                 <Subtitle label="Resources" />
                 <div className="font-main text-sm text-primary-foreground">
-                  {/* {week.resources.map((resource, index) => (
-                    <div key={index} className="mb-2">
+                  {week.resources.map((resource, index) => (
+                    <div key={index} className="mb-2 overflow-hidden text-ellipsis">
                       <a
                         href={resource}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:underline"
+                        className="underline hover:text-gray-100 block truncate"
                       >
                         {resource}
                       </a>
                     </div>
-                  ))} */}
+                  ))}
                 </div>
               </div>
             </div>
@@ -82,15 +83,26 @@ const WeekInfo = async ({ id }: { id: string }) => {
                           rel="noopener noreferrer"
                           className="hover:underline"
                         >
-                          {problem.name}
+                          <div className="flex flex-row items-center gap-2">
+                            {problem.recommended && (
+                              <IoIosStar />
+                            )}
+                            {problem.name}
+                          </div>
                         </a>
                       </td>
                       <td>{problem.level}</td>
                       <td>{problem.solvedBy?.length ?? 0}</td>
                       <td>
-                        {userId && problem.solvedBy?.some((u) => u.id === userId)
-                          ? "Solved"
-                          : "Unsolved"}
+                        {userId ? (
+                          <SolvedToggle
+                            problemId={problem.id}
+                            initialSolved={problem.solvedBy?.some((u) => u.id === userId) ?? false}
+                            userId={userId}
+                          />
+                        ) : (
+                          <span className="text-gray-400">Login required</span>
+                        )}
                       </td>
                     </tr>
                   ))}
