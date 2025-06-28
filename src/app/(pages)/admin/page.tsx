@@ -13,7 +13,6 @@ const Admin = () => {
   
     const [weeks, setWeeks] = useState<Week[]>([]);
     const [problems, setProblems] = useState<ProblemWithSolvedBy[]>([]);
-  
     const fetchWeeks = api.week.getWeeks.useQuery();
 
     const fetchProblems = api.problem.getAll.useQuery();

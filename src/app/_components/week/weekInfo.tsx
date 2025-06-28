@@ -2,22 +2,27 @@ import { api } from "~/trpc/server";
 import Title from "../title";
 import Subtitle from "../subtitle";
 import { auth } from "~/server/auth";
+import Unauthorized from "../unauthorized";
+import SolvedToggle from "./solvedToggle";
+import { IoIosStar } from "react-icons/io";
+import Link from "next/link";
 
-const WeekInfo = async ({id}: { id: string }) => {
-  const week = await api.week.getWeekPublic({id: id});
-  console.log(week);
+const WeekInfo = async ({ id }: { id: string }) => {
   const session = await auth();
   const userId = session?.user?.id;
   const leetcodeUser = session?.user?.leetcodeUser;
 
-  // Only call backend if needed information exists.
+  if (!session?.user) {
+    return <Unauthorized />;
+  }
+
   if (userId && leetcodeUser) {
     await api.leetcode.checkNewCompletions({
       userId: userId,
       leetcodeUser: leetcodeUser,
     });
   }
-
+  const week = await api.week.getWeekPublic({ id: id });
   return (
     <div>
       {week ? (
@@ -25,29 +30,29 @@ const WeekInfo = async ({id}: { id: string }) => {
           <Title label={"Week " + week.number + " - " + week.title} />
 
           <div className="flex flex-col gap-10">
-            <div className="flex flex-row justify-between">
-              <div>
+            <div className="flex flex-row justify-between gap-10">
+              <div className="">
                 <Subtitle label="Overview" />
                 <div className="font-main text-primary-foreground">
                   {week.description}
                 </div>
+                <ul className="text-white list-disc pl-4">
+                  {week.resources.map((resource, index) => (
+                    <li key={index} className="text-primary-foreground ">
+                      {resource}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              <div className="w-1/3 rounded-xl bg-primary-light p-4">
+              <div className="rounded-xl bg-primary-light p-4 w-max">
                 <Subtitle label="Resources" />
-                <div className="font-main text-sm text-primary-foreground">
-                  {/* {week.resources.map((resource, index) => (
-                    <div key={index} className="mb-2">
-                      <a
-                        href={resource}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:underline"
-                      >
-                        {resource}
-                      </a>
-                    </div>
-                  ))} */}
+                <div className="font-main text-sm text-primary-foreground flex flex-col pr-5">
+                  {week.detailResources.map((resource, index) => (
+                    <Link href={resource.url} key={index} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-100 text-nowrap">
+                      {resource.title}
+                    </Link>
+                  ))}
                 </div>
               </div>
             </div>
@@ -64,12 +69,6 @@ const WeekInfo = async ({id}: { id: string }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* <tr className="text-white ">
-                                        <td> <a href="https://leetcode.com/" target="_blank" className="hover:underline"> Hello </a> </td>
-                                        <td> Hi </td>
-                                        <td> Hi </td>
-                                        <td> Hi </td>
-                                    </tr> */}
                   {week.problems.map((problem) => (
                     <tr key={problem.id} className="text-white">
                       <td>
@@ -79,15 +78,26 @@ const WeekInfo = async ({id}: { id: string }) => {
                           rel="noopener noreferrer"
                           className="hover:underline"
                         >
-                          {problem.name}
+                          <div className="flex flex-row items-center gap-2">
+                            {problem.recommended && (
+                              <IoIosStar />
+                            )}
+                            {problem.name}
+                          </div>
                         </a>
                       </td>
                       <td>{problem.level}</td>
                       <td>{problem.solvedBy?.length ?? 0}</td>
                       <td>
-                        {userId && problem.solvedBy?.some((u) => u.id === userId)
-                          ? "Solved"
-                          : "Unsolved"}
+                        {userId ? (
+                          <SolvedToggle
+                            problemId={problem.id}
+                            initialSolved={problem.solvedBy?.some((u) => u.id === userId) ?? false}
+                            userId={userId}
+                          />
+                        ) : (
+                          <span className="text-gray-400">Login required</span>
+                        )}
                       </td>
                     </tr>
                   ))}

@@ -9,7 +9,7 @@ const Navbar = async () => {
     const session = await auth();
 
     return (
-        <div className="w-full flex flex-row justify-between bg-primary-light py-5 px-10 border-b border-neutral-700">
+        <div className="z-50 fixed w-full flex flex-row justify-between bg-primary-light py-5 px-10 border-b border-neutral-700">
             <div className="flex flex-row items-center gap-12">
                 <Link href="/">
                     <Image src={logo} alt="Logo" className="h-[2rem] w-fit cursor-pointer object-contain" />
