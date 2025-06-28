@@ -69,7 +69,7 @@ const Leaderboard = () => {
     ...(weeksData
       ? weeksData.map((w: Week) => ({
           id: (w.id ?? w.number ?? "").toString(),
-          label: w.title ?? `Week ${w.number}`,
+          label: `Week ${w.number}`,
         }))
       : []),
   ];
