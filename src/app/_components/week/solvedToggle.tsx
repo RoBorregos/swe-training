@@ -19,7 +19,10 @@ const SolvedToggle = ({ problemId, initialSolved, userId }: SolvedToggleProps) =
   });
 
   const handleToggle = () => {
-    toggleSolved.mutate({ problemId, userId });
+    // This is an option in case leetcode user doesnt work
+    // For now we'll pass
+    
+    // toggleSolved.mutate({ problemId, userId });
   };
 
   return (

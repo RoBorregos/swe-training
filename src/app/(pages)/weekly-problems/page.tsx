@@ -12,15 +12,23 @@ const WeeklyProblems = async () => {
             <Title label="Weekly Problems" />
             <Subtitle label="Weeks" className="pb-4" />
 
-            <div className="grid grid-cols-3 text-main px-10 gap-10">
+            <div className="text-main grid grid-cols-3 gap-10 px-10">
                 {weeks.map((week, key) => (
                     <div key={key}>
-                        <ProblemCard key={key} title={`Week ${week.number}`} description={week.title} id={week.id} isBlocked={week.isBlocked} bgColor={backgroundColors.get(week.color) ?? "bg-white"} textColor={textColors.get(week.color) ?? "text-black"} />
+                        <ProblemCard
+                            key={key}
+                            title={`Week ${week.number}`}
+                            description={week.title}
+                            id={week.id}
+                            isBlocked={week.isBlocked}
+                            bgColor={backgroundColors.get(week.color) ?? "bg-white"}
+                            textColor={textColors.get(week.color) ?? "text-black"}
+                        />
                     </div>
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default WeeklyProblems;
