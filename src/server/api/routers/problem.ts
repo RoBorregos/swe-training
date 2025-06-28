@@ -5,12 +5,12 @@ import { getProblemIdBySlug } from "~/util/queries/graphqlLeetcode";
 
 // import { Prisma } from "@prisma/client";
 
-const difficultyEnum = z.enum(["EASY", "MEDIUM", "HARD"]);
+const difficultyEnum = z.enum(["WARMUP", "MEDIUM", "HARDER", "INSANE"]);
 
 function stringToEnum(inp: string) {
-  if(inp == 'easy') return Difficulty.EASY;
+  if(inp == 'easy') return Difficulty.WARMUP;
   if(inp == 'medium') return Difficulty.MEDIUM;
-  if(inp == 'hard') return Difficulty.HARD;
+  if(inp == 'hard') return Difficulty.HARDER;
   return Difficulty.MEDIUM;
 }
 

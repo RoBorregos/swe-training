@@ -87,8 +87,8 @@ model AdditionalContent {
 }
 
 enum Difficulty {
-  EASY
+  WARMUP
   MEDIUM
-  HARD
+  HARDER
   INSANE
 }
