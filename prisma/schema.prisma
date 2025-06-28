@@ -57,14 +57,23 @@ model VerificationToken {
 }
 
 model Week {
-  id          String    @id @default(cuid())
-  number      Int
-  title       String
-  description String
-  isBlocked   Boolean
-  color       String
-  resources   String[]
-  problems    Problem[]
+  id              String     @id @default(cuid())
+  number          Int
+  title           String
+  description     String
+  isBlocked       Boolean
+  color           String
+  resources       String[]
+  detailResources Resource[]
+  problems        Problem[]
+}
+
+model Resource {
+  id     String @id @default(cuid())
+  title  String
+  url    String
+  weekId String
+  week   Week   @relation(fields: [weekId], references: [id], onDelete: Cascade)
 }
 
 model Problem {
@@ -73,7 +82,7 @@ model Problem {
   level       Difficulty
   leetcodeUrl String
   weekId      String
-  recommended Boolean @default(false)
+  recommended Boolean    @default(false)
   week        Week       @relation(fields: [weekId], references: [id], onDelete: Cascade)
   solvedBy    User[]     @relation("SolvedProblems")
 }

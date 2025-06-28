@@ -23,6 +23,7 @@ export const weekRouter = createTRPCRouter({
           isBlocked: false,
         },
         include: { 
+          detailResources: true,
           problems: { 
             include: { 
               solvedBy: 

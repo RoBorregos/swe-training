@@ -5,6 +5,7 @@ import { auth } from "~/server/auth";
 import Unauthorized from "../unauthorized";
 import SolvedToggle from "./solvedToggle";
 import { IoIosStar } from "react-icons/io";
+import Link from "next/link";
 
 const WeekInfo = async ({ id }: { id: string }) => {
   const session = await auth();
@@ -29,28 +30,28 @@ const WeekInfo = async ({ id }: { id: string }) => {
           <Title label={"Week " + week.number + " - " + week.title} />
 
           <div className="flex flex-col gap-10">
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-between gap-10">
               <div>
                 <Subtitle label="Overview" />
                 <div className="font-main text-primary-foreground">
                   {week.description}
                 </div>
+                <ul className="text-white list-disc pl-4">
+                  {week.resources.map((resource, index) => (
+                    <li key={index} className="text-primary-foreground ">
+                      {resource}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div className="w-1/3 rounded-xl bg-primary-light p-4">
                 <Subtitle label="Resources" />
                 <div className="font-main text-sm text-primary-foreground">
-                  {week.resources.map((resource, index) => (
-                    <div key={index} className="mb-2 overflow-hidden text-ellipsis">
-                      <a
-                        href={resource}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline hover:text-gray-100 block truncate"
-                      >
-                        {resource}
-                      </a>
-                    </div>
+                  {week.detailResources.map((resource, index) => (
+                    <Link href={resource.url} key={index} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-100">
+                      {resource.title}
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -68,12 +69,6 @@ const WeekInfo = async ({ id }: { id: string }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* <tr className="text-white ">
-                                        <td> <a href="https://leetcode.com/" target="_blank" className="hover:underline"> Hello </a> </td>
-                                        <td> Hi </td>
-                                        <td> Hi </td>
-                                        <td> Hi </td>
-                                    </tr> */}
                   {week.problems.map((problem) => (
                     <tr key={problem.id} className="text-white">
                       <td>
