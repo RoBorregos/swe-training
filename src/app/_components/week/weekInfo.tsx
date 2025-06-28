@@ -2,22 +2,25 @@ import { api } from "~/trpc/server";
 import Title from "../title";
 import Subtitle from "../subtitle";
 import { auth } from "~/server/auth";
+import Unauthorized from "../unauthorized";
 
-const WeekInfo = async ({id}: { id: string }) => {
-  const week = await api.week.getWeekPublic({id: id});
-  console.log(week);
+const WeekInfo = async ({ id }: { id: string }) => {
   const session = await auth();
   const userId = session?.user?.id;
   const leetcodeUser = session?.user?.leetcodeUser;
 
-  // Only call backend if needed information exists.
+  if (!session?.user) {
+    return <Unauthorized />;
+  }
+
   if (userId && leetcodeUser) {
     await api.leetcode.checkNewCompletions({
       userId: userId,
       leetcodeUser: leetcodeUser,
     });
   }
-
+  const week = await api.week.getWeekPublic({ id: id });
+  console.log("Week Info", week);
   return (
     <div>
       {week ? (

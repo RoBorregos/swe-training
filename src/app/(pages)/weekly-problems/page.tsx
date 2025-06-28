@@ -4,7 +4,7 @@ import Title from "~/app/_components/title";
 import { backgroundColors, textColors } from "utils/colors";
 import { api } from "~/trpc/server";
 
-const WeeklyProblems = async() => {
+const WeeklyProblems = async () => {
     const weeks = await api.week.getWeeksPublic();
 
     return (

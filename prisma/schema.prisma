@@ -40,8 +40,8 @@ model User {
   email              String?             @unique
   emailVerified      DateTime?
   image              String?
-  role               String              @default("MEMBER")
   leetcodeUser       String?
+  role               String              @default("MEMBER")
   accounts           Account[]
   additionalContents AdditionalContent[] @relation("UserAdditionalContents")
   sessions           Session[]
@@ -75,7 +75,6 @@ model Problem {
   weekId      String
   week        Week       @relation(fields: [weekId], references: [id], onDelete: Cascade)
   solvedBy    User[]     @relation("SolvedProblems")
-  
 }
 
 model AdditionalContent {
@@ -91,4 +90,5 @@ enum Difficulty {
   EASY
   MEDIUM
   HARD
+  INSANE
 }

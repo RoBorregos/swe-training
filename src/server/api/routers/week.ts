@@ -4,15 +4,17 @@ import {
     createTRPCRouter,
     protectedProcedure,
     adminProcedure,
+    publicProcedure,
 } from "~/server/api/trpc";
 
 export const weekRouter = createTRPCRouter({
-  getWeeks: adminProcedure.query(async ({ ctx }) => {
+  getWeeks: protectedProcedure
+  .query(async ({ ctx }) => {
     const weeks = await ctx.db.week.findMany();
     return weeks;
   }),
 
-  getWeekPublic: protectedProcedure
+  getWeekPublic: publicProcedure
     .input(z.object({id: z.string()}))
     .query(async ({ ctx, input }) => {
       return await ctx.db.week.findFirst({
@@ -20,13 +22,19 @@ export const weekRouter = createTRPCRouter({
           id: input.id,
           isBlocked: false,
         },
-        include: { problems: { include: { solvedBy: true } } },
+        include: { 
+          problems: { 
+            include: { 
+              solvedBy: 
+                { select: { id: true, name: true } }
+            }
+          }
+        }
+              
       });
     }),
 
-
-
-  getWeeksPublic: protectedProcedure
+  getWeeksPublic: publicProcedure
     .query(async ({ ctx, input }) => {
       const week = await ctx.db.week.findMany({
         where: {

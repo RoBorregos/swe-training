@@ -90,7 +90,7 @@ const Leaderboard = () => {
   });
 
   return (
-    <div className="mx-auto mt-12 max-w-3xl">
+    <div className="mx-auto mt-12 max-w-3xl pb-20">
       <h1 className="mb-8 text-center text-3xl font-extrabold tracking-tight text-white drop-shadow">
         Leaderboard
       </h1>

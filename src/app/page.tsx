@@ -33,11 +33,11 @@ export default async function Home() {
           <li>Resume workshop</li>
         </ul>
       </div>
-
+{/* 
       <div className="pt-16 text-primary-foreground font-main">
         <Subtitle label="Recommended Topics" />
       </div>
-      <TestButton />
+      <TestButton /> */}
     </div>
   );
 }
