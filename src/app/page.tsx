@@ -25,19 +25,22 @@ export default async function Home() {
         <Subtitle label="What is SWE Training?" />
 
         <p className="pt-2">
-          A program for students interested in software engineering internships.
+          A program for students interested in software engineering internships. 
+          <br />
+          The plan involves a lot of self learning and covers the following:
         </p>
         <ul className="list-disc pl-6">
           <li>Interview preparation</li>
           <li>Interview Mockups</li>
           <li>Resume workshop</li>
         </ul>
+
+        <p className="pt-6">
+          Make sure to login and update your leetcode handle to keep track of solved problems.
+          <br />
+          Click on the user at the top right corner to access your profile.
+        </p>
       </div>
-{/* 
-      <div className="pt-16 text-primary-foreground font-main">
-        <Subtitle label="Recommended Topics" />
-      </div>
-      <TestButton /> */}
     </div>
   );
 }
