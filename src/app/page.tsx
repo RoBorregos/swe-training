@@ -1,8 +1,7 @@
 import logo from "public/images/Logo.png"
 import Image from "next/image";
 import Subtitle from "./_components/subtitle";
-import { TestButton } from "./_components/fetchData";
-        
+
 export default async function Home() {
 
 
@@ -25,7 +24,7 @@ export default async function Home() {
         <Subtitle label="What is SWE Training?" />
 
         <p className="pt-2">
-          A program for students interested in software engineering internships. 
+          A program for students interested in software engineering internships.
           <br />
           The plan involves a lot of self learning and covers the following:
         </p>
@@ -34,10 +33,10 @@ export default async function Home() {
           <li>Interview Mockups</li>
           <li>Resume workshop</li>
         </ul>
-        
+
         <Subtitle label="How does it work?" />
         <p className="pt-2 pb-10">
-          For about 5 weeks, we'll be practicing coding problems following a weekly topic. Problem solutions will be presented each saturday.
+          For about 5 weeks, we&apos;ll be practicing coding problems following a weekly topic. Problem solutions will be presented each saturday.
           <br />
           There will be a person selected to present each recommended problem, with the purpose of practicing the explanation process and sharing their approaches (they will be notified a few days before).
           <br />
@@ -54,9 +53,9 @@ export default async function Home() {
         <p className="pt-2 pb-10">
           The problems marked with a star are the ones that we recommend you to solve and the ones that will be presented every saturday.
           <br />
-          Try each problem really hard and avoid checking hints, this will take away from the learning experience and though process. 
+          Try each problem really hard and avoid checking hints, this will take away from the learning experience and though process.
           <br />
-          Feel free to make questions in the chat but don't spoil solutions.
+          Feel free to make questions in the chat but don&apos;t spoil solutions.
         </p>
 
         <Subtitle label="Connect with leetcode" />
