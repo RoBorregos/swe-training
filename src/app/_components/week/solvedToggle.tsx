@@ -29,10 +29,10 @@ const SolvedToggle = ({ problemId, initialSolved, userId }: SolvedToggleProps) =
     <button
       onClick={handleToggle}
       disabled={toggleSolved.status === 'pending'}
-      className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+      className={`px-2 py-1 rounded-full text-xs font-medium border transition-colors ${
         isSolved
-          ? 'bg-green-600 text-white hover:bg-green-700'
-          : 'bg-gray-600 text-gray-200 hover:bg-gray-700'
+          ? 'bg-green-500/60 text-green-100 border-green-400/50 hover:bg-green-500/80'
+          : 'bg-gray-500/60 text-gray-200 border-gray-400/50 hover:bg-gray-500/80'
       } ${toggleSolved.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       {toggleSolved.isPending ? 'Loading...' : isSolved ? 'Solved' : 'Unsolved'}
