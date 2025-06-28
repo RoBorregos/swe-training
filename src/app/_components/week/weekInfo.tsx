@@ -31,7 +31,7 @@ const WeekInfo = async ({ id }: { id: string }) => {
 
           <div className="flex flex-col gap-10">
             <div className="flex flex-row justify-between gap-10">
-              <div>
+              <div className="">
                 <Subtitle label="Overview" />
                 <div className="font-main text-primary-foreground">
                   {week.description}
@@ -45,11 +45,11 @@ const WeekInfo = async ({ id }: { id: string }) => {
                 </ul>
               </div>
 
-              <div className="w-1/3 rounded-xl bg-primary-light p-4">
+              <div className="rounded-xl bg-primary-light p-4 w-max">
                 <Subtitle label="Resources" />
-                <div className="font-main text-sm text-primary-foreground">
+                <div className="font-main text-sm text-primary-foreground flex flex-col pr-5">
                   {week.detailResources.map((resource, index) => (
-                    <Link href={resource.url} key={index} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-100">
+                    <Link href={resource.url} key={index} target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-100 text-nowrap">
                       {resource.title}
                     </Link>
                   ))}

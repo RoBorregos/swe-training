@@ -29,17 +29,43 @@ export default async function Home() {
           <br />
           The plan involves a lot of self learning and covers the following:
         </p>
-        <ul className="list-disc pl-6">
+        <ul className="list-disc pl-6 pb-10">
           <li>Interview preparation</li>
           <li>Interview Mockups</li>
           <li>Resume workshop</li>
         </ul>
+        
+        <Subtitle label="How does it work?" />
+        <p className="pt-2 pb-10">
+          For about 5 weeks, we'll be practicing coding problems following a weekly topic. Problem solutions will be presented each saturday.
+          <br />
+          There will be a person selected to present each recommended problem, with the purpose of practicing the explanation process and sharing their approaches (they will be notified a few days before).
+          <br />
+          Aproximately during sunday, the next set of weekly problems will be released.
+          <br />
+          After the 5 weeks, we will have a workshop to review resumes and provide tips and examples.
+          <br />
+          Finally, on the last week, we will have mock interviews to wrap up the program.
+          <br />
+          Even after the training, make sure to check the chat, as it is common for people to share when new positions open.
+        </p>
 
-        <p className="pt-6">
-          Make sure to login and update your leetcode handle to keep track of solved problems.
+        <Subtitle label="Suggestions" />
+        <p className="pt-2 pb-10">
+          The problems marked with a star are the ones that we recommend you to solve and the ones that will be presented every saturday.
+          <br />
+          Try each problem really hard and avoid checking hints, this will take away from the learning experience and though process. 
+          <br />
+          Feel free to make questions in the chat but don't spoil solutions.
+        </p>
+
+        <Subtitle label="Connect with leetcode" />
+        <p className="pt-2 pb-10">
+          Make sure to login and update your leetcode handle to keep track of solved problems. They will automatically update as long as your leetcode handle (username) is correct.
           <br />
           Click on the user at the top right corner to access your profile.
         </p>
+
       </div>
     </div>
   );
