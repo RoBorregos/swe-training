@@ -6,6 +6,8 @@ import Unauthorized from "../unauthorized";
 import SolvedToggle from "./solvedToggle";
 import { IoIosStar } from "react-icons/io";
 import Link from "next/link";
+import { IoWarning } from "react-icons/io5";
+import { IoCheckmarkCircle } from "react-icons/io5";
 
 const getLevelStyles = (level: string) => {
   switch (level) {
@@ -38,6 +40,7 @@ const WeekInfo = async ({ id }: { id: string }) => {
     });
   }
   const week = await api.week.getWeekPublic({ id: id });
+
   return (
     <div>
       {week ? (
@@ -58,6 +61,7 @@ const WeekInfo = async ({ id }: { id: string }) => {
                     </li>
                   ))}
                 </ul>
+                <UserStatus leetcodeUser={leetcodeUser ?? ""} />
               </div>
 
               <div className="w-max rounded-xl bg-primary-light p-4">
@@ -91,7 +95,10 @@ const WeekInfo = async ({ id }: { id: string }) => {
                 </thead>
                 <tbody>
                   {week.problems.map((problem) => (
-                    <tr key={problem.id} className="text-white transition duration-300 hover:scale-[1.01] hover:bg-gray-800/50 cursor-pointer">
+                    <tr
+                      key={problem.id}
+                      className="cursor-pointer text-white transition duration-300 hover:scale-[1.01] hover:bg-gray-800/50"
+                    >
                       <td className="py-2">
                         <a
                           href={problem.leetcodeUrl}
@@ -99,7 +106,14 @@ const WeekInfo = async ({ id }: { id: string }) => {
                           rel="noopener noreferrer"
                           className="hover:underline"
                         >
-                          <div className="flex flex-row items-center gap-2">
+                          <div
+                            className="flex flex-row items-center gap-2"
+                            title={
+                              problem.recommended
+                                ? "Recommended problem. Try to complete this challenge!"
+                                : ""
+                            }
+                          >
                             {problem.recommended && <IoIosStar />}
                             {problem.name}
                           </div>
@@ -140,6 +154,58 @@ const WeekInfo = async ({ id }: { id: string }) => {
       )}
     </div>
   );
+};
+
+const UserStatus = async ({
+  leetcodeUser,
+  returnSuccess = true,
+}: {
+  leetcodeUser: string;
+  returnSuccess?: boolean;
+}) => {
+  const leetcodeUserData =
+    leetcodeUser && leetcodeUser.length > 0
+      ? await api.leetcode.getLeetcodeUserData({
+          username: leetcodeUser ?? "",
+        })
+      : null;
+
+  if (leetcodeUser?.length == 0) {
+    return (
+      <div className="mt-5 flex flex-row items-center gap-3 text-red-500">
+        <IoWarning size={30} />
+        <p>
+          You have not set your LeetCode username in your profile. Please do so
+          to track your progress.
+        </p>
+      </div>
+    );
+  }
+
+  if (!leetcodeUserData) {
+    return (
+      <div className="mt-5 flex flex-row items-center gap-3 text-orange-500">
+        <IoWarning size={30} />
+        <p>
+          Unable to fetch LeetCode user data. Please check your username or try
+          again later.
+        </p>
+      </div>
+    );
+  }
+
+  if (returnSuccess)
+    return (
+      <div
+        title={`Leetcode name: ${leetcodeUserData.matchedUser.profile.realName}. Description: ${leetcodeUserData.matchedUser.profile.aboutMe}`}
+        className="mt-5 flex flex-row items-center gap-3 text-green-400"
+      >
+        <IoCheckmarkCircle size={30} />
+        <p>Leetcode handle validated successfully. </p>
+      </div>
+    );
+
+  return <></>;
 };
 
 export default WeekInfo;

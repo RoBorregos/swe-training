@@ -9,6 +9,7 @@ import {
   getProblemInfoById,
   getProblemsSolved,
   getQuestionDescription,
+  getUserInfo,
 } from "~/util/queries/graphqlLeetcode";
 
 export const leetcodeRouter = createTRPCRouter({
@@ -21,7 +22,9 @@ export const leetcodeRouter = createTRPCRouter({
   checkNewCompletions: publicProcedure
     .input(z.object({ userId: z.string(), leetcodeUser: z.string() }))
     .query(async ({ input, ctx }) => {
-      const recentAccepted = await getAcceptedProblems({ username: input.leetcodeUser });
+      const recentAccepted = await getAcceptedProblems({
+        username: input.leetcodeUser,
+      });
       if (!recentAccepted) {
         throw new Error("Failed to fetch recent accepted problems");
       }
@@ -30,38 +33,43 @@ export const leetcodeRouter = createTRPCRouter({
 
       // Get all recently accepted problems solved after the beginning of the training period.
       const data = recentAccepted
-        .filter(problem => new Date(problem.timestamp * 1000).getTime() >= trainingStartDate)
-        .map(problem => ({
+        .filter(
+          (problem) =>
+            new Date(problem.timestamp * 1000).getTime() >= trainingStartDate,
+        )
+        .map((problem) => ({
           name: problem.title,
           timestamp: problem.timestamp,
         }));
 
-      const db = await ctx.db.problem.findMany({ include: { week: true, solvedBy: true } });
+      const db = await ctx.db.problem.findMany({
+        include: { week: true, solvedBy: true },
+      });
 
       // Perform db update.
-      const updates = data.map(problem => {
+      const updates = data.map((problem) => {
         // If not a match, ignore.
-        const matched = db.find(p => p.name === problem.name);
+        const matched = db.find((p) => p.name === problem.name);
 
         if (!matched) return null;
 
         // If already solved, ignore.
         const alreadySolved = matched.solvedBy.some(
-          user => user.leetcodeUser === input.leetcodeUser
+          (user) => user.leetcodeUser === input.leetcodeUser,
         );
 
         if (alreadySolved) return null;
 
         // Update matched, not previously solved problem.
         return ctx.db.problem.update({
-          where: {id : matched.id},
+          where: { id: matched.id },
           data: {
             solvedBy: {
-              connect: {id: input.userId}
-            }
-          }
-        })
-      })
+              connect: { id: input.userId },
+            },
+          },
+        });
+      });
 
       // Filter and run all updates
       const filteredPromises = updates.filter(Boolean);
@@ -84,5 +92,11 @@ export const leetcodeRouter = createTRPCRouter({
     .input(z.object({ titleSlug: z.string() }))
     .query(async ({ input }) => {
       return await getQuestionDescription({ titleSlug: input.titleSlug });
+    }),
+
+  getLeetcodeUserData: publicProcedure
+    .input(z.object({ username: z.string() }))
+    .query(async ({ input }) => {
+      return await getUserInfo({ username: input.username });
     }),
 });

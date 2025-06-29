@@ -1,9 +1,12 @@
+// https://github.com/akarsh1995/leetcode-graphql-queries/tree/main
+
 import { GraphQLClient, gql } from "graphql-request";
 import type {
   ProblemsSolvedType,
   RecentAcceptedType,
   ProblemListType,
   QuestionContentType,
+  UserNameType,
 } from "~/util/schemas/leetcode";
 
 const leetcodeEndpoint = "https://leetcode.com/graphql";
@@ -75,6 +78,21 @@ const questionContentQuery = gql`
   query questionContent($titleSlug: String!) {
     question(titleSlug: $titleSlug) {
       content
+    }
+  }
+`;
+
+const userInfoQuery = gql`
+  query userPublicProfile($username: String!) {
+    matchedUser(username: $username) {
+      username
+      githubUrl
+      linkedinUrl
+      profile {
+        userAvatar
+        realName
+        aboutMe
+      }
     }
   }
 `;
@@ -157,4 +175,19 @@ export const getQuestionDescription = async ({
   );
 
   return parsedData.question.content;
+};
+
+export const getUserInfo = async ({ username }: { username: string }) => {
+  try {
+    const parsedData = await leetcodeGraphqlClient.request<UserNameType>(
+      userInfoQuery,
+      {
+        username: username,
+      },
+    );
+    return parsedData;
+  } catch (error) {
+    // User does not exists
+    return null;
+  }
 };
