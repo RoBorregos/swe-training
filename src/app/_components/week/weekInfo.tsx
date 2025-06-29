@@ -91,7 +91,7 @@ const WeekInfo = async ({ id }: { id: string }) => {
                 </thead>
                 <tbody>
                   {week.problems.map((problem) => (
-                    <tr key={problem.id} className="text-white">
+                    <tr key={problem.id} className="text-white transition duration-300 hover:scale-[1.01] hover:bg-gray-800/50 cursor-pointer">
                       <td className="py-2">
                         <a
                           href={problem.leetcodeUrl}
