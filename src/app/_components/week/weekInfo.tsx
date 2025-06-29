@@ -87,16 +87,19 @@ const WeekInfo = async ({ id }: { id: string }) => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-white text-left font-semibold text-white">
-                    <th> Problem </th>
-                    <th> Level </th>
-                    <th> Solved by </th>
-                    <th> Status </th>
+                    <th className="pb-2"> Problem </th>
+                    <th className="pb-2"> Level </th>
+                    <th className="pb-2"> Solved by </th>
+                    <th className="pb-2"> Status </th>
                   </tr>
                 </thead>
                 <tbody>
                   {week.problems.map((problem) => (
-                    <tr key={problem.id} className="text-white">
-                      <td>
+                    <tr
+                      key={problem.id}
+                      className="cursor-pointer text-white transition duration-300 hover:scale-[1.01] hover:bg-gray-800/50"
+                    >
+                      <td className="py-2">
                         <a
                           href={problem.leetcodeUrl}
                           target="_blank"
@@ -116,7 +119,7 @@ const WeekInfo = async ({ id }: { id: string }) => {
                           </div>
                         </a>
                       </td>
-                      <td>
+                      <td className="py-2">
                         <span
                           className={`rounded-full border px-2 py-1 text-xs font-medium ${getLevelStyles(problem.level)}`}
                         >
@@ -124,8 +127,8 @@ const WeekInfo = async ({ id }: { id: string }) => {
                             problem.level.slice(1).toLowerCase()}
                         </span>
                       </td>
-                      <td>{problem.solvedBy?.length ?? 0}</td>
-                      <td>
+                      <td className="py-2">{problem.solvedBy?.length ?? 0}</td>
+                      <td className="py-2">
                         {userId ? (
                           <SolvedToggle
                             problemId={problem.id}
