@@ -19,13 +19,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="bg-primary min-h-screen">
+      <body className="min-h-screen bg-primary">
         <SessionProvider>
           <TRPCReactProvider>
             <Navbar />
-            <div className="px-20 pt-28 pb-10 min-h-screen">
-              {children}
-            </div>
+            {/* consider the height of navbar and footer */}
+            <div className="min-h-[92vh] px-20 pb-10 pt-28">{children}</div>
             <Footer />
           </TRPCReactProvider>
         </SessionProvider>

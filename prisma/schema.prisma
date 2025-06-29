@@ -64,8 +64,8 @@ model Week {
   isBlocked       Boolean
   color           String
   resources       String[]
-  detailResources Resource[]
   problems        Problem[]
+  detailResources Resource[]
 }
 
 model Resource {
@@ -97,8 +97,8 @@ model AdditionalContent {
 }
 
 enum Difficulty {
-  WARMUP
   MEDIUM
-  HARDER
   INSANE
+  WARMUP
+  HARDER
 }

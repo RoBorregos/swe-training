@@ -1,7 +1,7 @@
 type NavResourcesProps = {
   onSelect: (topic: string) => void;
   selected: string;
-}
+};
 
 const topics = [
   "Complexities and Analysis of Algorithm",
@@ -29,16 +29,12 @@ const topics = [
 
 const Resources = ({ onSelect, selected }: NavResourcesProps) => {
   return (
-    <nav className="flex flex-col gap-2 p-4 text-white min-w-[200px] h-screen overflow-y-auto">
+    <nav className="flex max-h-[75vh] min-w-[200px] flex-col gap-2 overflow-y-auto p-4 text-white">
       {topics.map((topic) => (
         <button
           key={topic}
           onClick={() => onSelect(topic)}
-          className={`
-            text-left p-2 rounded duration-300
-            hover:bg-gray-700 hover:scale-105
-            ${selected === topic ? "underline font-semibold bg-gray-800" : ""}
-          `}
+          className={`rounded p-2 text-left duration-300 hover:scale-105 hover:bg-gray-700 ${selected === topic ? "bg-gray-800 font-semibold underline" : ""} `}
         >
           {topic}
         </button>
