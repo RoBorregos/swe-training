@@ -8,21 +8,7 @@ import { IoIosStar } from "react-icons/io";
 import Link from "next/link";
 import { IoWarning } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
-
-const getLevelStyles = (level: string) => {
-  switch (level) {
-    case "WARMUP":
-      return "bg-teal-500/60 text-teal-100 border-teal-400/50";
-    case "MEDIUM":
-      return "bg-yellow-500/60 text-yellow-100 border-yellow-400/50";
-    case "HARDER":
-      return "bg-orange-500/60 text-orange-100 border-orange-400/50";
-    case "INSANE":
-      return "bg-red-500/60 text-red-100 border-red-400/50";
-    default:
-      return "bg-gray-500/60 text-gray-100 border-gray-400/50";
-  }
-};
+import { getLevelStyles } from "~/util/styles/difficulty";
 
 const WeekInfo = async ({ id }: { id: string }) => {
   const session = await auth();
@@ -94,56 +80,72 @@ const WeekInfo = async ({ id }: { id: string }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {week.problems.map((problem) => (
-                    <tr
-                      key={problem.id}
-                      className="cursor-pointer text-white transition duration-300 hover:scale-[1.01] hover:bg-gray-800/50"
-                    >
-                      <td className="py-2">
-                        <a
-                          href={problem.leetcodeUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:underline"
-                        >
-                          <div
-                            className="flex flex-row items-center gap-2"
-                            title={
-                              problem.recommended
-                                ? "Recommended problem. Try to complete this challenge!"
-                                : ""
-                            }
-                          >
-                            {problem.recommended && <IoIosStar />}
-                            {problem.name}
-                          </div>
-                        </a>
-                      </td>
-                      <td className="py-2">
-                        <span
-                          className={`rounded-full border px-2 py-1 text-xs font-medium ${getLevelStyles(problem.level)}`}
-                        >
-                          {problem.level.charAt(0).toUpperCase() +
-                            problem.level.slice(1).toLowerCase()}
-                        </span>
-                      </td>
-                      <td className="py-2">{problem.solvedBy?.length ?? 0}</td>
-                      <td className="py-2">
-                        {userId ? (
-                          <SolvedToggle
-                            problemId={problem.id}
-                            initialSolved={
-                              problem.solvedBy?.some((u) => u.id === userId) ??
-                              false
-                            }
-                            userId={userId}
-                          />
-                        ) : (
-                          <span className="text-gray-400">Login required</span>
-                        )}
+                  {week.problems.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={4}
+                        className="py-8 text-center text-gray-400"
+                      >
+                        No problems assigned to this week yet.
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    week.problems.map((problem) => (
+                      <tr
+                        key={problem.id}
+                        className="cursor-pointer text-white transition duration-300 hover:scale-[1.01] hover:bg-gray-800/50"
+                      >
+                        <td className="py-2">
+                          <a
+                            href={problem.leetcodeUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                          >
+                            <div
+                              className="flex flex-row items-center gap-2"
+                              title={
+                                problem.recommended
+                                  ? "Recommended problem. Try to complete this challenge!"
+                                  : ""
+                              }
+                            >
+                              {problem.recommended && <IoIosStar />}
+                              {problem.name}
+                            </div>
+                          </a>
+                        </td>
+                        <td className="py-2">
+                          <span
+                            className={`rounded-full border px-2 py-1 text-xs font-medium ${getLevelStyles(problem.level)}`}
+                          >
+                            {problem.level.charAt(0).toUpperCase() +
+                              problem.level.slice(1).toLowerCase()}
+                          </span>
+                        </td>
+                        <td className="py-2">
+                          {problem.solvedBy?.length ?? 0}
+                        </td>
+                        <td className="py-2">
+                          {userId ? (
+                            <SolvedToggle
+                              problemId={problem.id}
+                              initialSolved={
+                                problem.solvedBy?.some(
+                                  (u) => u.id === userId,
+                                ) ?? false
+                              }
+                              userId={userId}
+                            />
+                          ) : (
+                            <span className="text-gray-400">
+                              Login required
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
