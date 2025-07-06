@@ -6,6 +6,7 @@ import { IoIosStar } from "react-icons/io";
 import type { Problem } from "@prisma/client";
 import { difficultyEnum, type DifficultyType } from "~/util/schemas/problem";
 import { getLevelStyles } from "~/util/styles/difficulty";
+import { cn } from "utils/merge";
 
 interface AdminViewRowProps {
   problem: Problem;
@@ -70,7 +71,10 @@ const AdminViewRow = ({ problem, solvedBy }: AdminViewRowProps) => {
       </td>
       <td className="py-2 text-center">
         <span
-          className={`rounded-full border px-2 py-1 text-xs font-medium ${getLevelStyles(problem.level)}`}
+          className={cn(
+            "rounded-full border px-2 py-1 text-xs font-medium",
+            getLevelStyles(problem.level),
+          )}
         >
           {problem.level.charAt(0).toUpperCase() +
             problem.level.slice(1).toLowerCase()}
