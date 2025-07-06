@@ -32,7 +32,7 @@ const AdminViewRow = ({ problem, solvedBy }: AdminViewRowProps) => {
       await utils.problem.invalidate();
     },
     onError: () => {
-      alert("Error: Could not update problem difficulty.");
+      alert("Error: Could not update problem state.");
     },
   });
 

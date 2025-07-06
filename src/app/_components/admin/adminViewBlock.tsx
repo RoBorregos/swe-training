@@ -1,6 +1,8 @@
 "use client";
 import { api } from "~/trpc/react";
 import {
+  BsArrowsExpand,
+  BsArrowsCollapse,
   BsEyeFill,
   BsEyeSlashFill,
   BsCartPlusFill,
@@ -30,6 +32,7 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
   );
   const [editResourceTitle, setEditResourceTitle] = useState("");
   const [editResourceUrl, setEditResourceUrl] = useState("");
+  const [showResources, setShowResources] = useState(false);
 
   const utils = api.useUtils();
 
@@ -193,8 +196,13 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
       <div className="my-6 rounded-lg bg-primary-light p-4">
         <div className="mb-4 flex items-center gap-2">
           <Subtitle label="Detail Resources" className="text-sm" />
+          <button onClick={() => {setShowResources(!showResources)} }>
+          {showResources ?
+            <BsArrowsCollapse className="fill-neutral-400 hover:fill-accent" /> :
+            <BsArrowsExpand className="fill-neutral-400 hover:fill-accent" /> }
+          </button>
         </div>
-
+        <div className={showResources ? "" : "hidden"}>
         {/* Add new resource */}
         <div className="mb-4 grid grid-cols-1 gap-2 md:grid-cols-3">
           <input
@@ -260,7 +268,9 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
                       {resource.title}
                     </div>
                     <div className="text-sm text-neutral-300">
+                      <a className="hover:underline" href={resource.url}>
                       {resource.url}
+                      </a>
                     </div>
                   </div>
                   <button
@@ -286,6 +296,7 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
               No detail resources added yet.
             </div>
           )}
+        </div>
         </div>
       </div>
 
