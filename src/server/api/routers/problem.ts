@@ -1,24 +1,27 @@
 import { z } from "zod";
-import { Difficulty } from "@prisma/client"
-import { createTRPCRouter, protectedProcedure, publicProcedure, adminProcedure } from "../trpc";
+import { Difficulty } from "@prisma/client";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+  adminProcedure,
+} from "../trpc";
 import { getProblemIdBySlug } from "~/util/queries/graphqlLeetcode";
+import { difficultyEnum } from "~/util/schemas/problem";
 
 // import { Prisma } from "@prisma/client";
 
-const difficultyEnum = z.enum(["WARMUP", "MEDIUM", "HARDER", "INSANE"]);
-
 function stringToEnum(inp: string) {
-  if(inp == 'easy') return Difficulty.WARMUP;
-  if(inp == 'medium') return Difficulty.MEDIUM;
-  if(inp == 'hard') return Difficulty.HARDER;
+  if (inp == "easy") return Difficulty.WARMUP;
+  if (inp == "medium") return Difficulty.MEDIUM;
+  if (inp == "hard") return Difficulty.HARDER;
   return Difficulty.MEDIUM;
 }
-
 
 export const problemRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.db.problem.findMany({
-      include: { week: true, solvedBy: true }
+      include: { week: true, solvedBy: true },
     });
   }),
   getById: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
@@ -28,27 +31,40 @@ export const problemRouter = createTRPCRouter({
     });
   }),
   createFromSlug: adminProcedure
-    .input(z.object({slug: z.string(), weekId: z.string()}))
+    .input(z.object({ slug: z.string(), weekId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const problem = await getProblemIdBySlug({slug: input.slug});
-    if(problem) {
-      const data = {
-        name: problem.title,
-        level: stringToEnum(problem.difficulty),
-        leetcodeUrl: `https://leetcode.com/problems/${problem.titleSlug}`,
-        weekId: input.weekId
-      };
-      return await ctx.db.problem.create({ data });
-    }
+      // Extract slug from URL if a full LeetCode URL is provided
+      let slug = input.slug;
+
+      // Check if input is a full LeetCode URL
+      if (slug.includes("leetcode.com/problems/")) {
+        const regex = /leetcode\.com\/problems\/([^\/\?]+)/;
+        const match = regex.exec(slug);
+        if (match?.[1]) {
+          slug = match[1];
+        }
+      }
+
+      const problem = await getProblemIdBySlug({ slug: slug });
+      if (problem) {
+        const data = {
+          name: problem.title,
+          level: stringToEnum(problem.difficulty),
+          leetcodeUrl: `https://leetcode.com/problems/${problem.titleSlug}`,
+          weekId: input.weekId,
+        };
+        return await ctx.db.problem.create({ data });
+      }
     }),
   update: adminProcedure
     .input(
       z.object({
         id: z.string(),
         name: z.string().optional(),
-        level: difficultyEnum.optional(), 
+        level: difficultyEnum.optional(),
         leetcodeUrl: z.string().url().optional(),
         weekId: z.string().optional(),
+        recommended: z.boolean().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -56,12 +72,10 @@ export const problemRouter = createTRPCRouter({
       return await ctx.db.problem.update({ where: { id }, data });
     }),
 
-  delete: adminProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      return await ctx.db.problem.delete({ where: { id: input } });
-    }),
-  
+  delete: adminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    return await ctx.db.problem.delete({ where: { id: input } });
+  }),
+
   toggleSolved: protectedProcedure
     .input(z.object({ problemId: z.string(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
