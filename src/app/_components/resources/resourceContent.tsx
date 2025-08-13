@@ -4,6 +4,7 @@ import AdminContributions from "~/app/_components/resources/adminContributions";
 import { AdminOnly } from "~/app/_components/resources/isAdmin";
 import { api } from "~/trpc/react";
 import { useState } from "react";
+import Resume from "./resume";
 
 const ResourceContent = ({ topic}: { topic: string; }) => {
     const [extraContent, setExtraContent] = useState("");
@@ -40,6 +41,10 @@ const ResourceContent = ({ topic}: { topic: string; }) => {
         </>
       );
 
+    case "Resume":
+        return (
+            <Resume/>
+        )
     case "Complexities and Analysis of Algorithm":
       return (
         <>
