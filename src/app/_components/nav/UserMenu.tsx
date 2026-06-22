@@ -49,13 +49,13 @@ export default function UserMenu() {
 
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
           role="dialog"
           aria-modal="true"
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="bg-primary-light text-white rounded-xl p-6 shadow-lg w-120"
+            className="relative bg-primary-light text-white rounded-xl p-6 shadow-lg w-full max-w-md"
             onClick={(e) => e.stopPropagation()}
           >
             <button

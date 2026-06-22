@@ -46,7 +46,7 @@ const WeekCard = ({
       {isLocked ? (
         unlockDate && (
           <span className="w-fit rounded-full bg-white/20 px-3 py-1 text-sm text-white">
-            Disponible el {formatMonterrey(new Date(unlockDate))}
+            Available on {formatMonterrey(new Date(unlockDate))}
           </span>
         )
       ) : (

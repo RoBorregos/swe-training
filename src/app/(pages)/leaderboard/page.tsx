@@ -56,14 +56,14 @@ const Leaderboard = () => {
     onSuccess: async () => {
       await utils.leaderboard.invalidate();
     },
-    onError: () => alert("Error: no se pudo limpiar el progreso."),
+    onError: () => alert("Error: could not clear progress."),
   });
 
   const setReviewer = api.resume.setReviewer.useMutation({
     onSuccess: async () => {
       await utils.leaderboard.invalidate();
     },
-    onError: () => alert("Error: no se pudo cambiar el rol de reviewer."),
+    onError: () => alert("Error: could not change the reviewer role."),
   });
 
   const archiveAndReset = api.leaderboard.archiveAndReset.useMutation({
@@ -71,7 +71,7 @@ const Leaderboard = () => {
       await utils.leaderboard.invalidate();
       setShowReset(false);
     },
-    onError: () => alert("Error: no se pudo reiniciar."),
+    onError: () => alert("Error: could not reset."),
   });
 
   const activeQuery = archiveId
@@ -84,7 +84,7 @@ const Leaderboard = () => {
   const leaderboardError = activeQuery.error;
 
   const handleClearUser = (userId: string, username: string | null) => {
-    if (confirm(`¿Limpiar el progreso de ${username ?? "este usuario"}?`)) {
+    if (confirm(`Clear the progress of ${username ?? "this user"}?`)) {
       clearUserProgress.mutate({ userId });
     }
   };
@@ -142,7 +142,7 @@ const Leaderboard = () => {
 
       {editions && editions.length > 0 && (
         <div className="mb-6 flex flex-wrap items-center justify-center gap-2">
-          <span className="text-sm text-neutral-400">Ediciones pasadas:</span>
+          <span className="text-sm text-neutral-400">Past editions:</span>
           {editions.map((e) => (
             <button
               key={e.id}
@@ -165,7 +165,7 @@ const Leaderboard = () => {
             onClick={() => setShowReset(true)}
             className="rounded-full border border-red-500/50 bg-red-500/10 px-5 py-2 text-sm font-semibold text-red-300 hover:bg-red-500/20"
           >
-            Reiniciar usuarios (archivar edición)
+            Reset users (archive edition)
           </button>
         </div>
       )}
@@ -177,8 +177,9 @@ const Leaderboard = () => {
           Error loading leaderboard
         </div>
       ) : (
-        <>
-          <div className="mb-2 flex w-full flex-row justify-between rounded-t-2xl bg-neutral-800 px-8 py-3 text-lg font-semibold text-white">
+        <div className="overflow-x-auto pb-2">
+          <div className="min-w-[600px]">
+          <div className="mb-2 flex w-full flex-row justify-between rounded-t-2xl bg-neutral-800 px-4 py-3 text-base font-semibold text-white sm:px-8 sm:text-lg">
             <span className="w-1/4 text-left">User</span>
             <span className="w-1/8 text-center">Warmup</span>
             <span className="w-1/8 text-center">Medium</span>
@@ -190,7 +191,7 @@ const Leaderboard = () => {
             {sortedWithPlace.map((row, i) => (
               <li
                 key={i}
-                className={`flex w-full flex-row items-center justify-between rounded-2xl px-8 py-4 text-white shadow-lg transition-all ${row.place !== 1 && row.username !== currentUsername ? "bg-neutral-700" : ""} ${row.place === 1 ? "scale-[1.03] bg-gray-600 font-bold" : ""} ${row.username === currentUsername ? "bg-green-600 font-bold" : ""} `}
+                className={`flex w-full flex-row items-center justify-between rounded-2xl px-4 py-4 text-white shadow-lg transition-all sm:px-8 ${row.place !== 1 && row.username !== currentUsername ? "bg-neutral-700" : ""} ${row.place === 1 ? "scale-[1.03] bg-gray-600 font-bold" : ""} ${row.username === currentUsername ? "bg-green-600 font-bold" : ""} `}
               >
                 <div className="flex w-1/4 items-center gap-3">
                   <span className="w-8 text-center text-xl font-semibold text-gray-400">
@@ -210,8 +211,8 @@ const Leaderboard = () => {
                         }
                         title={
                           row.isReviewer
-                            ? "Quitar como reviewer"
-                            : "Marcar como reviewer"
+                            ? "Remove as reviewer"
+                            : "Mark as reviewer"
                         }
                         className={
                           row.isReviewer
@@ -225,7 +226,7 @@ const Leaderboard = () => {
                         onClick={() =>
                           handleClearUser(row.userId!, row.username)
                         }
-                        title="Limpiar progreso de este usuario"
+                        title="Clear this user's progress"
                         className="text-neutral-300 hover:text-red-400"
                       >
                         <BsTrash />
@@ -251,28 +252,28 @@ const Leaderboard = () => {
               </li>
             ))}
           </ol>
-        </>
+          </div>
+        </div>
       )}
 
       {showReset && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-md rounded-2xl bg-neutral-900 p-6 text-white shadow-xl">
             <h2 className="mb-2 text-xl font-bold text-red-300">
-              Reiniciar usuarios
+              Reset users
             </h2>
             <p className="mb-4 text-sm text-neutral-300">
-              Se guardará el ranking actual como edición y luego se{" "}
-              <strong>eliminarán todos los usuarios</strong> y su progreso.
-              Recomendado al iniciar de nuevo swe-training.
+              The current ranking will be saved as an edition and then{" "}
+              <strong>all users</strong> and their progress will be deleted.
+              Recommended when starting swe-training again.
             </p>
             <p className="mb-4 text-sm text-neutral-400">
-              Se eliminan: usuarios (excepto admins), sus sesiones/logins, su
-              progreso y los comentarios del admin. Las cuentas admin se
-              conservan. Las semanas, problemas y recursos <strong>no</strong> se
-              tocan.
+              Deleted: users (except admins), their sessions/logins, their
+              progress and the admin comments. Admin accounts are kept. Weeks,
+              problems and resources are <strong>not</strong> touched.
             </p>
             <label className="mb-1 block text-sm text-neutral-300">
-              Nombre de la edición
+              Edition name
             </label>
             <input
               type="text"
@@ -285,7 +286,7 @@ const Leaderboard = () => {
                 onClick={() => setShowReset(false)}
                 className="rounded border border-neutral-600 px-4 py-2 text-white hover:bg-neutral-800"
               >
-                Cancelar
+                Cancel
               </button>
               <button
                 disabled={!editionLabel.trim() || archiveAndReset.isPending}
@@ -294,7 +295,7 @@ const Leaderboard = () => {
                 }
                 className="rounded bg-red-500 px-4 py-2 font-semibold text-white hover:bg-red-400 disabled:opacity-50"
               >
-                Archivar y reiniciar
+                Archive and reset
               </button>
             </div>
           </div>

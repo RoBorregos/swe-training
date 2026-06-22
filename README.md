@@ -1,98 +1,97 @@
 # SWE Training
 
-Plataforma de retos semanales de LeetCode para SWE Training (RoBorregos). Los
-participantes resuelven problemas en LeetCode y su progreso se refleja
-automáticamente en un leaderboard. Cada semana se libera en una fecha
-programada (hora de Monterrey).
+Weekly LeetCode challenge platform for SWE Training (RoBorregos). Participants
+solve problems on LeetCode and their progress is automatically reflected on a
+leaderboard. Each week unlocks on a scheduled date (Monterrey time).
 
 Stack: [Next.js](https://nextjs.org), [NextAuth.js](https://next-auth.js.org),
-[Prisma](https://prisma.io) + CockroachDB, [tRPC](https://trpc.io) y
+[Prisma](https://prisma.io) + CockroachDB, [tRPC](https://trpc.io) and
 [Tailwind CSS](https://tailwindcss.com).
 
 ---
 
-## Manual de usuario
+## User guide
 
-1. **Inicia sesión** con tu cuenta de Google.
-2. **Configura tu usuario de LeetCode** en tu perfil. Sin esto, tu progreso no
-   se puede rastrear.
-3. Entra a **Weekly Problems**. Cada semana se desbloquea en su fecha. Una
-   semana bloqueada muestra un candado y la fecha en que estará disponible.
-4. Resuelve los problemas en **LeetCode**. El progreso se valida solo: un
-   problema cuenta únicamente si lo resolviste **el día que se liberó la semana
-   o después**, no antes.
-5. Revisa tu posición en el **Leaderboard**, global o por semana. También puedes
-   ver las **ediciones pasadas** (años anteriores) archivadas.
+1. **Sign in** with your Google account.
+2. **Set your LeetCode username** in your profile. Without it, your progress
+   cannot be tracked.
+3. Go to **Weekly Problems**. Each week unlocks on its date. A locked week shows
+   a padlock and the date it will become available.
+4. Solve the problems on **LeetCode**. Progress is validated automatically: a
+   problem only counts if you solved it **on the day the week was released or
+   later**, not before.
+5. Check your position on the **Leaderboard**, global or per week. You can also
+   browse archived **past editions** (previous years).
 
-## Para administradores
+## For administrators
 
-Con el rol `ADMIN` puedes:
+With the `ADMIN` role you can:
 
-- **Programar el desbloqueo de cada semana** en la página de admin: eliges fecha
-  y hora (en horario de Monterrey) y la semana se libera sola al llegar. No hay
-  bloqueo manual: la semana siempre sigue la fecha seleccionada.
-- **Agregar problemas y recursos** a cada semana.
-- **Limpiar el progreso de un usuario** desde el leaderboard (ícono de basura).
-- **Reiniciar usuarios** para empezar una nueva edición (ver abajo).
+- **Schedule the unlock of each week** on the admin page: pick a date and time
+  (in Monterrey time) and the week releases itself when it arrives. There is no
+  manual lock: the week always follows the selected date.
+- **Add problems and resources** to each week.
+- **Clear a user's progress** from the leaderboard (trash icon).
+- **Reset users** to start a new edition (see below).
 
-## Cómo reiniciar (nueva edición de SWE Training)
+## How to reset (new SWE Training edition)
 
-Recomendado al volver a arrancar el programa. El ranking actual **no se pierde**:
-se archiva como edición consultable.
+Recommended when starting the program again. The current ranking is **not lost**:
+it is archived as a browsable edition.
 
-1. Entra al **Leaderboard** como admin.
-2. Haz clic en **"Reiniciar usuarios (archivar edición)"**.
-3. Escribe el nombre de la edición (por defecto el año, ej. `2025`).
-4. Confirma con **"Archivar y reiniciar"**.
+1. Go to the **Leaderboard** as an admin.
+2. Click **"Reset users (archive edition)"**.
+3. Enter the edition name (defaults to the year, e.g. `2025`).
+4. Confirm with **"Archive and reset"**.
 
-**Qué se elimina:** todos los usuarios (excepto los admins), sus sesiones/logins,
-su progreso y los comentarios del admin.
-**Qué se conserva:** las cuentas con rol `ADMIN` se mantienen (con su progreso en
-cero) para que no te quedes sin acceso. Las semanas, los problemas y los recursos
-quedan intactos. La edición archivada queda visible en el leaderboard.
+**What is deleted:** all users (except admins), their sessions/logins, their
+progress and the admin comments.
+**What is kept:** accounts with the `ADMIN` role are preserved (with their
+progress reset to zero) so you don't lose access. Weeks, problems and resources
+are left intact. The archived edition stays visible on the leaderboard.
 
 ---
 
-## Setup de desarrollo
+## Development setup
 
-Requiere **Node 20+**.
+Requires **Node 20+**.
 
 ```bash
 npm install
-cp .env.example .env   # y rellena los valores (ver abajo)
-npm run db:push        # aplica el schema de Prisma a la base
+cp .env.example .env   # and fill in the values (see below)
+npm run db:push        # applies the Prisma schema to the database
 npm run dev
 ```
 
-### Template de `.env`
+### `.env` template
 
 ```bash
-# NextAuth — genera el secreto con: npx auth secret
+# NextAuth — generate the secret with: npx auth secret
 AUTH_SECRET=""
 
 # Google OAuth Provider
 AUTH_GOOGLE_ID=""
 AUTH_GOOGLE_SECRET=""
 
-# Base de datos (CockroachDB)
+# Database (CockroachDB)
 DATABASE_URL=""
 ```
 
-Si agregas variables nuevas, actualiza también el schema en `src/env.js`.
+If you add new variables, update the schema in `src/env.js` as well.
 
-### Scripts útiles
+### Useful scripts
 
-- `npm run dev` — servidor de desarrollo.
-- `npm run db:push` — sincroniza el schema de Prisma con la base.
-- `npm run db:studio` — explorador visual de la base.
-- `npm run typecheck` — verifica tipos.
+- `npm run dev` — development server.
+- `npm run db:push` — syncs the Prisma schema with the database.
+- `npm run db:studio` — visual database explorer.
+- `npm run typecheck` — type checking.
 - `npm run lint` — linter.
 
 ---
 
-## Colaboradores
+## Contributors
 
-Gracias a quienes hicieron funcionar este proyecto:
+Thanks to everyone who made this project work:
 
 - Alejandra Coeto
 - Oscar Arreola

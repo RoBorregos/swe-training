@@ -20,18 +20,18 @@ const ReviewPanel = () => {
       await utils.resume.getForReview.invalidate({ id: selectedId ?? "" });
       await utils.resume.listForReview.invalidate();
     },
-    onError: () => alert("No se pudo agregar el comentario."),
+    onError: () => alert("Could not add the comment."),
   });
 
   return (
     <div className="rounded-2xl bg-primary-light p-6">
-      <Subtitle label="Resumes por revisar" />
+      <Subtitle label="Resumes to review" />
 
       <div className="mt-4 flex flex-col gap-6 lg:flex-row">
         <ul className="flex w-full flex-col gap-2 lg:w-1/3">
           {!list || list.length === 0 ? (
             <li className="text-sm text-neutral-400">
-              No hay resumes subidos todavía.
+              No resumes uploaded yet.
             </li>
           ) : (
             list.map((r) => (
@@ -47,11 +47,11 @@ const ReviewPanel = () => {
                   }`}
                 >
                   <span className="truncate text-sm text-white">
-                    {r.userName ?? "Usuario"}
+                    {r.userName ?? "User"}
                   </span>
                   {r.pending ? (
                     <span className="shrink-0 rounded-full bg-red-500/20 px-2 py-0.5 text-xs text-red-300">
-                      Pendiente
+                      Pending
                     </span>
                   ) : (
                     <span className="shrink-0 rounded-full bg-green-500/20 px-2 py-0.5 text-xs text-green-300">
@@ -73,17 +73,17 @@ const ReviewPanel = () => {
                 rel="noopener noreferrer"
                 className="self-end text-sm text-accent underline"
               >
-                Abrir en pestaña nueva ↗
+                Open in new tab ↗
               </a>
               <iframe
                 src={`${selected.fileUrl}#view=FitH`}
                 className="h-[85vh] w-full rounded-lg border border-neutral-700 bg-white"
-                title={`Resume de ${selected.user.name ?? ""}`}
+                title={`Resume of ${selected.user.name ?? ""}`}
               />
 
               <div>
                 <h3 className="mb-2 text-lg font-semibold text-white">
-                  Comentarios ({selected.comments.length})
+                  Comments ({selected.comments.length})
                 </h3>
                 <ul className="flex flex-col gap-3">
                   {selected.comments.map((c) => (
@@ -106,7 +106,7 @@ const ReviewPanel = () => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     rows={3}
-                    placeholder="Escribe tu comentario..."
+                    placeholder="Write your comment..."
                     className="w-full rounded-lg border border-neutral-600 bg-neutral-800 px-3 py-2 text-white placeholder-neutral-400"
                   />
                   <button
@@ -119,14 +119,14 @@ const ReviewPanel = () => {
                     disabled={!comment.trim() || addComment.isPending}
                     className="self-end rounded-lg bg-accent px-4 py-2 font-semibold text-white transition hover:bg-accent-dark disabled:opacity-50"
                   >
-                    Comentar
+                    Comment
                   </button>
                 </div>
               </div>
             </div>
           ) : (
             <p className="text-primary-foreground">
-              Selecciona un resume de la lista para revisarlo.
+              Select a resume from the list to review it.
             </p>
           )}
         </div>
