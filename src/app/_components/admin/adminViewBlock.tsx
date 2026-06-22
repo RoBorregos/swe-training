@@ -3,8 +3,6 @@ import { api } from "~/trpc/react";
 import {
   BsArrowsExpand,
   BsArrowsCollapse,
-  BsEyeFill,
-  BsEyeSlashFill,
   BsCartPlusFill,
   BsPencilSquare,
   BsPlus,
@@ -14,6 +12,11 @@ import Subtitle from "~/app/_components/subtitle";
 import AdminViewRow from "~/app/_components/admin/adminViewRow";
 import type { Prisma, Week } from "@prisma/client";
 import { useState } from "react";
+import {
+  dateToMonterreyInput,
+  formatMonterrey,
+  monterreyInputToDate,
+} from "~/util/timezone";
 
 type ProblemWithSolvedBy = Prisma.ProblemGetPayload<{
   include: { solvedBy: true };
@@ -33,6 +36,9 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
   const [editResourceTitle, setEditResourceTitle] = useState("");
   const [editResourceUrl, setEditResourceUrl] = useState("");
   const [showResources, setShowResources] = useState(false);
+  const [unlockInput, setUnlockInput] = useState(
+    week.unlockDate ? dateToMonterreyInput(new Date(week.unlockDate)) : "",
+  );
 
   const utils = api.useUtils();
 
@@ -58,12 +64,12 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
     changeWeekTitle.mutate({ id: week.id || "", title: nt });
   };
 
-  const setWeekStatus = api.week.setWeekHidden.useMutation({
+  const setWeekUnlockDate = api.week.setWeekUnlockDate.useMutation({
     onSuccess: async () => {
       await utils.week.invalidate();
     },
     onError: () => {
-      alert(`Error: Could not change visibility.`);
+      alert(`Error: Could not update the unlock date.`);
     },
   });
 
@@ -112,9 +118,24 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
     },
   });
 
-  const handleSetWeekStatus = () => {
-    setWeekStatus.mutate({ id: week.id, isBlocked: !week.isBlocked });
+  const handleSchedule = () => {
+    if (!unlockInput) {
+      alert("Selecciona una fecha y hora.");
+      return;
+    }
+    setWeekUnlockDate.mutate({
+      id: week.id,
+      unlockDate: monterreyInputToDate(unlockInput),
+    });
   };
+
+  const handleClearSchedule = () => {
+    setUnlockInput("");
+    setWeekUnlockDate.mutate({ id: week.id, unlockDate: null });
+  };
+
+  const isLocked =
+    !week.unlockDate || new Date(week.unlockDate).getTime() > Date.now();
 
   const newSlugIn = () => {
     const ns = prompt("Leetcode title slug:");
@@ -176,13 +197,6 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
   return (
     <div>
       <div className="flex items-center gap-3">
-        <button title="Toggle view" onClick={handleSetWeekStatus}>
-          {week.isBlocked ? (
-            <BsEyeSlashFill className="fill-neutral-400 hover:fill-accent" />
-          ) : (
-            <BsEyeFill className="fill-neutral-400 hover:fill-accent" />
-          )}
-        </button>
         <button title="Buy more problems" onClick={newSlugIn}>
           <BsCartPlusFill className="fill-neutral-400 hover:fill-accent" />
         </button>
@@ -190,6 +204,45 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
           <BsPencilSquare className="fill-neutral-400 hover:fill-accent" />
         </button>
         <Subtitle label={week.title} />
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-semibold ${
+            isLocked
+              ? "bg-red-500/20 text-red-300"
+              : "bg-green-500/20 text-green-300"
+          }`}
+        >
+          {!week.unlockDate
+            ? "🔒 Locked · sin fecha"
+            : isLocked
+              ? `⏰ Scheduled · ${formatMonterrey(new Date(week.unlockDate))}`
+              : `🔓 Open · desde ${formatMonterrey(new Date(week.unlockDate))}`}
+        </span>
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span className="text-sm text-neutral-300">
+          Desbloqueo (hora Monterrey):
+        </span>
+        <input
+          type="datetime-local"
+          value={unlockInput}
+          onChange={(e) => setUnlockInput(e.target.value)}
+          className="rounded border border-neutral-600 bg-neutral-800 px-3 py-2 text-white"
+        />
+        <button
+          onClick={handleSchedule}
+          className="rounded border border-neutral-600 bg-neutral-800 px-4 py-2 text-white hover:bg-neutral-700"
+        >
+          Programar
+        </button>
+        {week.unlockDate && (
+          <button
+            onClick={handleClearSchedule}
+            className="rounded border border-neutral-600 bg-neutral-800 px-4 py-2 text-white hover:bg-neutral-700"
+          >
+            Quitar fecha
+          </button>
+        )}
       </div>
 
       {/* Detail Resources Management Section */}

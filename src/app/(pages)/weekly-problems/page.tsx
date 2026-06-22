@@ -20,7 +20,8 @@ const WeeklyProblems = async () => {
                             title={`Week ${week.number}`}
                             description={week.title}
                             id={week.id}
-                            isBlocked={week.isBlocked}
+                            isLocked={week.isLocked}
+                            unlockDate={week.unlockDate}
                             bgColor={backgroundColors.get(week.color) ?? "bg-white"}
                             textColor={textColors.get(week.color) ?? "text-black"}
                         />

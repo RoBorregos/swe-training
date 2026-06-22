@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -29,18 +28,10 @@ export const leetcodeRouter = createTRPCRouter({
         throw new Error("Failed to fetch recent accepted problems");
       }
 
-      const trainingStartDate = new Date(`2025-06-28T00:00:00Z`).getTime();
-
-      // Get all recently accepted problems solved after the beginning of the training period.
-      const data = recentAccepted
-        .filter(
-          (problem) =>
-            new Date(problem.timestamp * 1000).getTime() >= trainingStartDate,
-        )
-        .map((problem) => ({
-          name: problem.title,
-          timestamp: problem.timestamp,
-        }));
+      const data = recentAccepted.map((problem) => ({
+        name: problem.title,
+        timestamp: problem.timestamp,
+      }));
 
       const db = await ctx.db.problem.findMany({
         include: { week: true, solvedBy: true },
@@ -52,6 +43,11 @@ export const leetcodeRouter = createTRPCRouter({
         const matched = db.find((p) => p.name === problem.name);
 
         if (!matched) return null;
+
+        if (!matched.week.unlockDate) return null;
+
+        const acceptedAt = new Date(problem.timestamp * 1000).getTime();
+        if (acceptedAt < matched.week.unlockDate.getTime()) return null;
 
         // If already solved, ignore.
         const alreadySolved = matched.solvedBy.some(

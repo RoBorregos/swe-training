@@ -1,4 +1,5 @@
 import "~/styles/globals.css";
+import "@uploadthing/react/styles.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
@@ -7,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 import { TRPCReactProvider } from "~/trpc/react";
 import Navbar from "./_components/nav/navbar";
 import Footer from "./_components/nav/footer";
+import Onboarding from "./_components/onboarding/Onboarding";
 
 export const metadata: Metadata = {
   title: "SWE Training",
@@ -23,6 +25,7 @@ export default function RootLayout({
         <SessionProvider>
           <TRPCReactProvider>
             <Navbar />
+            <Onboarding />
             {/* consider the height of navbar and footer */}
             <div className="min-h-[92vh] px-20 pb-10 pt-28">{children}</div>
             <Footer />

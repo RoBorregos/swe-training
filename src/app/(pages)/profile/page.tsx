@@ -1,9 +1,6 @@
-
-import Subtitle from "~/app/_components/subtitle";
 import Title from "~/app/_components/title";
 import ProfileCard from "~/app/_components/Profile/ProfileCard";
 import { auth } from "~/server/auth";
-import { api } from "~/trpc/server";
 
 const Profile = async () => {
     

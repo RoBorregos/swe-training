@@ -153,3 +153,16 @@ export const adminProcedure = memberProcedure.use(async ({ ctx, next }) => {
 
   return next({ ctx });
 });
+
+/**
+ * Reviewer procedure
+ *
+ * For admins and users flagged as resume reviewers
+ */
+export const reviewerProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  if (ctx.session.user.role !== "ADMIN" && !ctx.session.user.isReviewer) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  return next({ ctx });
+});

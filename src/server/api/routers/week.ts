@@ -19,7 +19,7 @@ export const weekRouter = createTRPCRouter({
       return await ctx.db.week.findFirst({
         where: {
           id: input.id,
-          isBlocked: false,
+          unlockDate: { not: null, lte: new Date() },
         },
         include: {
           detailResources: true,
@@ -33,24 +33,28 @@ export const weekRouter = createTRPCRouter({
     }),
 
   getWeeksPublic: publicProcedure.query(async ({ ctx }) => {
-    const week = await ctx.db.week.findMany({});
-    return week;
+    const weeks = await ctx.db.week.findMany({});
+    const now = Date.now();
+    return weeks.map((week) => ({
+      ...week,
+      isLocked: week.unlockDate === null || week.unlockDate.getTime() > now,
+    }));
   }),
 
   getWeeksNotLocked: publicProcedure.query(async ({ ctx }) => {
     const week = await ctx.db.week.findMany({
       where: {
-        isBlocked: false,
+        unlockDate: { not: null, lte: new Date() },
       },
     });
     return week;
   }),
 
-  setWeekHidden: adminProcedure
-    .input(z.object({ id: z.string(), isBlocked: z.boolean() }))
+  setWeekUnlockDate: adminProcedure
+    .input(z.object({ id: z.string(), unlockDate: z.date().nullable() }))
     .mutation(async ({ ctx, input }) => {
-      const { id, ...data } = input;
-      return await ctx.db.week.update({ where: { id }, data });
+      const { id, unlockDate } = input;
+      return await ctx.db.week.update({ where: { id }, data: { unlockDate } });
     }),
 
   changeWeekTitle: adminProcedure

@@ -42,10 +42,35 @@ model User {
   image              String?
   leetcodeUser       String?
   role               String              @default("MEMBER")
+  isReviewer         Boolean             @default(false)
   accounts           Account[]
   additionalContents AdditionalContent[] @relation("UserAdditionalContents")
   sessions           Session[]
   solvedProblems     Problem[]           @relation("SolvedProblems")
+  resumeSubmission   ResumeSubmission?
+  resumeComments     ResumeComment[]     @relation("ResumeCommentAuthor")
+}
+
+model ResumeSubmission {
+  id        String          @id @default(cuid())
+  userId    String          @unique
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileUrl   String
+  fileKey   String
+  fileName  String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  comments  ResumeComment[]
+}
+
+model ResumeComment {
+  id        String           @id @default(cuid())
+  resumeId  String
+  resume    ResumeSubmission @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User             @relation("ResumeCommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime         @default(now())
 }
 
 model VerificationToken {
@@ -62,6 +87,7 @@ model Week {
   title           String
   description     String
   isBlocked       Boolean
+  unlockDate      DateTime?
   color           String
   resources       String[]
   problems        Problem[]
@@ -94,6 +120,13 @@ model AdditionalContent {
   createdAt DateTime @default(now())
   authorId  String
   author    User     @relation("UserAdditionalContents", fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model LeaderboardSnapshot {
+  id        String   @id @default(cuid())
+  edition   String
+  createdAt DateTime @default(now())
+  entries   Json
 }
 
 enum Difficulty {

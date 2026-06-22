@@ -7,7 +7,7 @@ type AdminOnlyProps = {
   onSubmitAction: () => void;
 };
 
-export const AdminOnly = ({ topic, value, onChangeAction, onSubmitAction }: AdminOnlyProps) => {
+export const AdminOnly = ({ value, onChangeAction, onSubmitAction }: AdminOnlyProps) => {
   const { data: session } = useSession();
   const isAdmin = session?.user?.role?.toLowerCase() === "admin";
 

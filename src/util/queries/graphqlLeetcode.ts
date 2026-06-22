@@ -186,7 +186,7 @@ export const getUserInfo = async ({ username }: { username: string }) => {
       },
     );
     return parsedData;
-  } catch (error) {
+  } catch {
     // User does not exists
     return null;
   }
