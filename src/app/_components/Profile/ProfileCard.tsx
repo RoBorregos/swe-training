@@ -12,13 +12,11 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 interface ProfileCardProps {
   idUser: string;
   name?: string | null;
-  image?: string | null;
 }
 
 export default function ProfileCard({
   idUser,
   name = "No Name",
-  image,
 }: ProfileCardProps) {
   const updateUser = api.profile.update.useMutation();
   const [NewLeetcodeUser, setInputValue] = useState("");
@@ -44,15 +42,7 @@ export default function ProfileCard({
     >
       {/* Encabezado: foto y nombre */}
       <div className="flex items-center gap-4">
-        {image ? (
-          <img
-            src={image}
-            alt={`${name}'s profile`}
-            className="h-20 w-20 rounded-full border-2 border-accent object-cover"
-          />
-        ) : (
-          <FaUser className="h-20 w-20 text-accent" />
-        )}
+        <FaUser className="h-20 w-20 text-accent" />
         <div>
           <h2 className="text-2xl font-bold leading-snug">{name}</h2>
           <p className="text-sm text-gray-400">{leetcodeUser ?? "No user"}</p>

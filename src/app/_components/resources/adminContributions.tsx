@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { api } from "~/trpc/react";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 
 type AdditionalContentWithAuthor = Prisma.AdditionalContentGetPayload<{
   include: { author: {

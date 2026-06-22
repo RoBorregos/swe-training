@@ -9,7 +9,7 @@ interface SolvedToggleProps {
   userId: string;
 }
 
-const SolvedToggle = ({ problemId, initialSolved, userId }: SolvedToggleProps) => {
+const SolvedToggle = ({ initialSolved }: SolvedToggleProps) => {
   const [isSolved, setIsSolved] = useState(initialSolved);
   
   const toggleSolved = api.problem.toggleSolved.useMutation({

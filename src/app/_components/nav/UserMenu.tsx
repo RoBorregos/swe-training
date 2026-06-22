@@ -2,8 +2,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";                        // ← 1) importamos Link
-import { useSession, signIn } from "next-auth/react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { cn } from "utils/merge";
 import ProfileCard from "../Profile/ProfileCard";
 
@@ -44,13 +44,6 @@ export default function UserMenu() {
           "text-primary-foreground hover:underline"
         )}
       >
-        {user.image && (
-          <img
-            src={user.image}
-            alt={user.name ?? ""}
-            className="w-6 h-6 rounded-full object-cover"
-          />
-        )}
         <span>{user.name}</span>
       </button>
 
@@ -74,11 +67,7 @@ export default function UserMenu() {
             </button>
 
             {/* ProfileCard */}
-            <ProfileCard
-              idUser={user.id}
-              name={user.name}
-              image={user.image}
-            />
+            <ProfileCard idUser={user.id} name={user.name} />
           </div>
         </div>
       )}

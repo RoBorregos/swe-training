@@ -18,6 +18,7 @@ declare module "next-auth" {
       id: string;
       role: UserRole;
       leetcodeUser?: string;
+      isReviewer?: boolean;
       // ...other properties
     } & DefaultSession["user"];
   }
@@ -51,12 +52,22 @@ export const authConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, user }) => {
+      const dbUser = user as typeof user & {
+        role: UserRole;
+        leetcodeUser?: string | null;
+        isReviewer?: boolean;
+      };
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+          role: dbUser.role,
+          leetcodeUser: dbUser.leetcodeUser ?? undefined,
+          isReviewer: dbUser.isReviewer ?? false,
+        },
+      };
+    },
   },
 } satisfies NextAuthConfig;

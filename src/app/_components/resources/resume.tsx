@@ -20,6 +20,23 @@ const Resume = () => {
                 <li>Use XYZ: &quot;Accomplished [X] as measured by [Y], by doing [Z].&quot; If possible use numbers to show impact (2nd place out of 10 teams, improved precision by 10%, etc).</li>
             </ul>
             <br />
+            <h1 className="text-lg font-semibold">Templates</h1>
+            <p>
+                A clean, ATS-friendly template that many people use is Jake&apos;s Resume. You can open it directly in Overleaf and edit it:
+            </p>
+            <ul className="list-disc pl-6">
+                <li>
+                    <a
+                        className="underline text-accent"
+                        href="https://www.overleaf.com/latex/templates/jakes-resume/syzfjbzwjncs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Jake&apos;s Resume (Overleaf template)
+                    </a>
+                </li>
+            </ul>
+            <br />
             <h1 className="text-lg font-semibold">Recommended sections</h1>
             <ul className="list-disc pl-6">
                 <li><span className="text-green-500">Contact information</span> (name, email, phone number, LinkedIn, GitHub, etc).</li>
