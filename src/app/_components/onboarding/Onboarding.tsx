@@ -57,10 +57,10 @@ export default function Onboarding() {
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4">
       <div className="w-full max-w-lg rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 p-6 text-white shadow-2xl">
         <h2 className="text-2xl font-bold text-accent">
-          ¡Bienvenido a SWE Training!
+          Welcome to SWE Training!
         </h2>
         <p className="mt-1 text-sm text-gray-300">
-          Antes de empezar, configura tu cuenta en unos pasos.
+          Before you start, set up your account in a few steps.
         </p>
 
         <ol className="mt-5 flex flex-col gap-3 text-sm">
@@ -69,8 +69,8 @@ export default function Onboarding() {
               1
             </span>
             <span>
-              <strong>Pon tu usuario de LeetCode</strong> (el validador). Es
-              indispensable: sin él tu progreso no se puede rastrear.
+              <strong>Set your LeetCode username</strong> (the validator). It is
+              essential: without it your progress cannot be tracked.
             </span>
           </li>
           <li className="flex gap-3">
@@ -78,8 +78,8 @@ export default function Onboarding() {
               2
             </span>
             <span>
-              Entra a <strong>Weekly Problems</strong> y resuelve los retos
-              directamente en LeetCode. Cada semana se libera en su fecha.
+              Go to <strong>Weekly Problems</strong> and solve the challenges
+              directly on LeetCode. Each week unlocks on its date.
             </span>
           </li>
           <li className="flex gap-3">
@@ -87,8 +87,8 @@ export default function Onboarding() {
               3
             </span>
             <span>
-              Tu progreso se valida solo: un problema cuenta únicamente si lo
-              resolviste <strong>el día que se liberó la semana o después</strong>.
+              Your progress is validated automatically: a problem only counts if
+              you solved it <strong>on the day the week was released or later</strong>.
             </span>
           </li>
           <li className="flex gap-3">
@@ -96,19 +96,19 @@ export default function Onboarding() {
               4
             </span>
             <span>
-              Revisa tu posición en el <strong>Leaderboard</strong>.
+              Check your position on the <strong>Leaderboard</strong>.
             </span>
           </li>
         </ol>
 
         <div className="mt-6">
           <label className="mb-1 block text-sm font-semibold text-gray-200">
-            Tu usuario de LeetCode
+            Your LeetCode username
           </label>
           <div className="flex items-center gap-2">
             <input
               type="text"
-              placeholder="ej. tu_handle"
+              placeholder="e.g. your_handle"
               value={handle}
               onChange={(e) => setHandle(e.target.value)}
               className="flex-1 rounded-lg bg-gray-700 px-4 py-2 text-white placeholder-gray-500 outline-none transition focus:ring-2 focus:ring-accent"
@@ -133,17 +133,17 @@ export default function Onboarding() {
           <div className="mt-2 min-h-6 text-sm">
             {trimmed.length > 2 && validating && (
               <span className="flex items-center gap-2 text-blue-400">
-                <AiOutlineLoading className="animate-spin" /> Validando handle...
+                <AiOutlineLoading className="animate-spin" /> Validating handle...
               </span>
             )}
             {trimmed.length > 2 && !validating && isValid && (
               <span className="flex items-center gap-2 text-green-400">
-                <IoCheckmarkCircle /> Handle válido
+                <IoCheckmarkCircle /> Valid handle
               </span>
             )}
             {trimmed.length > 2 && !validating && !isValid && (
               <span className="flex items-center gap-2 text-orange-400">
-                <IoWarning /> No encontramos ese usuario en LeetCode
+                <IoWarning /> We couldn&apos;t find that user on LeetCode
               </span>
             )}
           </div>
@@ -154,7 +154,7 @@ export default function Onboarding() {
             onClick={handleDismiss}
             className="text-sm text-gray-400 hover:text-white hover:underline"
           >
-            Más tarde
+            Later
           </button>
         </div>
       </div>

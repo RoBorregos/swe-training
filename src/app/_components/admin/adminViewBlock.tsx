@@ -120,7 +120,7 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
 
   const handleSchedule = () => {
     if (!unlockInput) {
-      alert("Selecciona una fecha y hora.");
+      alert("Select a date and time.");
       return;
     }
     setWeekUnlockDate.mutate({
@@ -212,16 +212,16 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
           }`}
         >
           {!week.unlockDate
-            ? "🔒 Locked · sin fecha"
+            ? "🔒 Locked · no date"
             : isLocked
               ? `⏰ Scheduled · ${formatMonterrey(new Date(week.unlockDate))}`
-              : `🔓 Open · desde ${formatMonterrey(new Date(week.unlockDate))}`}
+              : `🔓 Open · since ${formatMonterrey(new Date(week.unlockDate))}`}
         </span>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <span className="text-sm text-neutral-300">
-          Desbloqueo (hora Monterrey):
+          Unlock (Monterrey time):
         </span>
         <input
           type="datetime-local"
@@ -233,14 +233,14 @@ const AdminViewBlock = ({ week, problems }: AdminViewBlockProps) => {
           onClick={handleSchedule}
           className="rounded border border-neutral-600 bg-neutral-800 px-4 py-2 text-white hover:bg-neutral-700"
         >
-          Programar
+          Schedule
         </button>
         {week.unlockDate && (
           <button
             onClick={handleClearSchedule}
             className="rounded border border-neutral-600 bg-neutral-800 px-4 py-2 text-white hover:bg-neutral-700"
           >
-            Quitar fecha
+            Clear date
           </button>
         )}
       </div>

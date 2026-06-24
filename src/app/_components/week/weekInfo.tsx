@@ -34,7 +34,7 @@ const WeekInfo = async ({ id }: { id: string }) => {
           <Title label={"Week " + week.number + " - " + week.title} />
 
           <div className="flex flex-col gap-10">
-            <div className="flex flex-row justify-between gap-10">
+            <div className="flex flex-col justify-between gap-10 lg:flex-row">
               <div className="">
                 <Subtitle label="Overview" />
                 <div className="font-main text-primary-foreground">
@@ -50,7 +50,7 @@ const WeekInfo = async ({ id }: { id: string }) => {
                 <UserStatus leetcodeUser={leetcodeUser ?? ""} />
               </div>
 
-              <div className="w-max rounded-xl bg-primary-light p-4">
+              <div className="w-full shrink-0 rounded-xl bg-primary-light p-4 lg:w-max">
                 <Subtitle label="Resources" />
                 <div className="flex flex-col pr-5 font-main text-sm text-primary-foreground">
                   {week.detailResources.map((resource, index) => (
@@ -68,9 +68,9 @@ const WeekInfo = async ({ id }: { id: string }) => {
               </div>
             </div>
 
-            <div className="font-main">
+            <div className="overflow-x-auto font-main">
               <Subtitle label="Problem list" className="pb-4" />
-              <table className="w-full">
+              <table className="w-full min-w-[480px]">
                 <thead>
                   <tr className="border-b border-white text-left font-semibold text-white">
                     <th className="pb-2"> Problem </th>

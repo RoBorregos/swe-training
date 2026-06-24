@@ -36,11 +36,11 @@ export default function ProfileCard({
   return (
     <div
       className={cn(
-        "w-96 bg-gradient-to-br from-gray-800 to-gray-900",
+        "w-full max-w-sm bg-gradient-to-br from-gray-800 to-gray-900",
         "flex flex-col gap-4 rounded-2xl p-6 text-white shadow-2xl",
       )}
     >
-      {/* Encabezado: foto y nombre */}
+      {/* Header: photo and name */}
       <div className="flex items-center gap-4">
         <FaUser className="h-20 w-20 text-accent" />
         <div>
@@ -51,7 +51,7 @@ export default function ProfileCard({
 
       <hr className="border-gray-600" />
 
-      {/* Formulario para cambiar LeetCode user */}
+      {/* Form to change LeetCode user */}
       <div className="flex items-center gap-2">
         <input
           type="text"
@@ -86,7 +86,7 @@ export default function ProfileCard({
 
       <UserStatus leetcodeUser={leetcodeUser ?? ""} returnSuccess={true} />
 
-      {/* Botón de cierre de sesión */}
+      {/* Sign out button */}
       <div className="gap-2">
         <Link
           href="/api/auth/signout"

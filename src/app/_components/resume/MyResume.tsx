@@ -11,13 +11,13 @@ const MyResume = () => {
     onSuccess: async () => {
       await utils.resume.getMine.invalidate();
     },
-    onError: () => alert("No se pudo borrar el resume."),
+    onError: () => alert("Could not delete the resume."),
   });
 
   const handleDelete = () => {
     if (
       confirm(
-        "¿Borrar tu resume? Dejará de aparecerles a los reviewers y se eliminarán sus comentarios.",
+        "Delete your resume? It will no longer appear to reviewers and their comments will be removed.",
       )
     ) {
       deleteMine.mutate();
@@ -34,26 +34,26 @@ const MyResume = () => {
           onClientUploadComplete={async () => {
             await utils.resume.getMine.invalidate();
           }}
-          onUploadError={(e) => alert(`Error al subir: ${e.message}`)}
+          onUploadError={(e) => alert(`Upload error: ${e.message}`)}
         />
         {resume && (
           <>
             <span className="text-sm text-primary-foreground">
-              Archivo actual: {resume.fileName}
+              Current file: {resume.fileName}
             </span>
             <button
               onClick={handleDelete}
               disabled={deleteMine.isPending}
               className="rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:opacity-50"
             >
-              Borrar resume
+              Delete resume
             </button>
           </>
         )}
       </div>
 
       {isLoading ? (
-        <p className="mt-4 text-primary-foreground">Cargando...</p>
+        <p className="mt-4 text-primary-foreground">Loading...</p>
       ) : resume ? (
         <div className="mt-6 flex flex-col gap-6">
           <div className="flex flex-col gap-2">
@@ -63,22 +63,22 @@ const MyResume = () => {
               rel="noopener noreferrer"
               className="self-end text-sm text-accent underline"
             >
-              Abrir en pestaña nueva ↗
+              Open in new tab ↗
             </a>
             <iframe
               src={`${resume.fileUrl}#view=FitH`}
               className="h-[85vh] w-full rounded-lg border border-neutral-700 bg-white"
-              title="Mi resume"
+              title="My resume"
             />
           </div>
 
           <div>
             <h3 className="mb-2 text-lg font-semibold text-white">
-              Comentarios ({resume.comments.length})
+              Comments ({resume.comments.length})
             </h3>
             {resume.comments.length === 0 ? (
               <p className="text-sm text-neutral-400">
-                Aún no hay comentarios de reviewers.
+                No comments from reviewers yet.
               </p>
             ) : (
               <ul className="flex flex-col gap-3">
@@ -101,8 +101,7 @@ const MyResume = () => {
         </div>
       ) : (
         <p className="mt-4 text-primary-foreground">
-          Sube tu resume en PDF para que los reviewers puedan darte
-          retroalimentación.
+          Upload your resume as a PDF so reviewers can give you feedback.
         </p>
       )}
     </div>
