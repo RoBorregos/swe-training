@@ -3,6 +3,7 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import { useSession } from "next-auth/react";
 import { BsTrash, BsCheckCircle } from "react-icons/bs";
+import PresentersSection from "~/app/_components/presentersSection";
 
 type Week = {
   id?: number | string;
@@ -99,6 +100,26 @@ const Leaderboard = () => {
       : []),
   ];
 
+  // Presenters always refer to a concrete week. When "Global" (all) is selected
+  // we fall back to the current week: the highest-numbered unlocked week (or the
+  // highest-numbered week overall if none are unlocked yet). The weeks query has
+  // no ordering, so we sort by `number` instead of trusting array order.
+  const weeksByNumberDesc = weeksData
+    ? [...weeksData].sort((a, b) => (b.number ?? 0) - (a.number ?? 0))
+    : [];
+  const currentWeek =
+    weeksByNumberDesc.find((w) => !w.isLocked) ?? weeksByNumberDesc[0];
+
+  const presenterWeek =
+    selected !== "all"
+      ? weekOptions.find((w) => w.id === selected)
+      : currentWeek
+        ? {
+            id: (currentWeek.id ?? currentWeek.number ?? "").toString(),
+            label: `Week ${currentWeek.number}`,
+          }
+        : undefined;
+
   const sorted = [...((leaderboardData as LeaderboardEntry[]) ?? [])].sort(
     (a, b) => b.total - a.total,
   );
@@ -170,6 +191,16 @@ const Leaderboard = () => {
         </div>
       )}
 
+      {presenterWeek && (
+        <div className="mb-6">
+          <PresentersSection
+            weekId={presenterWeek.id}
+            weekLabel={presenterWeek.label}
+            isAdmin={isAdmin}
+          />
+        </div>
+      )}
+
       {weeksLoading || leaderboardLoading ? (
         <div className="py-10 text-center text-neutral-300">Loading...</div>
       ) : leaderboardError ? (
@@ -177,9 +208,8 @@ const Leaderboard = () => {
           Error loading leaderboard
         </div>
       ) : (
-        <div className="overflow-x-auto pb-2">
-          <div className="min-w-[600px]">
-          <div className="mb-2 flex w-full flex-row justify-between rounded-t-2xl bg-neutral-800 px-4 py-3 text-base font-semibold text-white sm:px-8 sm:text-lg">
+        <>
+          <div className="mb-2 flex w-full flex-row justify-between rounded-t-2xl bg-neutral-800 px-8 py-3 text-lg font-semibold text-white">
             <span className="w-1/4 text-left">User</span>
             <span className="w-1/8 text-center">Warmup</span>
             <span className="w-1/8 text-center">Medium</span>
@@ -191,7 +221,7 @@ const Leaderboard = () => {
             {sortedWithPlace.map((row, i) => (
               <li
                 key={i}
-                className={`flex w-full flex-row items-center justify-between rounded-2xl px-4 py-4 text-white shadow-lg transition-all sm:px-8 ${row.place !== 1 && row.username !== currentUsername ? "bg-neutral-700" : ""} ${row.place === 1 ? "scale-[1.03] bg-gray-600 font-bold" : ""} ${row.username === currentUsername ? "bg-green-600 font-bold" : ""} `}
+                className={`flex w-full flex-row items-center justify-between rounded-2xl px-8 py-4 text-white shadow-lg transition-all ${row.place !== 1 && row.username !== currentUsername ? "bg-neutral-700" : ""} ${row.place === 1 ? "scale-[1.03] bg-gray-600 font-bold" : ""} ${row.username === currentUsername ? "bg-green-600 font-bold" : ""} `}
               >
                 <div className="flex w-1/4 items-center gap-3">
                   <span className="w-8 text-center text-xl font-semibold text-gray-400">
@@ -252,8 +282,7 @@ const Leaderboard = () => {
               </li>
             ))}
           </ol>
-          </div>
-        </div>
+        </>
       )}
 
       {showReset && (
@@ -264,12 +293,12 @@ const Leaderboard = () => {
             </h2>
             <p className="mb-4 text-sm text-neutral-300">
               The current ranking will be saved as an edition and then{" "}
-              <strong>all users</strong> and their progress will be deleted.
-              Recommended when starting swe-training again.
+              <strong>all users will be deleted</strong> along with their
+              progress. Recommended when starting swe-training over.
             </p>
             <p className="mb-4 text-sm text-neutral-400">
               Deleted: users (except admins), their sessions/logins, their
-              progress and the admin comments. Admin accounts are kept. Weeks,
+              progress and admin comments. Admin accounts are kept. Weeks,
               problems and resources are <strong>not</strong> touched.
             </p>
             <label className="mb-1 block text-sm text-neutral-300">
