@@ -47,6 +47,7 @@ model User {
   additionalContents AdditionalContent[] @relation("UserAdditionalContents")
   sessions           Session[]
   solvedProblems     Problem[]           @relation("SolvedProblems")
+  presentations      ProblemPresenter[]  @relation("ProblemPresentations")
   resumeSubmission   ResumeSubmission?
   resumeComments     ResumeComment[]     @relation("ResumeCommentAuthor")
 }
@@ -111,6 +112,16 @@ model Problem {
   recommended Boolean    @default(false)
   week        Week       @relation(fields: [weekId], references: [id], onDelete: Cascade)
   solvedBy    User[]     @relation("SolvedProblems")
+  presenter   ProblemPresenter?
+}
+
+model ProblemPresenter {
+  id         String   @id @default(cuid())
+  problemId  String   @unique
+  problem    Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation("ProblemPresentations", fields: [userId], references: [id], onDelete: Cascade)
+  assignedAt DateTime @default(now())
 }
 
 model AdditionalContent {
