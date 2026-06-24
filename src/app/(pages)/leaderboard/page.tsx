@@ -3,7 +3,6 @@ import { useState } from "react";
 import { api } from "~/trpc/react";
 import { useSession } from "next-auth/react";
 import { BsTrash, BsCheckCircle } from "react-icons/bs";
-import PresentersSection from "~/app/_components/presentersSection";
 
 type Week = {
   id?: number | string;
@@ -100,26 +99,6 @@ const Leaderboard = () => {
       : []),
   ];
 
-  // Presenters always refer to a concrete week. When "Global" (all) is selected
-  // we fall back to the current week: the highest-numbered unlocked week (or the
-  // highest-numbered week overall if none are unlocked yet). The weeks query has
-  // no ordering, so we sort by `number` instead of trusting array order.
-  const weeksByNumberDesc = weeksData
-    ? [...weeksData].sort((a, b) => (b.number ?? 0) - (a.number ?? 0))
-    : [];
-  const currentWeek =
-    weeksByNumberDesc.find((w) => !w.isLocked) ?? weeksByNumberDesc[0];
-
-  const presenterWeek =
-    selected !== "all"
-      ? weekOptions.find((w) => w.id === selected)
-      : currentWeek
-        ? {
-            id: (currentWeek.id ?? currentWeek.number ?? "").toString(),
-            label: `Week ${currentWeek.number}`,
-          }
-        : undefined;
-
   const sorted = [...((leaderboardData as LeaderboardEntry[]) ?? [])].sort(
     (a, b) => b.total - a.total,
   );
@@ -188,16 +167,6 @@ const Leaderboard = () => {
           >
             Reset users (archive edition)
           </button>
-        </div>
-      )}
-
-      {presenterWeek && (
-        <div className="mb-6">
-          <PresentersSection
-            weekId={presenterWeek.id}
-            weekLabel={presenterWeek.label}
-            isAdmin={isAdmin}
-          />
         </div>
       )}
 
