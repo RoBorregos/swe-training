@@ -13,7 +13,7 @@ export const presenterRouter = createTRPCRouter({
     .input(z.object({ weekId: z.string() }))
     .query(async ({ ctx, input }) => {
       const problems = await ctx.db.problem.findMany({
-        where: { weekId: input.weekId },
+        where: { weekId: input.weekId, recommended: true },
         select: {
           id: true,
           name: true,
@@ -48,22 +48,44 @@ export const presenterRouter = createTRPCRouter({
     .input(z.object({ weekId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const problems = await ctx.db.problem.findMany({
-        where: { weekId: input.weekId },
+        where: { weekId: input.weekId, recommended: true },
         select: {
           id: true,
           solvedBy: { select: { id: true } },
         },
       });
 
+      // Prefer a different presenter for every problem. We only let someone
+      // present twice when there aren't enough distinct solvers to cover all
+      // the problems. Greedy, most-constrained-first: problems with the fewest
+      // solvers are the hardest to give a unique presenter, so assign them
+      // before the rest. Ties are broken randomly so repeated draws stay fresh.
+      const ordered = problems
+        .filter((p) => p.solvedBy.length > 0)
+        .map((p) => ({ p, r: Math.random() }))
+        .sort((a, b) => a.p.solvedBy.length - b.p.solvedBy.length || a.r - b.r)
+        .map((x) => x.p);
+
+      const used = new Set<string>();
+      const assignments = new Map<string, string>(); // problemId -> userId
+      for (const p of ordered) {
+        const solverIds = p.solvedBy.map((u) => u.id);
+        const fresh = solverIds.filter((id) => !used.has(id));
+        // Pick someone not presenting yet; if everyone already is, double up.
+        const chosen = pickRandom(fresh.length > 0 ? fresh : solverIds);
+        used.add(chosen);
+        assignments.set(p.id, chosen);
+      }
+
       await ctx.db.$transaction(
         problems.map((p) => {
-          if (p.solvedBy.length === 0) {
+          const chosen = assignments.get(p.id);
+          if (chosen === undefined) {
             // No eligible solver -> ensure there is no stale assignment.
             return ctx.db.problemPresenter.deleteMany({
               where: { problemId: p.id },
             });
           }
-          const chosen = pickRandom(p.solvedBy).id;
           return ctx.db.problemPresenter.upsert({
             where: { problemId: p.id },
             create: { problemId: p.id, userId: chosen },
