@@ -24,7 +24,8 @@ export const presenterRouter = createTRPCRouter({
             },
           },
         },
-        orderBy: { name: "asc" },
+        // No orderBy: keep the same default order as the week's problem list
+        // (see week.getWeekPublic) so presenters match the card ordering.
       });
 
       return problems.map((p) => ({
